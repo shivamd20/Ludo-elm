@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="css/tailwind.css" />
+  </head>
+
+  <body class="bg-gray-900 text-white">
+    <div id="elm-app-is-loaded-here"></div>
+    <script src="ludo.js"></script>
+
+    <script>
+      var app = Elm.LudoBoard.init({
+        node: document.getElementById('elm-app-is-loaded-here'),
+      });
+    </script>
+  </body>
+</html>
