@@ -4310,6 +4310,43 @@ function _Browser_load(url)
 		}
 	}));
 }
+
+
+
+var _Bitwise_and = F2(function(a, b)
+{
+	return a & b;
+});
+
+var _Bitwise_or = F2(function(a, b)
+{
+	return a | b;
+});
+
+var _Bitwise_xor = F2(function(a, b)
+{
+	return a ^ b;
+});
+
+function _Bitwise_complement(a)
+{
+	return ~a;
+};
+
+var _Bitwise_shiftLeftBy = F2(function(offset, a)
+{
+	return a << offset;
+});
+
+var _Bitwise_shiftRightBy = F2(function(offset, a)
+{
+	return a >> offset;
+});
+
+var _Bitwise_shiftRightZfBy = F2(function(offset, a)
+{
+	return a >>> offset;
+});
 var $author$project$LudoBoard$init = 0;
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
@@ -5142,6 +5179,534 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $author$project$LudoBoard$Horizontal = {$: 'Horizontal'};
+var $author$project$LudoBoard$None = {$: 'None'};
+var $author$project$LudoBoard$Vertical = {$: 'Vertical'};
+var $elm$core$Array$fromListHelp = F3(
+	function (list, nodeList, nodeListSize) {
+		fromListHelp:
+		while (true) {
+			var _v0 = A2($elm$core$Elm$JsArray$initializeFromList, $elm$core$Array$branchFactor, list);
+			var jsArray = _v0.a;
+			var remainingItems = _v0.b;
+			if (_Utils_cmp(
+				$elm$core$Elm$JsArray$length(jsArray),
+				$elm$core$Array$branchFactor) < 0) {
+				return A2(
+					$elm$core$Array$builderToArray,
+					true,
+					{nodeList: nodeList, nodeListSize: nodeListSize, tail: jsArray});
+			} else {
+				var $temp$list = remainingItems,
+					$temp$nodeList = A2(
+					$elm$core$List$cons,
+					$elm$core$Array$Leaf(jsArray),
+					nodeList),
+					$temp$nodeListSize = nodeListSize + 1;
+				list = $temp$list;
+				nodeList = $temp$nodeList;
+				nodeListSize = $temp$nodeListSize;
+				continue fromListHelp;
+			}
+		}
+	});
+var $elm$core$Array$fromList = function (list) {
+	if (!list.b) {
+		return $elm$core$Array$empty;
+	} else {
+		return A3($elm$core$Array$fromListHelp, list, _List_Nil, 0);
+	}
+};
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$LudoBoard$cell = F2(
+	function (orientation, n) {
+		var classNames = function () {
+			switch (orientation.$) {
+				case 'Vertical':
+					return 'w-full h-1/6';
+				case 'Horizontal':
+					return 'inline-block w-1/6 h-full';
+				default:
+					return 'w-full h-full';
+			}
+		}();
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('border text-white text-center m-auto' + (' ' + classNames))
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(
+					$elm$core$String$fromInt(n))
+				]));
+	});
+var $author$project$LudoBoard$nodeToHorizontalCell = F2(
+	function (orientation, node) {
+		var _v0 = node;
+		var first = _v0.a;
+		return A2($author$project$LudoBoard$cell, orientation, first);
+	});
+var $elm$core$Elm$JsArray$appendN = _JsArray_appendN;
+var $elm$core$Elm$JsArray$slice = _JsArray_slice;
+var $elm$core$Array$appendHelpBuilder = F2(
+	function (tail, builder) {
+		var tailLen = $elm$core$Elm$JsArray$length(tail);
+		var notAppended = ($elm$core$Array$branchFactor - $elm$core$Elm$JsArray$length(builder.tail)) - tailLen;
+		var appended = A3($elm$core$Elm$JsArray$appendN, $elm$core$Array$branchFactor, builder.tail, tail);
+		return (notAppended < 0) ? {
+			nodeList: A2(
+				$elm$core$List$cons,
+				$elm$core$Array$Leaf(appended),
+				builder.nodeList),
+			nodeListSize: builder.nodeListSize + 1,
+			tail: A3($elm$core$Elm$JsArray$slice, notAppended, tailLen, tail)
+		} : ((!notAppended) ? {
+			nodeList: A2(
+				$elm$core$List$cons,
+				$elm$core$Array$Leaf(appended),
+				builder.nodeList),
+			nodeListSize: builder.nodeListSize + 1,
+			tail: $elm$core$Elm$JsArray$empty
+		} : {nodeList: builder.nodeList, nodeListSize: builder.nodeListSize, tail: appended});
+	});
+var $elm$core$List$drop = F2(
+	function (n, list) {
+		drop:
+		while (true) {
+			if (n <= 0) {
+				return list;
+			} else {
+				if (!list.b) {
+					return list;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs;
+					n = $temp$n;
+					list = $temp$list;
+					continue drop;
+				}
+			}
+		}
+	});
+var $elm$core$Basics$ge = _Utils_ge;
+var $elm$core$Bitwise$shiftLeftBy = _Bitwise_shiftLeftBy;
+var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
+var $elm$core$Array$tailIndex = function (len) {
+	return (len >>> 5) << 5;
+};
+var $elm$core$Array$sliceLeft = F2(
+	function (from, array) {
+		var len = array.a;
+		var tree = array.c;
+		var tail = array.d;
+		if (!from) {
+			return array;
+		} else {
+			if (_Utils_cmp(
+				from,
+				$elm$core$Array$tailIndex(len)) > -1) {
+				return A4(
+					$elm$core$Array$Array_elm_builtin,
+					len - from,
+					$elm$core$Array$shiftStep,
+					$elm$core$Elm$JsArray$empty,
+					A3(
+						$elm$core$Elm$JsArray$slice,
+						from - $elm$core$Array$tailIndex(len),
+						$elm$core$Elm$JsArray$length(tail),
+						tail));
+			} else {
+				var skipNodes = (from / $elm$core$Array$branchFactor) | 0;
+				var helper = F2(
+					function (node, acc) {
+						if (node.$ === 'SubTree') {
+							var subTree = node.a;
+							return A3($elm$core$Elm$JsArray$foldr, helper, acc, subTree);
+						} else {
+							var leaf = node.a;
+							return A2($elm$core$List$cons, leaf, acc);
+						}
+					});
+				var leafNodes = A3(
+					$elm$core$Elm$JsArray$foldr,
+					helper,
+					_List_fromArray(
+						[tail]),
+					tree);
+				var nodesToInsert = A2($elm$core$List$drop, skipNodes, leafNodes);
+				if (!nodesToInsert.b) {
+					return $elm$core$Array$empty;
+				} else {
+					var head = nodesToInsert.a;
+					var rest = nodesToInsert.b;
+					var firstSlice = from - (skipNodes * $elm$core$Array$branchFactor);
+					var initialBuilder = {
+						nodeList: _List_Nil,
+						nodeListSize: 0,
+						tail: A3(
+							$elm$core$Elm$JsArray$slice,
+							firstSlice,
+							$elm$core$Elm$JsArray$length(head),
+							head)
+					};
+					return A2(
+						$elm$core$Array$builderToArray,
+						true,
+						A3($elm$core$List$foldl, $elm$core$Array$appendHelpBuilder, initialBuilder, rest));
+				}
+			}
+		}
+	});
+var $elm$core$Bitwise$and = _Bitwise_and;
+var $elm$core$Array$bitMask = 4294967295 >>> (32 - $elm$core$Array$shiftStep);
+var $elm$core$Elm$JsArray$unsafeGet = _JsArray_unsafeGet;
+var $elm$core$Array$fetchNewTail = F4(
+	function (shift, end, treeEnd, tree) {
+		fetchNewTail:
+		while (true) {
+			var pos = $elm$core$Array$bitMask & (treeEnd >>> shift);
+			var _v0 = A2($elm$core$Elm$JsArray$unsafeGet, pos, tree);
+			if (_v0.$ === 'SubTree') {
+				var sub = _v0.a;
+				var $temp$shift = shift - $elm$core$Array$shiftStep,
+					$temp$end = end,
+					$temp$treeEnd = treeEnd,
+					$temp$tree = sub;
+				shift = $temp$shift;
+				end = $temp$end;
+				treeEnd = $temp$treeEnd;
+				tree = $temp$tree;
+				continue fetchNewTail;
+			} else {
+				var values = _v0.a;
+				return A3($elm$core$Elm$JsArray$slice, 0, $elm$core$Array$bitMask & end, values);
+			}
+		}
+	});
+var $elm$core$Array$hoistTree = F3(
+	function (oldShift, newShift, tree) {
+		hoistTree:
+		while (true) {
+			if ((_Utils_cmp(oldShift, newShift) < 1) || (!$elm$core$Elm$JsArray$length(tree))) {
+				return tree;
+			} else {
+				var _v0 = A2($elm$core$Elm$JsArray$unsafeGet, 0, tree);
+				if (_v0.$ === 'SubTree') {
+					var sub = _v0.a;
+					var $temp$oldShift = oldShift - $elm$core$Array$shiftStep,
+						$temp$newShift = newShift,
+						$temp$tree = sub;
+					oldShift = $temp$oldShift;
+					newShift = $temp$newShift;
+					tree = $temp$tree;
+					continue hoistTree;
+				} else {
+					return tree;
+				}
+			}
+		}
+	});
+var $elm$core$Elm$JsArray$unsafeSet = _JsArray_unsafeSet;
+var $elm$core$Array$sliceTree = F3(
+	function (shift, endIdx, tree) {
+		var lastPos = $elm$core$Array$bitMask & (endIdx >>> shift);
+		var _v0 = A2($elm$core$Elm$JsArray$unsafeGet, lastPos, tree);
+		if (_v0.$ === 'SubTree') {
+			var sub = _v0.a;
+			var newSub = A3($elm$core$Array$sliceTree, shift - $elm$core$Array$shiftStep, endIdx, sub);
+			return (!$elm$core$Elm$JsArray$length(newSub)) ? A3($elm$core$Elm$JsArray$slice, 0, lastPos, tree) : A3(
+				$elm$core$Elm$JsArray$unsafeSet,
+				lastPos,
+				$elm$core$Array$SubTree(newSub),
+				A3($elm$core$Elm$JsArray$slice, 0, lastPos + 1, tree));
+		} else {
+			return A3($elm$core$Elm$JsArray$slice, 0, lastPos, tree);
+		}
+	});
+var $elm$core$Array$sliceRight = F2(
+	function (end, array) {
+		var len = array.a;
+		var startShift = array.b;
+		var tree = array.c;
+		var tail = array.d;
+		if (_Utils_eq(end, len)) {
+			return array;
+		} else {
+			if (_Utils_cmp(
+				end,
+				$elm$core$Array$tailIndex(len)) > -1) {
+				return A4(
+					$elm$core$Array$Array_elm_builtin,
+					end,
+					startShift,
+					tree,
+					A3($elm$core$Elm$JsArray$slice, 0, $elm$core$Array$bitMask & end, tail));
+			} else {
+				var endIdx = $elm$core$Array$tailIndex(end);
+				var depth = $elm$core$Basics$floor(
+					A2(
+						$elm$core$Basics$logBase,
+						$elm$core$Array$branchFactor,
+						A2($elm$core$Basics$max, 1, endIdx - 1)));
+				var newShift = A2($elm$core$Basics$max, 5, depth * $elm$core$Array$shiftStep);
+				return A4(
+					$elm$core$Array$Array_elm_builtin,
+					end,
+					newShift,
+					A3(
+						$elm$core$Array$hoistTree,
+						startShift,
+						newShift,
+						A3($elm$core$Array$sliceTree, startShift, endIdx, tree)),
+					A4($elm$core$Array$fetchNewTail, startShift, end, endIdx, tree));
+			}
+		}
+	});
+var $elm$core$Array$translateIndex = F2(
+	function (index, _v0) {
+		var len = _v0.a;
+		var posIndex = (index < 0) ? (len + index) : index;
+		return (posIndex < 0) ? 0 : ((_Utils_cmp(posIndex, len) > 0) ? len : posIndex);
+	});
+var $elm$core$Array$slice = F3(
+	function (from, to, array) {
+		var correctTo = A2($elm$core$Array$translateIndex, to, array);
+		var correctFrom = A2($elm$core$Array$translateIndex, from, array);
+		return (_Utils_cmp(correctFrom, correctTo) > 0) ? $elm$core$Array$empty : A2(
+			$elm$core$Array$sliceLeft,
+			correctFrom,
+			A2($elm$core$Array$sliceRight, correctTo, array));
+	});
+var $author$project$LudoBoard$cellRow = F4(
+	function (orientation, start, end, nodeList) {
+		var slicedList = $elm$core$Array$toList(
+			A3(
+				$elm$core$Array$slice,
+				start,
+				end,
+				$elm$core$Array$fromList(nodeList)));
+		return A2(
+			$elm$core$List$map,
+			$author$project$LudoBoard$nodeToHorizontalCell(orientation),
+			slicedList);
+	});
+var $author$project$Ludo$Regular = {$: 'Regular'};
+var $author$project$Ludo$ludoGraph = _List_fromArray(
+	[
+		_Utils_Tuple3(
+		1,
+		$elm$core$Maybe$Just(2),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		2,
+		$elm$core$Maybe$Just(3),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		3,
+		$elm$core$Maybe$Just(4),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		4,
+		$elm$core$Maybe$Just(5),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		5,
+		$elm$core$Maybe$Just(6),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		6,
+		$elm$core$Maybe$Just(7),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		7,
+		$elm$core$Maybe$Just(8),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		8,
+		$elm$core$Maybe$Just(9),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		9,
+		$elm$core$Maybe$Just(10),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		10,
+		$elm$core$Maybe$Just(11),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		11,
+		$elm$core$Maybe$Just(12),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		12,
+		$elm$core$Maybe$Just(13),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		13,
+		$elm$core$Maybe$Just(14),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		14,
+		$elm$core$Maybe$Just(15),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		15,
+		$elm$core$Maybe$Just(16),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		16,
+		$elm$core$Maybe$Just(17),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		17,
+		$elm$core$Maybe$Just(18),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		18,
+		$elm$core$Maybe$Just(19),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		19,
+		$elm$core$Maybe$Just(20),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		20,
+		$elm$core$Maybe$Just(21),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		21,
+		$elm$core$Maybe$Just(22),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		22,
+		$elm$core$Maybe$Just(23),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		23,
+		$elm$core$Maybe$Just(24),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		24,
+		$elm$core$Maybe$Just(25),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		25,
+		$elm$core$Maybe$Just(26),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		26,
+		$elm$core$Maybe$Just(27),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		27,
+		$elm$core$Maybe$Just(28),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		28,
+		$elm$core$Maybe$Just(29),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		29,
+		$elm$core$Maybe$Just(30),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		30,
+		$elm$core$Maybe$Just(31),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		31,
+		$elm$core$Maybe$Just(32),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		32,
+		$elm$core$Maybe$Just(33),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		33,
+		$elm$core$Maybe$Just(34),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		34,
+		$elm$core$Maybe$Just(35),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		35,
+		$elm$core$Maybe$Just(36),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		36,
+		$elm$core$Maybe$Just(37),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		37,
+		$elm$core$Maybe$Just(38),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		38,
+		$elm$core$Maybe$Just(39),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		39,
+		$elm$core$Maybe$Just(40),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		40,
+		$elm$core$Maybe$Just(41),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		41,
+		$elm$core$Maybe$Just(42),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		42,
+		$elm$core$Maybe$Just(43),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		43,
+		$elm$core$Maybe$Just(44),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		44,
+		$elm$core$Maybe$Just(45),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		45,
+		$elm$core$Maybe$Just(46),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		46,
+		$elm$core$Maybe$Just(47),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		47,
+		$elm$core$Maybe$Just(48),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		48,
+		$elm$core$Maybe$Just(49),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		49,
+		$elm$core$Maybe$Just(50),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		50,
+		$elm$core$Maybe$Just(51),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		51,
+		$elm$core$Maybe$Just(52),
+		$author$project$Ludo$Regular),
+		_Utils_Tuple3(
+		52,
+		$elm$core$Maybe$Just(1),
+		$author$project$Ludo$Regular)
+	]);
 var $author$project$LudoBoard$gridHtml = A2(
 	$elm$html$Html$div,
 	_List_fromArray(
@@ -5156,84 +5721,89 @@ var $author$project$LudoBoard$gridHtml = A2(
 				[
 					$elm$html$Html$Attributes$class('col-start-1 row-start-7 col-span-6 border')
 				]),
-			_List_Nil),
+			A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$Horizontal, 0, 6, $author$project$Ludo$ludoGraph)),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('col-start-1 row-start-0 col-start-7 row-span-6 border')
 				]),
-			_List_Nil),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('col-start-1 row-start-7 col-span-6 border')
-				]),
-			_List_Nil),
+			$elm$core$List$reverse(
+				A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$Vertical, 6, 12, $author$project$Ludo$ludoGraph))),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('col-start-8 row-start-1 border')
 				]),
-			_List_Nil),
+			$elm$core$List$reverse(
+				A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$None, 12, 13, $author$project$Ludo$ludoGraph))),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('col-start-9 row-start-1 row-span-6 border')
 				]),
-			_List_Nil),
+			A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$Vertical, 13, 19, $author$project$Ludo$ludoGraph)),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('col-start-10 row-start-7 col-span-6 border')
 				]),
-			_List_Nil),
+			A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$Horizontal, 19, 25, $author$project$Ludo$ludoGraph)),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('col-start-15 row-start-8 border')
 				]),
-			_List_Nil),
+			A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$None, 25, 26, $author$project$Ludo$ludoGraph)),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('col-start-10 row-start-9 col-span-6 border')
 				]),
-			_List_Nil),
+			$elm$core$List$reverse(
+				A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$Horizontal, 26, 32, $author$project$Ludo$ludoGraph))),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('col-start-9 row-start-10 row-span-6 border')
 				]),
-			_List_Nil),
+			A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$Vertical, 32, 38, $author$project$Ludo$ludoGraph)),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('col-start-8 row-start-15  border')
 				]),
-			_List_Nil),
+			A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$None, 38, 39, $author$project$Ludo$ludoGraph)),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('col-start-7 row-start-10 row-span-6 border')
 				]),
-			_List_Nil),
+			$elm$core$List$reverse(
+				A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$Vertical, 39, 45, $author$project$Ludo$ludoGraph))),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('col-start-1 row-start-9 col-span-6 border')
 				]),
-			_List_Nil),
+			$elm$core$List$reverse(
+				A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$Horizontal, 45, 51, $author$project$Ludo$ludoGraph))),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('col-start-1 row-start-8  border')
+				]),
+			A4($author$project$LudoBoard$cellRow, $author$project$LudoBoard$None, 51, 52, $author$project$Ludo$ludoGraph)),
 			A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -5287,8 +5857,6 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$LudoBoard$view = function (model) {
 	return A2(
 		$elm$html$Html$div,

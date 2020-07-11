@@ -1,6 +1,4 @@
-module Ludo exposing (ludoGraph)
-
-import Html exposing (div, h1, p, strong, text)
+module Ludo exposing (Coin, Node, NodeType, defaultNode, ludoGraph)
 
 
 type Coin
@@ -18,7 +16,16 @@ type NodeType
     | CommonPathEnd Coin Int
 
 
-ludoGraph : List ( Int, Maybe Int, NodeType )
+defaultNode : Node
+defaultNode =
+    ( 99, Just 99, Regular )
+
+
+type alias Node =
+    ( Int, Maybe Int, NodeType )
+
+
+ludoGraph : List Node
 ludoGraph =
     [ ( 1, Just 2, Regular )
     , ( 2, Just 3, Regular )
