@@ -1,6 +1,17 @@
-module Ludo exposing (Node, NodeType, ludoGraph, move)
+module Ludo exposing (Node, NodeType, PlayerColor, defaultPlayerColor, ludoGraph, move)
 
 import Dict exposing (Dict)
+
+
+type PlayerColor
+    = Red
+    | Green
+    | Blue
+    | Yellow
+
+
+defaultPlayerColor =
+    Red
 
 
 type NodeType

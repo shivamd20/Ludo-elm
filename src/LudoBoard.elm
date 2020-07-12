@@ -2,12 +2,11 @@ module LudoBoard exposing (main)
 
 import Array
 import Browser
-import Debug
 import Dict exposing (Dict)
 import Html exposing (Html, button, div, text)
-import Html.Attributes exposing (class, disabled, hidden)
+import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Ludo exposing (Node, ludoGraph, move)
+import Ludo exposing (Node, PlayerColor, ludoGraph, move)
 import Random
 
 
@@ -23,32 +22,16 @@ main =
 -- MODEL
 
 
-type Color
-    = Red
-    | Greeen
-    | Blue
-    | Yellow
-
-
-type alias GameState =
-    { turn : Color
-    , diceNum : Int
-    , redPos : List Int
-    , bluePos : List Int
-    , greenPos : List Int
-    , yellowPos : List Int
-    }
-
-
 type alias Model =
     { diceNum : Int
     , position : Int
+    , turn : PlayerColor
     }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { diceNum = 0, position = 1 }, Cmd.none )
+    ( { diceNum = 0, position = 1, turn = Ludo.defaultPlayerColor }, Cmd.none )
 
 
 
@@ -68,11 +51,11 @@ update msg model =
             ( model, Random.generate NewRandomNumber (Random.int 1 6) )
 
         NewRandomNumber number ->
-            ( { diceNum = number, position = model.position }, Cmd.none )
+            ( { model | diceNum = number }, Cmd.none )
 
         MoveCoin position ->
             if position == model.position then
-                ( { diceNum = 0, position = move model.position model.diceNum }, Cmd.none )
+                ( { model | diceNum = 0, position = move model.position model.diceNum }, Cmd.none )
 
             else
                 ( model, Cmd.none )
