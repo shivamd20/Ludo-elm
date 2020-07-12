@@ -6,7 +6,7 @@ import Dict exposing (Dict)
 import Html exposing (Html, button, div, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Ludo exposing (Node, NodeType(..), PlayerColor(..), defaultPlayerColor, ludoGraph, move, nextTurn)
+import Ludo exposing (Node, NodeType(..), PlayerColor(..), ludoGraph, move, nextTurn)
 import Random
 
 
@@ -31,7 +31,7 @@ type alias Model =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { diceNum = 0, position = 1, turn = Ludo.defaultPlayerColor }, Cmd.none )
+    ( { diceNum = 0, position = 2, turn = Red }, Cmd.none )
 
 
 
@@ -60,7 +60,7 @@ update msg model =
             )
 
         MoveCoin position ->
-            if position == model.position then
+            if position == model.position && model.diceNum /= 0 then
                 ( { diceNum = 0, position = move model.position model.diceNum, turn = Ludo.nextTurn model.turn }, Cmd.none )
 
             else

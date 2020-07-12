@@ -1,4 +1,4 @@
-module Ludo exposing (Node, NodeType(..), PlayerColor(..), defaultPlayerColor, ludoGraph, move, nextTurn)
+module Ludo exposing (Node, NodeType(..), PlayerColor(..), ludoGraph, move, nextTurn)
 
 import Dict exposing (Dict)
 
@@ -53,7 +53,7 @@ yellowStartNode =
 ludoGraph : Dict Int Node
 ludoGraph =
     Dict.fromList
-        [ ( 1, { regularNode | next = 1 } )
+        [ ( 1, { regularNode | next = 2 } )
         , ( 2, { redStartNode | next = 3 } )
         , ( 3, { regularNode | next = 4 } )
         , ( 4, { regularNode | next = 5 } )
@@ -150,7 +150,3 @@ type PlayerColor
     | Green
     | Blue
     | Yellow
-
-
-defaultPlayerColor =
-    Red
