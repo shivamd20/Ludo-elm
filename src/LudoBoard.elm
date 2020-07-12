@@ -51,7 +51,13 @@ update msg model =
             ( model, Random.generate NewRandomNumber (Random.int 1 6) )
 
         NewRandomNumber number ->
-            ( { model | diceNum = number }, Cmd.none )
+            ( if model.diceNum == 0 then
+                { model | diceNum = number }
+
+              else
+                model
+            , Cmd.none
+            )
 
         MoveCoin position ->
             if position == model.position then
