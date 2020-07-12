@@ -113,39 +113,57 @@ cellRow num orientation start end nodeList =
 -- VIEW
 
 
-gridHtml : Model -> Html Msg
-gridHtml model =
+diceDiv : Int -> Html Msg
+diceDiv diceNum =
+    button [ class "rounded-full hover:bg-gray-600 focus:outline-none focus:shadow-outline col-start-3 row-start-3 col-span-2 row-span-2 border p-2 m-2", onClick GenerateRandomNumber ]
+        [ text <|
+            if diceNum == 0 then
+                "roll"
+
+            else
+                String.fromInt diceNum
+        ]
+
+
+colorHomeBoxes : List (Html msg)
+colorHomeBoxes =
+    [ div [ class "col-start-1 row-start-1 border row-span-6 border-red-500 col-span-6" ] []
+    , div [ class "col-start-10 row-start-1 border row-span-6 border-green-500 col-span-6" ] []
+    , div [ class "col-start-1 row-start-10 border row-span-6 border-blue-500 col-span-6" ] []
+    , div [ class "col-start-10 row-start-10 border row-span-6 border-yellow-500  col-span-6" ] []
+    , div [ class "col-start-7 row-start-7 border row-span-3 border-gray-500  col-span-3" ] []
+    ]
+
+
+commonPath : Model -> List (Html Msg)
+commonPath model =
     let
         num =
             model.position
     in
-    div [ class "grid grid-cols-15  grid-rows-15 sm:h-128 sm:w-128 gap-2  h-64 w-64 m-auto p-3 border border-gray-700" ]
-        [ div [ class "col-start-1 row-start-7 col-span-6 border" ] (cellRow num Horizontal 0 6 ludoGraph)
-        , div [ class "col-start-1 row-start-0 col-start-7 row-span-6 border" ] (List.reverse (cellRow num Vertical 6 12 ludoGraph))
-        , div [ class "col-start-8 row-start-1 border" ] (List.reverse (cellRow num None 12 13 ludoGraph))
-        , div [ class "col-start-9 row-start-1 row-span-6 border" ] (cellRow num Vertical 13 19 ludoGraph)
-        , div [ class "col-start-10 row-start-7 col-span-6 border" ] (cellRow num Horizontal 19 25 ludoGraph)
-        , div [ class "col-start-15 row-start-8 border" ] (cellRow num None 25 26 ludoGraph)
-        , div [ class "col-start-10 row-start-9 col-span-6 border" ] (List.reverse (cellRow num Horizontal 26 32 ludoGraph))
-        , div [ class "col-start-9 row-start-10 row-span-6 border" ] (cellRow num Vertical 32 38 ludoGraph)
-        , div [ class "col-start-8 row-start-15  border" ] (cellRow num None 38 39 ludoGraph)
-        , div [ class "col-start-7 row-start-10 row-span-6 border" ] (List.reverse (cellRow num Vertical 39 45 ludoGraph))
-        , div [ class "col-start-1 row-start-9 col-span-6 border" ] (List.reverse (cellRow num Horizontal 45 51 ludoGraph))
-        , div [ class "col-start-1 row-start-8  border" ] (cellRow num None 51 52 ludoGraph)
-        , div [ class "col-start-1 row-start-1 border row-span-6 border-red-500 col-span-6" ] []
-        , div [ class "col-start-10 row-start-1 border row-span-6 border-green-500 col-span-6" ] []
-        , div [ class "col-start-1 row-start-10 border row-span-6 border-blue-500 col-span-6" ] []
-        , div [ class "col-start-10 row-start-10 border row-span-6 border-yellow-500  col-span-6" ] []
-        , div [ class "col-start-7 row-start-7 border row-span-3 border-gray-500  col-span-3" ] []
-        , button [ class "col-start-3 row-start-3 col-span-2 row-span-2 border p-2 m-2", onClick GenerateRandomNumber ]
-            [ text <|
-                if model.diceNum == 0 then
-                    "roll"
+    [ div [ class "col-start-1 row-start-7 col-span-6 border" ] (cellRow num Horizontal 0 6 ludoGraph)
+    , div [ class "col-start-1 row-start-0 col-start-7 row-span-6 border" ] (List.reverse (cellRow num Vertical 6 12 ludoGraph))
+    , div [ class "col-start-8 row-start-1 border" ] (List.reverse (cellRow num None 12 13 ludoGraph))
+    , div [ class "col-start-9 row-start-1 row-span-6 border" ] (cellRow num Vertical 13 19 ludoGraph)
+    , div [ class "col-start-10 row-start-7 col-span-6 border" ] (cellRow num Horizontal 19 25 ludoGraph)
+    , div [ class "col-start-15 row-start-8 border" ] (cellRow num None 25 26 ludoGraph)
+    , div [ class "col-start-10 row-start-9 col-span-6 border" ] (List.reverse (cellRow num Horizontal 26 32 ludoGraph))
+    , div [ class "col-start-9 row-start-10 row-span-6 border" ] (cellRow num Vertical 32 38 ludoGraph)
+    , div [ class "col-start-8 row-start-15  border" ] (cellRow num None 38 39 ludoGraph)
+    , div [ class "col-start-7 row-start-10 row-span-6 border" ] (List.reverse (cellRow num Vertical 39 45 ludoGraph))
+    , div [ class "col-start-1 row-start-9 col-span-6 border" ] (List.reverse (cellRow num Horizontal 45 51 ludoGraph))
+    , div [ class "col-start-1 row-start-8  border" ] (cellRow num None 51 52 ludoGraph)
+    ]
 
-                else
-                    String.fromInt model.diceNum
-            ]
-        ]
+
+gridHtml : Model -> Html Msg
+gridHtml model =
+    div [ class "grid grid-cols-15  grid-rows-15 sm:h-128 sm:w-128 gap-2  h-64 w-64 m-auto p-3 border border-gray-700" ]
+        (commonPath model
+            ++ colorHomeBoxes
+            ++ [ diceDiv model.diceNum
+               ]
+        )
 
 
 view : Model -> Html Msg
