@@ -1,17 +1,6 @@
-module Ludo exposing (Node, NodeType, PlayerColor, defaultPlayerColor, ludoGraph, move)
+module Ludo exposing (Node, NodeType, PlayerColor(..), defaultPlayerColor, ludoGraph, move, nextTurn)
 
 import Dict exposing (Dict)
-
-
-type PlayerColor
-    = Red
-    | Green
-    | Blue
-    | Yellow
-
-
-defaultPlayerColor =
-    Red
 
 
 type NodeType
@@ -24,6 +13,7 @@ type alias Node =
     }
 
 
+regularNode : Node
 regularNode =
     { next = 2, nodeType = Regular }
 
@@ -105,3 +95,30 @@ move currentPosition dice =
         move
             node.next
             (dice - 1)
+
+
+nextTurn : PlayerColor -> PlayerColor
+nextTurn color =
+    case color of
+        Red ->
+            Green
+
+        Green ->
+            Yellow
+
+        Blue ->
+            Red
+
+        Yellow ->
+            Blue
+
+
+type PlayerColor
+    = Red
+    | Green
+    | Blue
+    | Yellow
+
+
+defaultPlayerColor =
+    Red

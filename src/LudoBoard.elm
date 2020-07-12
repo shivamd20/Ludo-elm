@@ -6,7 +6,7 @@ import Dict exposing (Dict)
 import Html exposing (Html, button, div, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Ludo exposing (Node, PlayerColor, ludoGraph, move)
+import Ludo exposing (Node, PlayerColor(..), defaultPlayerColor, ludoGraph, move, nextTurn)
 import Random
 
 
@@ -55,7 +55,7 @@ update msg model =
 
         MoveCoin position ->
             if position == model.position then
-                ( { model | diceNum = 0, position = move model.position model.diceNum }, Cmd.none )
+                ( { diceNum = 0, position = move model.position model.diceNum, turn = Ludo.nextTurn model.turn }, Cmd.none )
 
             else
                 ( model, Cmd.none )
@@ -113,9 +113,24 @@ cellRow num orientation start end nodeList =
 -- VIEW
 
 
-diceDiv : Int -> Html Msg
-diceDiv diceNum =
-    button [ class "rounded-full hover:bg-gray-600 focus:outline-none focus:shadow-outline col-start-3 row-start-3 col-span-2 row-span-2 border p-2 m-2", onClick GenerateRandomNumber ]
+diceDiv : Int -> PlayerColor -> Html Msg
+diceDiv diceNum turn =
+    let
+        positionClass =
+            case turn of
+                Red ->
+                    "col-start-3 row-start-3"
+
+                Blue ->
+                    "col-start-3 row-start-12"
+
+                Green ->
+                    "col-start-12 row-start-3"
+
+                Yellow ->
+                    "col-start-12 row-start-12"
+    in
+    button [ class ("rounded-full hover:bg-gray-600 focus:outline-none focus:shadow-outline col-span-2 row-span-2 border p-2 m-2 " ++ positionClass), onClick GenerateRandomNumber ]
         [ text <|
             if diceNum == 0 then
                 "roll"
@@ -125,7 +140,7 @@ diceDiv diceNum =
         ]
 
 
-colorHomeBoxes : List (Html msg)
+colorHomeBoxes : List (Html Msg)
 colorHomeBoxes =
     [ div [ class "col-start-1 row-start-1 border row-span-6 border-red-500 col-span-6" ] []
     , div [ class "col-start-10 row-start-1 border row-span-6 border-green-500 col-span-6" ] []
@@ -161,7 +176,7 @@ gridHtml model =
     div [ class "grid grid-cols-15  grid-rows-15 sm:h-128 sm:w-128 gap-2  h-64 w-64 m-auto p-3 border border-gray-700" ]
         (commonPath model
             ++ colorHomeBoxes
-            ++ [ diceDiv model.diceNum
+            ++ [ diceDiv model.diceNum model.turn
                ]
         )
 
