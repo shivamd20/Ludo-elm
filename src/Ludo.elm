@@ -1,5 +1,6 @@
 module Ludo exposing (Node, NodeType, ludoGraph, move)
 
+import Dict exposing (Dict)
 import List.Extra exposing (find)
 
 
@@ -8,77 +9,77 @@ type NodeType
 
 
 type alias Node =
-    ( Int, Int, NodeType )
+    { nodeType : NodeType
+    , next : Int
+    }
 
 
-ludoGraph : List Node
+regularNode =
+    { next = 2, nodeType = Regular }
+
+
+ludoGraph : Dict Int Node
 ludoGraph =
-    [ ( 1, 2, Regular )
-    , ( 2, 3, Regular )
-    , ( 3, 4, Regular )
-    , ( 4, 5, Regular )
-    , ( 5, 6, Regular )
-    , ( 6, 7, Regular )
-    , ( 7, 8, Regular )
-    , ( 8, 9, Regular )
-    , ( 9, 10, Regular )
-    , ( 10, 11, Regular )
-    , ( 11, 12, Regular )
-    , ( 12, 13, Regular )
-    , ( 13, 14, Regular )
-    , ( 14, 15, Regular )
-    , ( 15, 16, Regular )
-    , ( 16, 17, Regular )
-    , ( 17, 18, Regular )
-    , ( 18, 19, Regular )
-    , ( 19, 20, Regular )
-    , ( 20, 21, Regular )
-    , ( 21, 22, Regular )
-    , ( 22, 23, Regular )
-    , ( 23, 24, Regular )
-    , ( 24, 25, Regular )
-    , ( 25, 26, Regular )
-    , ( 26, 27, Regular )
-    , ( 27, 28, Regular )
-    , ( 28, 29, Regular )
-    , ( 29, 30, Regular )
-    , ( 30, 31, Regular )
-    , ( 31, 32, Regular )
-    , ( 32, 33, Regular )
-    , ( 33, 34, Regular )
-    , ( 34, 35, Regular )
-    , ( 35, 36, Regular )
-    , ( 36, 37, Regular )
-    , ( 37, 38, Regular )
-    , ( 38, 39, Regular )
-    , ( 39, 40, Regular )
-    , ( 40, 41, Regular )
-    , ( 41, 42, Regular )
-    , ( 42, 43, Regular )
-    , ( 43, 44, Regular )
-    , ( 44, 45, Regular )
-    , ( 45, 46, Regular )
-    , ( 46, 47, Regular )
-    , ( 47, 48, Regular )
-    , ( 48, 49, Regular )
-    , ( 49, 50, Regular )
-    , ( 50, 51, Regular )
-    , ( 51, 52, Regular )
-    , ( 52, 1, Regular )
-    ]
+    Dict.fromList
+        [ ( 1, regularNode )
+        , ( 2, { regularNode | next = 3 } )
+        , ( 3, { regularNode | next = 4 } )
+        , ( 4, { regularNode | next = 5 } )
+        , ( 5, { regularNode | next = 6 } )
+        , ( 6, { regularNode | next = 7 } )
+        , ( 7, { regularNode | next = 8 } )
+        , ( 8, { regularNode | next = 9 } )
+        , ( 9, { regularNode | next = 10 } )
+        , ( 10, { regularNode | next = 11 } )
+        , ( 11, { regularNode | next = 12 } )
+        , ( 12, { regularNode | next = 13 } )
+        , ( 13, { regularNode | next = 14 } )
+        , ( 14, { regularNode | next = 15 } )
+        , ( 15, { regularNode | next = 16 } )
+        , ( 16, { regularNode | next = 17 } )
+        , ( 17, { regularNode | next = 18 } )
+        , ( 18, { regularNode | next = 19 } )
+        , ( 19, { regularNode | next = 20 } )
+        , ( 20, { regularNode | next = 21 } )
+        , ( 21, { regularNode | next = 22 } )
+        , ( 22, { regularNode | next = 23 } )
+        , ( 23, { regularNode | next = 24 } )
+        , ( 24, { regularNode | next = 25 } )
+        , ( 25, { regularNode | next = 26 } )
+        , ( 26, { regularNode | next = 27 } )
+        , ( 27, { regularNode | next = 28 } )
+        , ( 28, { regularNode | next = 29 } )
+        , ( 29, { regularNode | next = 30 } )
+        , ( 30, { regularNode | next = 31 } )
+        , ( 31, { regularNode | next = 32 } )
+        , ( 32, { regularNode | next = 33 } )
+        , ( 33, { regularNode | next = 34 } )
+        , ( 34, { regularNode | next = 35 } )
+        , ( 35, { regularNode | next = 36 } )
+        , ( 36, { regularNode | next = 37 } )
+        , ( 37, { regularNode | next = 38 } )
+        , ( 38, { regularNode | next = 39 } )
+        , ( 39, { regularNode | next = 40 } )
+        , ( 40, { regularNode | next = 41 } )
+        , ( 41, { regularNode | next = 42 } )
+        , ( 42, { regularNode | next = 43 } )
+        , ( 43, { regularNode | next = 44 } )
+        , ( 44, { regularNode | next = 45 } )
+        , ( 45, { regularNode | next = 46 } )
+        , ( 46, { regularNode | next = 47 } )
+        , ( 47, { regularNode | next = 48 } )
+        , ( 48, { regularNode | next = 49 } )
+        , ( 49, { regularNode | next = 50 } )
+        , ( 50, { regularNode | next = 51 } )
+        , ( 51, { regularNode | next = 52 } )
+        , ( 52, { regularNode | next = 1 } )
+        ]
 
 
 findInGraph : Int -> Maybe Node
 findInGraph currentPosition =
-    find
-        (\node ->
-            let
-                ( pos, _, _ ) =
-                    node
-            in
-            pos == currentPosition
-        )
-        ludoGraph
+    ludoGraph
+        |> Dict.get currentPosition
 
 
 move : Int -> Int -> Int
@@ -88,16 +89,9 @@ move currentPosition dice =
 
     else
         let
-            ( _, next, _ ) =
-                Maybe.withDefault ( 1, 2, Regular ) (findInGraph currentPosition)
+            node =
+                findInGraph currentPosition |> Maybe.withDefault { next = 1, nodeType = Regular }
         in
         move
-            next
+            node.next
             (dice - 1)
-
-
-
-{--function move(currentPosition: number, dice: number) {
-  if (dice === 0) return currentPosition;
-  else return move(GRAPH[currentPosition][0], dice - 1);
---}

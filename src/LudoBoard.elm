@@ -2,6 +2,7 @@ module LudoBoard exposing (main)
 
 import Array
 import Browser
+import Dict exposing (Dict)
 import Html exposing (Html, button, div, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
@@ -19,6 +20,23 @@ main =
 
 
 -- MODEL
+
+
+type Color
+    = Red
+    | Greeen
+    | Blue
+    | Yellow
+
+
+type alias GameState =
+    { turn : Color
+    , diceNum : Int
+    , redPos : List Int
+    , bluePos : List Int
+    , greenPos : List Int
+    , yellowPos : List Int
+    }
 
 
 type alias Model =
@@ -39,6 +57,7 @@ init _ =
 type Msg
     = GenerateRandomNumber
     | NewRandomNumber Int
+    | MoveCoin Int
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -48,7 +67,14 @@ update msg model =
             ( model, Random.generate NewRandomNumber (Random.int 1 6) )
 
         NewRandomNumber number ->
-            ( { diceNum = number, position = move model.position number }, Cmd.none )
+            ( { diceNum = number, position = model.position }, Cmd.none )
+
+        MoveCoin position ->
+            if position == model.position then
+                ( { diceNum = 0, position = move model.position model.diceNum }, Cmd.none )
+
+            else
+                ( model, Cmd.none )
 
 
 type Orientation
@@ -57,7 +83,7 @@ type Orientation
     | None
 
 
-cell : Orientation -> Int -> Int -> Html msg
+cell : Orientation -> Int -> Int -> Html Msg
 cell orientation n num =
     let
         classNames =
@@ -71,7 +97,7 @@ cell orientation n num =
                 None ->
                     "w-full h-full"
     in
-    div [ class ("border text-white text-center m-auto" ++ " " ++ classNames) ]
+    div [ class ("border text-white text-center m-auto" ++ " " ++ classNames), onClick (MoveCoin n) ]
         [ if num == n then
             Html.text "👹"
 
@@ -80,36 +106,32 @@ cell orientation n num =
         ]
 
 
-nodeToHorizontalCell : Orientation -> Int -> Node -> Html msg
+nodeToHorizontalCell : Orientation -> Int -> Int -> Html Msg
 nodeToHorizontalCell orientation num node =
-    let
-        ( first, _, _ ) =
-            node
-    in
-    cell orientation first num
+    cell orientation node num
 
 
-cellRow : Int -> Orientation -> Int -> Int -> List Node -> List (Html msg)
+cellRow : Int -> Orientation -> Int -> Int -> Dict Int Node -> List (Html Msg)
 cellRow num orientation start end nodeList =
     let
         slicedList =
-            Array.toList (Array.slice start end (Array.fromList nodeList))
+            Array.fromList (Dict.keys nodeList) |> Array.slice start end |> Array.toList
     in
-    List.map
-        (nodeToHorizontalCell
-            orientation
-            num
-        )
-        slicedList
+    slicedList
+        |> List.map
+            (num
+                |> nodeToHorizontalCell
+                    orientation
+            )
 
 
 
 -- VIEW
 
 
-gridHtml : Int -> Html msg
+gridHtml : Int -> Html Msg
 gridHtml num =
-    div [ class "grid grid-cols-15  grid-rows-15 sm:h-128 sm:w-128 gap-2  h-64 w-64 m-auto p-3 border border-red-700" ]
+    div [ class "grid grid-cols-15  grid-rows-15 sm:h-128 sm:w-128 gap-2  h-64 w-64 m-auto p-3 border border-gray-700" ]
         [ div [ class "col-start-1 row-start-7 col-span-6 border" ] (cellRow num Horizontal 0 6 ludoGraph)
         , div [ class "col-start-1 row-start-0 col-start-7 row-span-6 border" ] (List.reverse (cellRow num Vertical 6 12 ludoGraph))
         , div [ class "col-start-8 row-start-1 border" ] (List.reverse (cellRow num None 12 13 ludoGraph))
