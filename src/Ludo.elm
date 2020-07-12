@@ -1,10 +1,11 @@
-module Ludo exposing (Node, NodeType, PlayerColor(..), defaultPlayerColor, ludoGraph, move, nextTurn)
+module Ludo exposing (Node, NodeType(..), PlayerColor(..), defaultPlayerColor, ludoGraph, move, nextTurn)
 
 import Dict exposing (Dict)
 
 
 type NodeType
     = Regular
+    | Star
 
 
 type alias Node =
@@ -16,6 +17,11 @@ type alias Node =
 regularNode : Node
 regularNode =
     { next = 2, nodeType = Regular }
+
+
+starNode : Node
+starNode =
+    { next = 2, nodeType = Star }
 
 
 ludoGraph : Dict Int Node
@@ -30,7 +36,7 @@ ludoGraph =
         , ( 7, { regularNode | next = 8 } )
         , ( 8, { regularNode | next = 9 } )
         , ( 9, { regularNode | next = 10 } )
-        , ( 10, { regularNode | next = 11 } )
+        , ( 10, { starNode | next = 11 } )
         , ( 11, { regularNode | next = 12 } )
         , ( 12, { regularNode | next = 13 } )
         , ( 13, { regularNode | next = 14 } )
@@ -43,7 +49,7 @@ ludoGraph =
         , ( 20, { regularNode | next = 21 } )
         , ( 21, { regularNode | next = 22 } )
         , ( 22, { regularNode | next = 23 } )
-        , ( 23, { regularNode | next = 24 } )
+        , ( 23, { starNode | next = 24 } )
         , ( 24, { regularNode | next = 25 } )
         , ( 25, { regularNode | next = 26 } )
         , ( 26, { regularNode | next = 27 } )
@@ -56,7 +62,7 @@ ludoGraph =
         , ( 33, { regularNode | next = 34 } )
         , ( 34, { regularNode | next = 35 } )
         , ( 35, { regularNode | next = 36 } )
-        , ( 36, { regularNode | next = 37 } )
+        , ( 36, { starNode | next = 37 } )
         , ( 37, { regularNode | next = 38 } )
         , ( 38, { regularNode | next = 39 } )
         , ( 39, { regularNode | next = 40 } )
@@ -69,7 +75,7 @@ ludoGraph =
         , ( 46, { regularNode | next = 47 } )
         , ( 47, { regularNode | next = 48 } )
         , ( 48, { regularNode | next = 49 } )
-        , ( 49, { regularNode | next = 50 } )
+        , ( 49, { starNode | next = 50 } )
         , ( 50, { regularNode | next = 51 } )
         , ( 51, { regularNode | next = 52 } )
         , ( 52, { regularNode | next = 1 } )

@@ -6,7 +6,7 @@ import Dict exposing (Dict)
 import Html exposing (Html, button, div, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Ludo exposing (Node, PlayerColor(..), defaultPlayerColor, ludoGraph, move, nextTurn)
+import Ludo exposing (Node, NodeType(..), PlayerColor(..), defaultPlayerColor, ludoGraph, move, nextTurn)
 import Random
 
 
@@ -73,8 +73,8 @@ type Orientation
     | None
 
 
-cell : Orientation -> Int -> Int -> Html Msg
-cell orientation n num =
+cell : Orientation -> Int -> Int -> NodeType -> Html Msg
+cell orientation positionNumber coinPosition nodeType =
     let
         classNames =
             case orientation of
@@ -87,31 +87,37 @@ cell orientation n num =
                 None ->
                     "w-full h-full"
     in
-    div [ class ("border text-white text-center m-auto" ++ " " ++ classNames), onClick (MoveCoin n) ]
-        [ if num == n then
+    div [ class ("border text-white text-center m-auto" ++ " " ++ classNames), onClick (MoveCoin positionNumber) ]
+        [ if coinPosition == positionNumber then
             Html.text "👹"
 
           else
-            Html.text (String.fromInt n)
+            case nodeType of
+                Regular ->
+                    Html.text (String.fromInt positionNumber)
+
+                Star ->
+                    Html.text "✫"
         ]
 
 
-nodeToHorizontalCell : Orientation -> Int -> Int -> Html Msg
-nodeToHorizontalCell orientation num node =
-    cell orientation node num
+nodeToHorizontalCell : Orientation -> Int -> Dict Int Node -> Int -> Html Msg
+nodeToHorizontalCell orientation diceNum nodeDict positionNumber =
+    cell orientation positionNumber diceNum (Maybe.withDefault Regular (Maybe.map (\node -> node.nodeType) (Dict.get positionNumber nodeDict)))
 
 
 cellRow : Int -> Orientation -> Int -> Int -> Dict Int Node -> List (Html Msg)
-cellRow num orientation start end nodeList =
+cellRow num orientation start end nodeDict =
     let
         slicedList =
-            Array.fromList (Dict.keys nodeList) |> Array.slice start end |> Array.toList
+            Array.fromList (Dict.keys nodeDict) |> Array.slice start end |> Array.toList
     in
     slicedList
         |> List.map
-            (num
-                |> nodeToHorizontalCell
-                    orientation
+            (nodeToHorizontalCell
+                orientation
+                num
+                nodeDict
             )
 
 
@@ -146,14 +152,23 @@ diceDiv diceNum turn =
         ]
 
 
-colorHomeBoxes : List (Html Msg)
-colorHomeBoxes =
-    [ div [ class "col-start-1 row-start-1 border row-span-6 border-red-500 col-span-6" ] []
-    , div [ class "col-start-10 row-start-1 border row-span-6 border-green-500 col-span-6" ] []
-    , div [ class "col-start-1 row-start-10 border row-span-6 border-blue-500 col-span-6" ] []
-    , div [ class "col-start-10 row-start-10 border row-span-6 border-yellow-500  col-span-6" ] []
-    , div [ class "col-start-7 row-start-7 border row-span-3 border-gray-500  col-span-3" ] []
-    ]
+gridHtml : Model -> Html Msg
+gridHtml model =
+    div [ class "grid grid-cols-15  grid-rows-15 sm:h-128 sm:w-128 gap-2  h-64 w-64 m-auto p-3 border border-gray-700" ]
+        (commonPath model
+            ++ colorHomeBoxes
+            ++ [ diceDiv model.diceNum model.turn
+               ]
+        )
+
+
+view : Model -> Html Msg
+view model =
+    div []
+        [ div [ class "my-8 w-full text-center text-white" ]
+            [ gridHtml model
+            ]
+        ]
 
 
 commonPath : Model -> List (Html Msg)
@@ -177,20 +192,11 @@ commonPath model =
     ]
 
 
-gridHtml : Model -> Html Msg
-gridHtml model =
-    div [ class "grid grid-cols-15  grid-rows-15 sm:h-128 sm:w-128 gap-2  h-64 w-64 m-auto p-3 border border-gray-700" ]
-        (commonPath model
-            ++ colorHomeBoxes
-            ++ [ diceDiv model.diceNum model.turn
-               ]
-        )
-
-
-view : Model -> Html Msg
-view model =
-    div []
-        [ div [ class "my-8 w-full text-center text-white" ]
-            [ gridHtml model
-            ]
-        ]
+colorHomeBoxes : List (Html Msg)
+colorHomeBoxes =
+    [ div [ class "col-start-1 row-start-1 border row-span-6 border-red-500 col-span-6" ] []
+    , div [ class "col-start-10 row-start-1 border row-span-6 border-green-500 col-span-6" ] []
+    , div [ class "col-start-1 row-start-10 border row-span-6 border-blue-500 col-span-6" ] []
+    , div [ class "col-start-10 row-start-10 border row-span-6 border-yellow-500  col-span-6" ] []
+    , div [ class "col-start-7 row-start-7 border row-span-3 border-gray-500  col-span-3" ] []
+    ]
