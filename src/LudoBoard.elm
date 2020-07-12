@@ -2,9 +2,10 @@ module LudoBoard exposing (main)
 
 import Array
 import Browser
+import Debug
 import Dict exposing (Dict)
 import Html exposing (Html, button, div, text)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, disabled, hidden)
 import Html.Events exposing (onClick)
 import Ludo exposing (Node, ludoGraph, move)
 import Random
@@ -129,8 +130,12 @@ cellRow num orientation start end nodeList =
 -- VIEW
 
 
-gridHtml : Int -> Html Msg
-gridHtml num =
+gridHtml : Model -> Html Msg
+gridHtml model =
+    let
+        num =
+            model.position
+    in
     div [ class "grid grid-cols-15  grid-rows-15 sm:h-128 sm:w-128 gap-2  h-64 w-64 m-auto p-3 border border-gray-700" ]
         [ div [ class "col-start-1 row-start-7 col-span-6 border" ] (cellRow num Horizontal 0 6 ludoGraph)
         , div [ class "col-start-1 row-start-0 col-start-7 row-span-6 border" ] (List.reverse (cellRow num Vertical 6 12 ludoGraph))
@@ -149,15 +154,21 @@ gridHtml num =
         , div [ class "col-start-1 row-start-10 border row-span-6 border-blue-500 col-span-6" ] []
         , div [ class "col-start-10 row-start-10 border row-span-6 border-yellow-500  col-span-6" ] []
         , div [ class "col-start-7 row-start-7 border row-span-3 border-gray-500  col-span-3" ] []
+        , button [ class "col-start-3 row-start-3 col-span-2 row-span-2 border p-2 m-2", onClick GenerateRandomNumber ]
+            [ text <|
+                if model.diceNum == 0 then
+                    "roll"
+
+                else
+                    String.fromInt model.diceNum
+            ]
         ]
 
 
 view : Model -> Html Msg
 view model =
     div []
-        [ div [ class "w-full text-center text-white" ]
-            [ button [ class "border p-2 m-2", onClick GenerateRandomNumber ] [ text "roll" ]
-            , div [] [ text (String.fromInt model.diceNum) ]
-            , gridHtml model.position
+        [ div [ class "my-8 w-full text-center text-white" ]
+            [ gridHtml model
             ]
         ]
