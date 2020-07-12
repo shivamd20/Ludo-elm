@@ -1,7 +1,6 @@
 module Ludo exposing (Node, NodeType, ludoGraph, move)
 
 import Dict exposing (Dict)
-import List.Extra exposing (find)
 
 
 type NodeType
