@@ -76,7 +76,7 @@ type Orientation
 cell : Orientation -> Int -> Int -> NodeType -> Html Msg
 cell orientation positionNumber coinPosition nodeType =
     let
-        classNames =
+        orientationClassName =
             case orientation of
                 Vertical ->
                     "w-full h-1/6"
@@ -86,8 +86,29 @@ cell orientation positionNumber coinPosition nodeType =
 
                 None ->
                     "w-full h-full"
+
+        colorClassName =
+            orientationClassName
+                ++ (case nodeType of
+                        Start color ->
+                            case color of
+                                Red ->
+                                    "  rounded border-red-500 "
+
+                                Blue ->
+                                    " rounded border-blue-500  "
+
+                                Yellow ->
+                                    " rounded border-yellow-500 "
+
+                                Green ->
+                                    " rounded border-green-500 "
+
+                        _ ->
+                            " "
+                   )
     in
-    div [ class ("border text-white text-center m-auto" ++ " " ++ classNames), onClick (MoveCoin positionNumber) ]
+    div [ class ("border text-white text-center m-auto" ++ " " ++ colorClassName), onClick (MoveCoin positionNumber) ]
         [ if coinPosition == positionNumber then
             Html.text "👹"
 
@@ -97,6 +118,9 @@ cell orientation positionNumber coinPosition nodeType =
                     Html.text (String.fromInt positionNumber)
 
                 Star ->
+                    Html.text "✫"
+
+                Start color ->
                     Html.text "✫"
         ]
 
@@ -177,18 +201,18 @@ commonPath model =
         num =
             model.position
     in
-    [ div [ class "col-start-1 row-start-7 col-span-6 border" ] (cellRow num Horizontal 0 6 ludoGraph)
-    , div [ class "col-start-1 row-start-0 col-start-7 row-span-6 border" ] (List.reverse (cellRow num Vertical 6 12 ludoGraph))
-    , div [ class "col-start-8 row-start-1 border" ] (List.reverse (cellRow num None 12 13 ludoGraph))
-    , div [ class "col-start-9 row-start-1 row-span-6 border" ] (cellRow num Vertical 13 19 ludoGraph)
-    , div [ class "col-start-10 row-start-7 col-span-6 border" ] (cellRow num Horizontal 19 25 ludoGraph)
-    , div [ class "col-start-15 row-start-8 border" ] (cellRow num None 25 26 ludoGraph)
-    , div [ class "col-start-10 row-start-9 col-span-6 border" ] (List.reverse (cellRow num Horizontal 26 32 ludoGraph))
-    , div [ class "col-start-9 row-start-10 row-span-6 border" ] (cellRow num Vertical 32 38 ludoGraph)
-    , div [ class "col-start-8 row-start-15  border" ] (cellRow num None 38 39 ludoGraph)
-    , div [ class "col-start-7 row-start-10 row-span-6 border" ] (List.reverse (cellRow num Vertical 39 45 ludoGraph))
-    , div [ class "col-start-1 row-start-9 col-span-6 border" ] (List.reverse (cellRow num Horizontal 45 51 ludoGraph))
-    , div [ class "col-start-1 row-start-8  border" ] (cellRow num None 51 52 ludoGraph)
+    [ div [ class "col-start-1 row-start-7 col-span-6 " ] (cellRow num Horizontal 0 6 ludoGraph)
+    , div [ class "col-start-1 row-start-0 col-start-7 row-span-6 " ] (List.reverse (cellRow num Vertical 6 12 ludoGraph))
+    , div [ class "col-start-8 row-start-1 " ] (List.reverse (cellRow num None 12 13 ludoGraph))
+    , div [ class "col-start-9 row-start-1 row-span-6 " ] (cellRow num Vertical 13 19 ludoGraph)
+    , div [ class "col-start-10 row-start-7 col-span-6 " ] (cellRow num Horizontal 19 25 ludoGraph)
+    , div [ class "col-start-15 row-start-8 " ] (cellRow num None 25 26 ludoGraph)
+    , div [ class "col-start-10 row-start-9 col-span-6 " ] (List.reverse (cellRow num Horizontal 26 32 ludoGraph))
+    , div [ class "col-start-9 row-start-10 row-span-6 " ] (cellRow num Vertical 32 38 ludoGraph)
+    , div [ class "col-start-8 row-start-15  " ] (cellRow num None 38 39 ludoGraph)
+    , div [ class "col-start-7 row-start-10 row-span-6 " ] (List.reverse (cellRow num Vertical 39 45 ludoGraph))
+    , div [ class "col-start-1 row-start-9 col-span-6 " ] (List.reverse (cellRow num Horizontal 45 51 ludoGraph))
+    , div [ class "col-start-1 row-start-8  " ] (cellRow num None 51 52 ludoGraph)
     ]
 
 

@@ -6,6 +6,7 @@ import Dict exposing (Dict)
 type NodeType
     = Regular
     | Star
+    | Start PlayerColor
 
 
 type alias Node =
@@ -21,14 +22,39 @@ regularNode =
 
 starNode : Node
 starNode =
-    { next = 2, nodeType = Star }
+    { regularNode | nodeType = Star }
+
+
+startNode : PlayerColor -> Node
+startNode color =
+    { regularNode | nodeType = Start color }
+
+
+redStartNode : Node
+redStartNode =
+    startNode Red
+
+
+blueStartNode : Node
+blueStartNode =
+    startNode Blue
+
+
+greenStartNode : Node
+greenStartNode =
+    startNode Green
+
+
+yellowStartNode : Node
+yellowStartNode =
+    startNode Yellow
 
 
 ludoGraph : Dict Int Node
 ludoGraph =
     Dict.fromList
-        [ ( 1, regularNode )
-        , ( 2, { regularNode | next = 3 } )
+        [ ( 1, { regularNode | next = 1 } )
+        , ( 2, { redStartNode | next = 3 } )
         , ( 3, { regularNode | next = 4 } )
         , ( 4, { regularNode | next = 5 } )
         , ( 5, { regularNode | next = 6 } )
@@ -41,7 +67,7 @@ ludoGraph =
         , ( 12, { regularNode | next = 13 } )
         , ( 13, { regularNode | next = 14 } )
         , ( 14, { regularNode | next = 15 } )
-        , ( 15, { regularNode | next = 16 } )
+        , ( 15, { greenStartNode | next = 16 } )
         , ( 16, { regularNode | next = 17 } )
         , ( 17, { regularNode | next = 18 } )
         , ( 18, { regularNode | next = 19 } )
@@ -54,7 +80,7 @@ ludoGraph =
         , ( 25, { regularNode | next = 26 } )
         , ( 26, { regularNode | next = 27 } )
         , ( 27, { regularNode | next = 28 } )
-        , ( 28, { regularNode | next = 29 } )
+        , ( 28, { yellowStartNode | next = 29 } )
         , ( 29, { regularNode | next = 30 } )
         , ( 30, { regularNode | next = 31 } )
         , ( 31, { regularNode | next = 32 } )
@@ -67,7 +93,7 @@ ludoGraph =
         , ( 38, { regularNode | next = 39 } )
         , ( 39, { regularNode | next = 40 } )
         , ( 40, { regularNode | next = 41 } )
-        , ( 41, { regularNode | next = 42 } )
+        , ( 41, { blueStartNode | next = 42 } )
         , ( 42, { regularNode | next = 43 } )
         , ( 43, { regularNode | next = 44 } )
         , ( 44, { regularNode | next = 45 } )
