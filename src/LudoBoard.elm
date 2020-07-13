@@ -3,8 +3,9 @@ module LudoBoard exposing (main)
 import Array
 import Browser
 import Cell exposing (Orientation(..), cell)
+import Dice exposing (diceDiv)
 import Dict exposing (Dict)
-import Html exposing (Html, button, div, text)
+import Html exposing (Html, div)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Ludo exposing (Node, NodeType(..), ludoGraph)
@@ -55,33 +56,6 @@ cellRow num orientation start end nodeDict =
 
 
 -- VIEW
-
-
-diceDiv : Int -> PlayerColor -> Html Msg
-diceDiv diceNum turn =
-    let
-        positionClass =
-            case turn of
-                Red ->
-                    "col-start-3 row-start-3"
-
-                Blue ->
-                    "col-start-3 row-start-12"
-
-                Green ->
-                    "col-start-12 row-start-3"
-
-                Yellow ->
-                    "col-start-12 row-start-12"
-    in
-    button [ class ("rounded-full hover:bg-gray-600 focus:outline-none focus:shadow-outline col-span-2 row-span-2 border p-2 m-2 " ++ positionClass), onClick GenerateRandomNumber ]
-        [ text <|
-            if diceNum == 0 then
-                "roll"
-
-            else
-                String.fromInt diceNum
-        ]
 
 
 gridHtml : Model -> Html Msg
