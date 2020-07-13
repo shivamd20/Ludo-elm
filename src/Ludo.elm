@@ -1,6 +1,7 @@
-module Ludo exposing (Node, NodeType(..), PlayerColor(..), ludoGraph, move, nextTurn)
+module Ludo exposing (Node, NodeType(..), ludoGraph, move, nextTurn)
 
 import Dict exposing (Dict)
+import LudoModel exposing (PlayerColor(..))
 
 
 type NodeType
@@ -143,10 +144,3 @@ nextTurn color =
 
         Yellow ->
             Blue
-
-
-type PlayerColor
-    = Red
-    | Green
-    | Blue
-    | Yellow

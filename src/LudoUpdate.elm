@@ -1,20 +1,8 @@
-module LudoUpdate exposing (Model, Msg(..), update)
+module LudoUpdate exposing (update)
 
-import Ludo exposing (PlayerColor, move)
+import Ludo exposing (move)
+import LudoModel exposing (Model, Msg(..))
 import Random
-
-
-type Msg
-    = GenerateRandomNumber
-    | NewRandomNumber Int
-    | MoveCoin Int
-
-
-type alias Model =
-    { diceNum : Int
-    , position : Int
-    , turn : PlayerColor
-    }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

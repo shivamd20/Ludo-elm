@@ -7,8 +7,9 @@ import Dict exposing (Dict)
 import Html exposing (Html, button, div, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Ludo exposing (Node, NodeType(..), PlayerColor(..), ludoGraph)
-import LudoUpdate exposing (Model, Msg(..), update)
+import Ludo exposing (Node, NodeType(..), ludoGraph)
+import LudoModel exposing (Model, Msg(..), PlayerColor(..))
+import LudoUpdate exposing (update)
 
 
 
@@ -173,7 +174,7 @@ blueHomeCells =
     ]
 
 
-homeCell : String -> Ludo.PlayerColor -> Html msg
+homeCell : String -> PlayerColor -> Html msg
 homeCell className color =
     let
         computedClassName =
