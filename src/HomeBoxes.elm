@@ -7,7 +7,7 @@ import LudoModel exposing (Msg, PlayerColor(..))
 
 homeBoxes : List (Html Msg)
 homeBoxes =
-    colorHomeBoxes ++ redHomeCells ++ blueHomeCells ++ greenHomeCells ++ yellowHomeCells
+    colorHomeBoxes ++ redHomeBoxes ++ blueHomeBoxes ++ greenHomeBoxes ++ yellowHomeBoxes
 
 
 colorHomeBoxes : List (Html Msg)
@@ -20,44 +20,44 @@ colorHomeBoxes =
     ]
 
 
-redHomeCells : List (Html Msg)
-redHomeCells =
-    [ homeCell "col-start-1 row-start-1" Red
-    , homeCell "col-start-4 row-start-1" Red
-    , homeCell "col-start-1 row-start-4" Red
-    , homeCell "col-start-4 row-start-4" Red
+redHomeBoxes : List (Html Msg)
+redHomeBoxes =
+    [ homeBox "col-start-1 row-start-1" Red
+    , homeBox "col-start-4 row-start-1" Red
+    , homeBox "col-start-1 row-start-4" Red
+    , homeBox "col-start-4 row-start-4" Red
     ]
 
 
-greenHomeCells : List (Html Msg)
-greenHomeCells =
-    [ homeCell "col-start-10 row-start-1" Green
-    , homeCell "col-start-13 row-start-1" Green
-    , homeCell "col-start-10 row-start-4" Green
-    , homeCell "col-start-13 row-start-4" Green
+greenHomeBoxes : List (Html Msg)
+greenHomeBoxes =
+    [ homeBox "col-start-10 row-start-1" Green
+    , homeBox "col-start-13 row-start-1" Green
+    , homeBox "col-start-10 row-start-4" Green
+    , homeBox "col-start-13 row-start-4" Green
     ]
 
 
-yellowHomeCells : List (Html Msg)
-yellowHomeCells =
-    [ homeCell "col-start-10 row-start-10" Yellow
-    , homeCell "col-start-13 row-start-10" Yellow
-    , homeCell "col-start-10 row-start-13" Yellow
-    , homeCell "col-start-13 row-start-13" Yellow
+yellowHomeBoxes : List (Html Msg)
+yellowHomeBoxes =
+    [ homeBox "col-start-10 row-start-10" Yellow
+    , homeBox "col-start-13 row-start-10" Yellow
+    , homeBox "col-start-10 row-start-13" Yellow
+    , homeBox "col-start-13 row-start-13" Yellow
     ]
 
 
-blueHomeCells : List (Html Msg)
-blueHomeCells =
-    [ homeCell "col-start-1 row-start-10" Blue
-    , homeCell "col-start-4 row-start-10" Blue
-    , homeCell "col-start-1 row-start-13" Blue
-    , homeCell "col-start-4 row-start-13" Blue
+blueHomeBoxes : List (Html Msg)
+blueHomeBoxes =
+    [ homeBox "col-start-1 row-start-10" Blue
+    , homeBox "col-start-4 row-start-10" Blue
+    , homeBox "col-start-1 row-start-13" Blue
+    , homeBox "col-start-4 row-start-13" Blue
     ]
 
 
-homeCell : String -> PlayerColor -> Html msg
-homeCell className color =
+homeBox : String -> PlayerColor -> Html msg
+homeBox className color =
     let
         computedClassName =
             (case color of
