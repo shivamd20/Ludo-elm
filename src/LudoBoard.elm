@@ -61,7 +61,17 @@ update msg model =
 
         MoveCoin position ->
             if position == model.position && model.diceNum /= 0 then
-                ( { diceNum = 0, position = move model.position model.diceNum, turn = Ludo.nextTurn model.turn }, Cmd.none )
+                ( { diceNum = 0
+                  , position = move model.position model.diceNum
+                  , turn =
+                        if model.diceNum /= 6 then
+                            Ludo.nextTurn model.turn
+
+                        else
+                            model.turn
+                  }
+                , Cmd.none
+                )
 
             else
                 ( model, Cmd.none )
