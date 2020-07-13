@@ -1,4 +1,4 @@
-module LudoBoard exposing (main)
+module Game exposing (main)
 
 import Browser
 import CommonPath exposing (commonPath)
