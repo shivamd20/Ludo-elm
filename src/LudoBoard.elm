@@ -2,12 +2,13 @@ module LudoBoard exposing (main)
 
 import Array
 import Browser
+import Cell exposing (Orientation(..), blueHomeCells, cell, greenHomeCells, redHomeCells, yellowHomeCells)
 import Dict exposing (Dict)
 import Html exposing (Html, button, div, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Ludo exposing (Node, NodeType(..), PlayerColor(..), ludoGraph, move, nextTurn)
-import Random
+import Ludo exposing (Node, NodeType(..), PlayerColor(..), ludoGraph)
+import LudoUpdate exposing (Model, Msg(..), update)
 
 
 
@@ -22,13 +23,6 @@ main =
 -- MODEL
 
 
-type alias Model =
-    { diceNum : Int
-    , position : Int
-    , turn : PlayerColor
-    }
-
-
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( { diceNum = 0, position = 2, turn = Red }, Cmd.none )
@@ -36,103 +30,6 @@ init _ =
 
 
 -- UPDATE
-
-
-type Msg
-    = GenerateRandomNumber
-    | NewRandomNumber Int
-    | MoveCoin Int
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        GenerateRandomNumber ->
-            ( model, Random.generate NewRandomNumber (Random.int 1 6) )
-
-        NewRandomNumber number ->
-            ( if model.diceNum == 0 then
-                { model | diceNum = number }
-
-              else
-                model
-            , Cmd.none
-            )
-
-        MoveCoin position ->
-            if position == model.position && model.diceNum /= 0 then
-                ( { diceNum = 0
-                  , position = move model.position model.diceNum
-                  , turn =
-                        if model.diceNum /= 6 then
-                            Ludo.nextTurn model.turn
-
-                        else
-                            model.turn
-                  }
-                , Cmd.none
-                )
-
-            else
-                ( model, Cmd.none )
-
-
-type Orientation
-    = Vertical
-    | Horizontal
-    | None
-
-
-cell : Orientation -> Int -> Int -> NodeType -> Html Msg
-cell orientation positionNumber coinPosition nodeType =
-    let
-        orientationClassName =
-            case orientation of
-                Vertical ->
-                    "w-full h-1/6"
-
-                Horizontal ->
-                    "inline-block w-1/6 h-full"
-
-                None ->
-                    "w-full h-full"
-
-        colorClassName =
-            orientationClassName
-                ++ (case nodeType of
-                        Start color ->
-                            case color of
-                                Red ->
-                                    "  rounded border-red-500 "
-
-                                Blue ->
-                                    " rounded border-blue-500  "
-
-                                Yellow ->
-                                    " rounded border-yellow-500 "
-
-                                Green ->
-                                    " rounded border-green-500 "
-
-                        _ ->
-                            " "
-                   )
-    in
-    div [ class ("border text-white text-center m-auto" ++ " " ++ colorClassName), onClick (MoveCoin positionNumber) ]
-        [ if coinPosition == positionNumber then
-            Html.text "👹"
-
-          else
-            case nodeType of
-                Regular ->
-                    Html.text (String.fromInt positionNumber)
-
-                Star ->
-                    Html.text "✫"
-
-                Start color ->
-                    Html.text "✫"
-        ]
 
 
 nodeToHorizontalCell : Orientation -> Int -> Dict Int Node -> Int -> Html Msg
@@ -198,64 +95,6 @@ gridHtml model =
             ++ [ diceDiv model.diceNum model.turn
                ]
         )
-
-
-homeCell : String -> Ludo.PlayerColor -> Html msg
-homeCell className color =
-    let
-        computedClassName =
-            (case color of
-                Red ->
-                    " border-red-700 "
-
-                Green ->
-                    " border-green-700 "
-
-                Blue ->
-                    " border-blue-700 "
-
-                Yellow ->
-                    " border-yellow-700 "
-            )
-                ++ className
-    in
-    div [ class ("col-span-3 row-span-3 m-5 rounded-full  border " ++ computedClassName) ] []
-
-
-redHomeCells : List (Html Msg)
-redHomeCells =
-    [ homeCell "col-start-1 row-start-1" Red
-    , homeCell "col-start-4 row-start-1" Red
-    , homeCell "col-start-1 row-start-4" Red
-    , homeCell "col-start-4 row-start-4" Red
-    ]
-
-
-greenHomeCells : List (Html Msg)
-greenHomeCells =
-    [ homeCell "col-start-10 row-start-1" Green
-    , homeCell "col-start-13 row-start-1" Green
-    , homeCell "col-start-10 row-start-4" Green
-    , homeCell "col-start-13 row-start-4" Green
-    ]
-
-
-yellowHomeCells : List (Html Msg)
-yellowHomeCells =
-    [ homeCell "col-start-10 row-start-10" Yellow
-    , homeCell "col-start-13 row-start-10" Yellow
-    , homeCell "col-start-10 row-start-13" Yellow
-    , homeCell "col-start-13 row-start-13" Yellow
-    ]
-
-
-blueHomeCells : List (Html Msg)
-blueHomeCells =
-    [ homeCell "col-start-1 row-start-10" Blue
-    , homeCell "col-start-4 row-start-10" Blue
-    , homeCell "col-start-1 row-start-13" Blue
-    , homeCell "col-start-4 row-start-13" Blue
-    ]
 
 
 view : Model -> Html Msg
