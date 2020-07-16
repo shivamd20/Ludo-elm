@@ -8,7 +8,7 @@ import HomeCells exposing (homeCells)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
 import Ludo exposing (NodeType(..))
-import LudoModel exposing (Model, Msg(..), PlayerColor(..), defaultPositions)
+import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..), defaultPositions)
 import LudoUpdate exposing (update)
 
 
@@ -19,7 +19,7 @@ main =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { diceNum = 0, position = 2, turn = Red, positions = defaultPositions }, Cmd.none )
+    ( { diceNum = 0, position = InCommonPathPosition 2, turn = Red, positions = defaultPositions }, Cmd.none )
 
 
 gridHtml : Model -> Html Msg

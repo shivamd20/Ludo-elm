@@ -1,9 +1,9 @@
-module LudoModel exposing (Model, Msg(..), PlayerColor(..), Positions, defaultPositions)
+module LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..), Positions, defaultPositions)
 
 
 type alias Model =
     { diceNum : Int
-    , position : Int
+    , position : Position
     , turn : PlayerColor
     , positions : Positions
     }
@@ -28,4 +28,9 @@ type PlayerColor
 type Msg
     = GenerateRandomNumber
     | NewRandomNumber Int
-    | MoveCoin Int
+    | MoveCoin Position
+
+
+type Position
+    = InCommonPathPosition Int
+    | InStartBoxPosition Int

@@ -3,8 +3,8 @@ module Cell exposing (Orientation(..), cell)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Ludo exposing (NodeType(..))
-import LudoModel exposing (Msg(..), PlayerColor(..))
+import Ludo exposing (NodeType(..), positionToString)
+import LudoModel exposing (Msg(..), PlayerColor(..), Position)
 
 
 type Orientation
@@ -13,7 +13,7 @@ type Orientation
     | None
 
 
-cell : Orientation -> Int -> Int -> NodeType -> Html Msg
+cell : Orientation -> Position -> Position -> NodeType -> Html Msg
 cell orientation positionNumber coinPosition nodeType =
     let
         orientationClassName =
@@ -55,7 +55,7 @@ cell orientation positionNumber coinPosition nodeType =
           else
             case nodeType of
                 Regular ->
-                    Html.text (String.fromInt positionNumber)
+                    Html.text (positionToString positionNumber)
 
                 Star ->
                     Html.text "✫"

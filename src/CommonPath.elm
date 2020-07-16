@@ -5,7 +5,7 @@ import Cell exposing (Orientation(..), cell)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
 import Ludo exposing (commonPathList, getCommonPathNode)
-import LudoModel exposing (Model, Msg)
+import LudoModel exposing (Model, Msg, Position)
 
 
 commonPath : Model -> List (Html LudoModel.Msg)
@@ -29,8 +29,8 @@ commonPath model =
     ]
 
 
-cellRow : Int -> Orientation -> Int -> Int -> List (Html Msg)
-cellRow num orientation start end =
+cellRow : Position -> Orientation -> Int -> Int -> List (Html Msg)
+cellRow currentPosition orientation start end =
     let
         slicedList =
             Array.fromList commonPathList |> Array.slice start end |> Array.toList
@@ -39,10 +39,10 @@ cellRow num orientation start end =
         |> List.map
             (nodeToHorizontalCell
                 orientation
-                num
+                currentPosition
             )
 
 
-nodeToHorizontalCell : Orientation -> Int -> Int -> Html Msg
-nodeToHorizontalCell orientation diceNum positionNumber =
-    cell orientation positionNumber diceNum (Maybe.withDefault Ludo.Regular (Maybe.map (\node -> node.nodeType) (getCommonPathNode positionNumber)))
+nodeToHorizontalCell : Orientation -> Position -> Position -> Html Msg
+nodeToHorizontalCell orientation coinPosition positionNumber =
+    cell orientation positionNumber coinPosition (Maybe.withDefault Ludo.Regular (Maybe.map (\node -> node.nodeType) (getCommonPathNode positionNumber)))
