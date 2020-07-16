@@ -1,5 +1,8 @@
 {
   "name": "first",
+  "scripts": {
+    "start": "elm-live src/Game.elm -- --output ludo.js  --debug"
+  },
   "version": "1.0.0",
   "main": "index.html",
   "license": "MIT",
