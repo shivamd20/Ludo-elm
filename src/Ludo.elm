@@ -1,4 +1,4 @@
-module Ludo exposing (Node, NodeType(..), ludoGraph, move, nextTurn)
+module Ludo exposing (Node, NodeType(..), commonPathList, getCommonPathNode, move, nextTurn)
 
 import Dict exposing (Dict)
 import LudoModel exposing (PlayerColor(..))
@@ -49,6 +49,21 @@ greenStartNode =
 yellowStartNode : Node
 yellowStartNode =
     startNode Yellow
+
+
+type Position
+    = InCommonPathPosition Int
+    | InStartBoxPosition Int
+
+
+commonPathList : List Int
+commonPathList =
+    Dict.keys ludoGraph
+
+
+getCommonPathNode : Int -> Maybe Node
+getCommonPathNode position =
+    Dict.get position ludoGraph
 
 
 ludoGraph : Dict Int Node

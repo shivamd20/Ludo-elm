@@ -1,7 +1,7 @@
 module LudoUpdate exposing (update)
 
 import Ludo exposing (move)
-import LudoModel exposing (Model, Msg(..))
+import LudoModel exposing (Model, Msg(..), defaultPositions)
 import Random
 
 
@@ -24,6 +24,7 @@ update msg model =
             if position == model.position && model.diceNum /= 0 then
                 ( { diceNum = 0
                   , position = move model.position model.diceNum
+                  , positions = defaultPositions
                   , turn =
                         if model.diceNum /= 6 then
                             Ludo.nextTurn model.turn

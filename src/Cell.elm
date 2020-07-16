@@ -60,6 +60,6 @@ cell orientation positionNumber coinPosition nodeType =
                 Star ->
                     Html.text "✫"
 
-                Start color ->
+                Start _ ->
                     Html.text "✫"
         ]
