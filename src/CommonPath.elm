@@ -2,10 +2,9 @@ module CommonPath exposing (commonPath)
 
 import Array
 import Cell exposing (Orientation(..), cell)
-import Dict exposing (Dict)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
-import Ludo exposing (Node, commonPathList, getCommonPathNode)
+import Ludo exposing (commonPathList, getCommonPathNode)
 import LudoModel exposing (Model, Msg)
 
 
