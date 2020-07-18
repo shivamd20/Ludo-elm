@@ -53,7 +53,39 @@ cell orientation positions positionNumber coinPosition nodeType =
             Html.text "👹"
 
           else if findCoinAtCoinPosition positions positionNumber /= Maybe.Nothing then
-            Html.text "🔴"
+            let
+                maybePos =
+                    findCoinAtCoinPosition positions positionNumber
+            in
+            case maybePos of
+                Just pos ->
+                    let
+                        ( color, p ) =
+                            pos
+                    in
+                    case color of
+                        Red ->
+                            Html.text "🔴"
+
+                        Green ->
+                            Html.text "\u{1F7E2}"
+
+                        Blue ->
+                            Html.text "🔵"
+
+                        Yellow ->
+                            Html.text "\u{1F7E1}"
+
+                Nothing ->
+                    case nodeType of
+                        Regular ->
+                            Html.text (positionToString positionNumber)
+
+                        Star ->
+                            Html.text "✫"
+
+                        Start _ ->
+                            Html.text "✫"
 
           else
             case nodeType of
