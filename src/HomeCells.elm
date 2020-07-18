@@ -2,11 +2,11 @@ module HomeCells exposing (homeCells)
 
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
-import LudoModel exposing (Msg)
+import LudoModel exposing (Model, Msg)
 
 
-homeCells : List (Html Msg)
-homeCells =
+homeCells : Model -> List (Html Msg)
+homeCells model =
     redHomeCells ++ greenHomeCells ++ blueHomeCells ++ yellowHomeCells
 
 

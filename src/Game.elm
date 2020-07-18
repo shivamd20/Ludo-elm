@@ -27,9 +27,8 @@ gridHtml model =
     div [ class "grid grid-cols-15  grid-rows-15 sm:h-128 sm:w-128 gap-2 h-64 w-64 m-auto p-3 border border-gray-700" ]
         (commonPath model
             ++ homeBoxes
-            ++ [ diceDiv model.diceNum model.turn
-               ]
-            ++ homeCells
+            ++ diceDiv model.diceNum model.turn
+            :: homeCells model
         )
 
 
