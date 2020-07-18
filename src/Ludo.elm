@@ -168,10 +168,10 @@ moveAllPositions clickedPosition model =
             List.map
                 (\posInfo ->
                     let
-                        ( color, currentPosition ) =
+                        ( _, currentPosition ) =
                             posInfo
                     in
-                    if model.turn /= color || currentPosition /= clickedPosition then
+                    if currentPosition /= clickedPosition then
                         posInfo
 
                     else
