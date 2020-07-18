@@ -10,10 +10,22 @@ type alias Model =
 
 defaultPositions : List ( PlayerColor, Position )
 defaultPositions =
-    [ ( Red, InCommonPathPosition 2 )
-    , ( Green, InCommonPathPosition 15 )
-    , ( Yellow, InCommonPathPosition 28 )
-    , ( Blue, InCommonPathPosition 41 )
+    [ ( Red, InStartBoxPosition 1 )
+    , ( Red, InStartBoxPosition 2 )
+    , ( Red, InStartBoxPosition 3 )
+    , ( Red, InStartBoxPosition 4 )
+    , ( Green, InStartBoxPosition 1 )
+    , ( Green, InStartBoxPosition 2 )
+    , ( Green, InStartBoxPosition 3 )
+    , ( Green, InStartBoxPosition 4 )
+    , ( Yellow, InStartBoxPosition 1 )
+    , ( Yellow, InStartBoxPosition 2 )
+    , ( Yellow, InStartBoxPosition 3 )
+    , ( Yellow, InStartBoxPosition 4 )
+    , ( Blue, InStartBoxPosition 1 )
+    , ( Blue, InStartBoxPosition 2 )
+    , ( Blue, InStartBoxPosition 3 )
+    , ( Blue, InStartBoxPosition 4 )
     ]
 
 
@@ -32,3 +44,4 @@ type Msg
 
 type Position
     = InCommonPathPosition Int
+    | InStartBoxPosition Int

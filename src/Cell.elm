@@ -1,6 +1,6 @@
 module Cell exposing (Orientation(..), cell)
 
-import Html exposing (Html, button, div)
+import Html exposing (Html, button)
 import Html.Attributes exposing (class, disabled)
 import Html.Events exposing (onClick)
 import Ludo exposing (NodeType(..), canMove, findCoinAtCoinPosition)

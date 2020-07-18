@@ -76,12 +76,18 @@ positionToString pos =
         InCommonPathPosition n ->
             String.fromInt n
 
+        InStartBoxPosition n ->
+            ""
+
 
 getCommonPathNode : LudoModel.Position -> Maybe Node
 getCommonPathNode position =
     case position of
         InCommonPathPosition n ->
             Dict.get n ludoGraph
+
+        InStartBoxPosition n ->
+            Nothing
 
 
 ludoGraph : Dict Int Node
@@ -157,6 +163,9 @@ findInGraph currentPosition =
         |> Dict.get
             (case currentPosition of
                 InCommonPathPosition n ->
+                    n
+
+                InStartBoxPosition n ->
                     n
             )
 
