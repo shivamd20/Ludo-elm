@@ -1,10 +1,10 @@
 module Cell exposing (Orientation(..), cell)
 
-import Html exposing (Html, div)
+import Html exposing (Html, button, div)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Ludo exposing (NodeType(..), findCoinAtCoinPosition, positionToString)
-import LudoModel exposing (Msg(..), PlayerColor(..), Position)
+import Ludo exposing (NodeType(..), canMove, findCoinAtCoinPosition)
+import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position)
 
 
 type Orientation
@@ -13,8 +13,8 @@ type Orientation
     | None
 
 
-cell : Orientation -> List ( PlayerColor, Position ) -> Position -> NodeType -> Html Msg
-cell orientation positions coinPosition nodeType =
+cell : Orientation -> Position -> NodeType -> Model -> Html Msg
+cell orientation coinPosition nodeType model =
     let
         orientationClassName =
             case orientation of
@@ -47,13 +47,27 @@ cell orientation positions coinPosition nodeType =
                         _ ->
                             " "
                    )
+
+        maybePos =
+            findCoinAtCoinPosition model.positions coinPosition
+
+        focusClass =
+            colorClassName
+                ++ "  "
+                ++ (case maybePos of
+                        Just posInfo ->
+                            if canMove model posInfo then
+                                " border "
+
+                            else
+                                ""
+
+                        Nothing ->
+                            ""
+                   )
     in
-    div [ class (" text-white text-center m-auto" ++ " " ++ colorClassName), onClick (MoveCoin coinPosition) ]
-        [ let
-            maybePos =
-                findCoinAtCoinPosition positions coinPosition
-          in
-          case maybePos of
+    button [ class ("focus:outline-none text-white text-center m-auto rounded-full " ++ " " ++ focusClass), onClick (MoveCoin coinPosition) ]
+        [ case maybePos of
             Just pos ->
                 let
                     ( color, _ ) =

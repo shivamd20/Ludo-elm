@@ -1,4 +1,4 @@
-module Ludo exposing (Node, NodeType(..), commonPathList, findCoinAtCoinPosition, getCommonPathNode, moveAllPositions, nextTurn, positionToString)
+module Ludo exposing (Node, NodeType(..), canMove, commonPathList, findCoinAtCoinPosition, getCommonPathNode, moveAllPositions, nextTurn, positionToString)
 
 import Dict exposing (Dict)
 import List.Extra exposing (find)
@@ -146,6 +146,15 @@ ludoGraph =
         , ( 51, { regularNode | next = InCommonPathPosition 52 } )
         , ( 52, { regularNode | next = InCommonPathPosition 1 } )
         ]
+
+
+canMove : Model -> ( PlayerColor, Position ) -> Bool
+canMove model posInfo =
+    let
+        ( playerColor, _ ) =
+            posInfo
+    in
+    model.turn == playerColor && model.diceNum /= 0
 
 
 findInGraph : Position -> Maybe Node
