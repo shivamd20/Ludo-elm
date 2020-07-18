@@ -32,4 +32,3 @@ type Msg
 
 type Position
     = InCommonPathPosition Int
-    | InStartBoxPosition Int
