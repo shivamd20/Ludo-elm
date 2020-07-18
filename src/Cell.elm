@@ -48,7 +48,7 @@ cell orientation positions coinPosition nodeType =
                             " "
                    )
     in
-    div [ class ("border text-white text-center m-auto" ++ " " ++ colorClassName), onClick (MoveCoin coinPosition) ]
+    div [ class (" text-white text-center m-auto" ++ " " ++ colorClassName), onClick (MoveCoin coinPosition) ]
         [ let
             maybePos =
                 findCoinAtCoinPosition positions coinPosition
@@ -56,7 +56,7 @@ cell orientation positions coinPosition nodeType =
           case maybePos of
             Just pos ->
                 let
-                    ( color, p ) =
+                    ( color, _ ) =
                         pos
                 in
                 case color of
@@ -75,7 +75,7 @@ cell orientation positions coinPosition nodeType =
             Nothing ->
                 case nodeType of
                     Regular ->
-                        Html.text (positionToString coinPosition)
+                        Html.text "."
 
                     Star ->
                         Html.text "✫"
