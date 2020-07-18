@@ -1,7 +1,7 @@
 module Cell exposing (Orientation(..), cell)
 
 import Html exposing (Html, button, div)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, disabled)
 import Html.Events exposing (onClick)
 import Ludo exposing (NodeType(..), canMove, findCoinAtCoinPosition)
 import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position)
@@ -51,22 +51,32 @@ cell orientation coinPosition nodeType model =
         maybePos =
             findCoinAtCoinPosition model.positions coinPosition
 
+        clickable =
+            case maybePos of
+                Nothing ->
+                    False
+
+                Just posInfo ->
+                    canMove model posInfo
+
         focusClass =
             colorClassName
                 ++ "  "
-                ++ (case maybePos of
-                        Just posInfo ->
-                            if canMove model posInfo then
-                                " border "
+                ++ (if clickable then
+                        " border "
 
-                            else
-                                ""
-
-                        Nothing ->
-                            ""
+                    else
+                        ""
                    )
     in
-    button [ class ("focus:outline-none text-white text-center m-auto  " ++ " " ++ focusClass), onClick (MoveCoin coinPosition) ]
+    button
+        [ class ("focus:outline-none text-white text-center m-auto  " ++ " " ++ focusClass)
+        , if clickable then
+            onClick (MoveCoin coinPosition)
+
+          else
+            disabled True
+        ]
         [ case maybePos of
             Just pos ->
                 let
