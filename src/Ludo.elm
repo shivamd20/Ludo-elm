@@ -161,21 +161,38 @@ findInGraph currentPosition =
             )
 
 
-moveAllPositions : Position -> Model -> List ( PlayerColor, Position )
+moveAllPositions : Position -> Model -> Model
 moveAllPositions clickedPosition model =
-    List.map
-        (\posInfo ->
-            let
-                ( color, currentPosition ) =
-                    posInfo
-            in
-            if model.turn /= color || currentPosition /= clickedPosition then
-                posInfo
+    let
+        updatedPos =
+            List.map
+                (\posInfo ->
+                    let
+                        ( color, currentPosition ) =
+                            posInfo
+                    in
+                    if model.turn /= color || currentPosition /= clickedPosition then
+                        posInfo
 
-            else
-                move posInfo model clickedPosition
-        )
-        model.positions
+                    else
+                        move posInfo model clickedPosition
+                )
+                model.positions
+    in
+    { positions = updatedPos
+    , diceNum =
+        if updatedPos /= model.positions then
+            0
+
+        else
+            model.diceNum
+    , turn =
+        if model.diceNum /= 6 && updatedPos /= model.positions then
+            nextTurn model.turn
+
+        else
+            model.turn
+    }
 
 
 move : ( PlayerColor, Position ) -> Model -> Position -> ( PlayerColor, Position )
