@@ -3,15 +3,19 @@ module LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..), defaul
 
 type alias Model =
     { diceNum : Int
-    , positions : List ( PlayerColor, List Position )
+    , positions : List ( PlayerColor, Position )
     , position : Position
     , turn : PlayerColor
     }
 
 
-defaultPositions : List ( PlayerColor, List Position )
+defaultPositions : List ( PlayerColor, Position )
 defaultPositions =
-    [ ( Red, [ InCommonPathPosition 2 ] ), ( Green, [] ), ( Blue, [] ), ( Yellow, [] ) ]
+    [ ( Red, InCommonPathPosition 2 )
+    , ( Green, InCommonPathPosition 15 )
+    , ( Yellow, InCommonPathPosition 28 )
+    , ( Blue, InCommonPathPosition 41 )
+    ]
 
 
 type PlayerColor

@@ -1,6 +1,7 @@
-module Ludo exposing (Node, NodeType(..), commonPathList, getCommonPathNode, move, nextTurn, positionToString)
+module Ludo exposing (Node, NodeType(..), commonPathList, findCoinAtCoinPosition, getCommonPathNode, move, nextTurn, positionToString)
 
 import Dict exposing (Dict)
+import List.Extra exposing (find)
 import LudoModel exposing (PlayerColor(..), Position(..))
 
 
@@ -49,6 +50,19 @@ greenStartNode =
 yellowStartNode : Node
 yellowStartNode =
     startNode Yellow
+
+
+findCoinAtCoinPosition : List ( PlayerColor, Position ) -> Position -> Maybe ( PlayerColor, Position )
+findCoinAtCoinPosition positions indexPosition =
+    find
+        (\pos ->
+            let
+                ( _, p ) =
+                    pos
+            in
+            p == indexPosition
+        )
+        positions
 
 
 commonPathList : List Position

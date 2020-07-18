@@ -3,7 +3,7 @@ module Cell exposing (Orientation(..), cell)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Ludo exposing (NodeType(..), positionToString)
+import Ludo exposing (NodeType(..), findCoinAtCoinPosition, positionToString)
 import LudoModel exposing (Msg(..), PlayerColor(..), Position)
 
 
@@ -13,8 +13,8 @@ type Orientation
     | None
 
 
-cell : Orientation -> Position -> Position -> NodeType -> Html Msg
-cell orientation positionNumber coinPosition nodeType =
+cell : Orientation -> List ( PlayerColor, Position ) -> Position -> Position -> NodeType -> Html Msg
+cell orientation positions positionNumber coinPosition nodeType =
     let
         orientationClassName =
             case orientation of
@@ -51,6 +51,9 @@ cell orientation positionNumber coinPosition nodeType =
     div [ class ("border text-white text-center m-auto" ++ " " ++ colorClassName), onClick (MoveCoin positionNumber) ]
         [ if coinPosition == positionNumber then
             Html.text "👹"
+
+          else if findCoinAtCoinPosition positions positionNumber /= Maybe.Nothing then
+            Html.text "🔴"
 
           else
             case nodeType of
