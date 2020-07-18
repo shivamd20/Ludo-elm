@@ -88,13 +88,5 @@ cell orientation positions positionNumber coinPosition nodeType =
                             Html.text "✫"
 
           else
-            case nodeType of
-                Regular ->
-                    Html.text (positionToString positionNumber)
-
-                Star ->
-                    Html.text "✫"
-
-                Start _ ->
-                    Html.text "✫"
+            Html.text ""
         ]
