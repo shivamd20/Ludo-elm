@@ -4,7 +4,6 @@ module LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..), defaul
 type alias Model =
     { diceNum : Int
     , positions : List ( PlayerColor, Position )
-    , position : Position
     , turn : PlayerColor
     }
 

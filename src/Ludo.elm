@@ -1,8 +1,8 @@
-module Ludo exposing (Node, NodeType(..), commonPathList, findCoinAtCoinPosition, getCommonPathNode, move, nextTurn, positionToString)
+module Ludo exposing (Node, NodeType(..), commonPathList, findCoinAtCoinPosition, getCommonPathNode, moveAllPositions, nextTurn, positionToString)
 
 import Dict exposing (Dict)
 import List.Extra exposing (find)
-import LudoModel exposing (PlayerColor(..), Position(..))
+import LudoModel exposing (Model, PlayerColor(..), Position(..))
 
 
 type NodeType
@@ -161,10 +161,31 @@ findInGraph currentPosition =
             )
 
 
-move : Position -> Int -> Position
-move currentPosition dice =
-    if dice == 0 then
-        currentPosition
+moveAllPositions : Position -> Model -> List ( PlayerColor, Position )
+moveAllPositions clickedPosition model =
+    List.map
+        (\posInfo ->
+            let
+                ( color, currentPosition ) =
+                    posInfo
+            in
+            if model.turn /= color || currentPosition /= clickedPosition then
+                posInfo
+
+            else
+                move posInfo model clickedPosition
+        )
+        model.positions
+
+
+move : ( PlayerColor, Position ) -> Model -> Position -> ( PlayerColor, Position )
+move posInfo model clickedPosition =
+    let
+        ( color, currentPosition ) =
+            posInfo
+    in
+    if model.turn /= color || model.diceNum == 0 then
+        posInfo
 
     else
         let
@@ -172,8 +193,9 @@ move currentPosition dice =
                 findInGraph currentPosition |> Maybe.withDefault { next = InCommonPathPosition 1, nodeType = Regular }
         in
         move
-            node.next
-            (dice - 1)
+            ( color, node.next )
+            { model | diceNum = model.diceNum - 1 }
+            clickedPosition
 
 
 nextTurn : PlayerColor -> PlayerColor

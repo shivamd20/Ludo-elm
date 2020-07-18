@@ -13,8 +13,8 @@ type Orientation
     | None
 
 
-cell : Orientation -> List ( PlayerColor, Position ) -> Position -> Position -> NodeType -> Html Msg
-cell orientation positions positionNumber coinPosition nodeType =
+cell : Orientation -> List ( PlayerColor, Position ) -> Position -> NodeType -> Html Msg
+cell orientation positions coinPosition nodeType =
     let
         orientationClassName =
             case orientation of
@@ -48,45 +48,38 @@ cell orientation positions positionNumber coinPosition nodeType =
                             " "
                    )
     in
-    div [ class ("border text-white text-center m-auto" ++ " " ++ colorClassName), onClick (MoveCoin positionNumber) ]
-        [ if coinPosition == positionNumber then
-            Html.text "👹"
+    div [ class ("border text-white text-center m-auto" ++ " " ++ colorClassName), onClick (MoveCoin coinPosition) ]
+        [ let
+            maybePos =
+                findCoinAtCoinPosition positions coinPosition
+          in
+          case maybePos of
+            Just pos ->
+                let
+                    ( color, p ) =
+                        pos
+                in
+                case color of
+                    Red ->
+                        Html.text "🔴"
 
-          else if findCoinAtCoinPosition positions positionNumber /= Maybe.Nothing then
-            let
-                maybePos =
-                    findCoinAtCoinPosition positions positionNumber
-            in
-            case maybePos of
-                Just pos ->
-                    let
-                        ( color, p ) =
-                            pos
-                    in
-                    case color of
-                        Red ->
-                            Html.text "🔴"
+                    Green ->
+                        Html.text "\u{1F7E2}"
 
-                        Green ->
-                            Html.text "\u{1F7E2}"
+                    Blue ->
+                        Html.text "🔵"
 
-                        Blue ->
-                            Html.text "🔵"
+                    Yellow ->
+                        Html.text "\u{1F7E1}"
 
-                        Yellow ->
-                            Html.text "\u{1F7E1}"
+            Nothing ->
+                case nodeType of
+                    Regular ->
+                        Html.text (positionToString coinPosition)
 
-                Nothing ->
-                    case nodeType of
-                        Regular ->
-                            Html.text (positionToString positionNumber)
+                    Star ->
+                        Html.text "✫"
 
-                        Star ->
-                            Html.text "✫"
-
-                        Start _ ->
-                            Html.text "✫"
-
-          else
-            Html.text ""
+                    Start _ ->
+                        Html.text "✫"
         ]

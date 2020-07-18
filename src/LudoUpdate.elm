@@ -1,6 +1,6 @@
 module LudoUpdate exposing (update)
 
-import Ludo exposing (move)
+import Ludo exposing (moveAllPositions)
 import LudoModel exposing (Model, Msg(..), defaultPositions)
 import Random
 
@@ -20,20 +20,15 @@ update msg model =
             , Cmd.none
             )
 
-        MoveCoin position ->
-            if position == model.position && model.diceNum /= 0 then
-                ( { diceNum = 0
-                  , position = move model.position model.diceNum
-                  , positions = defaultPositions
-                  , turn =
-                        if model.diceNum /= 6 then
-                            Ludo.nextTurn model.turn
+        MoveCoin clickedPosition ->
+            ( { diceNum = 0
+              , positions = moveAllPositions clickedPosition model
+              , turn =
+                    if model.diceNum /= 6 then
+                        Ludo.nextTurn model.turn
 
-                        else
-                            model.turn
-                  }
-                , Cmd.none
-                )
-
-            else
-                ( model, Cmd.none )
+                    else
+                        model.turn
+              }
+            , Cmd.none
+            )

@@ -19,7 +19,7 @@ main =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { diceNum = 0, position = InCommonPathPosition 2, turn = Red, positions = defaultPositions }, Cmd.none )
+    ( { diceNum = 0, turn = Red, positions = defaultPositions }, Cmd.none )
 
 
 gridHtml : Model -> Html Msg
