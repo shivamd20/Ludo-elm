@@ -33,16 +33,16 @@ cell orientation coinPosition nodeType model =
                         Start color ->
                             case color of
                                 Red ->
-                                    "  rounded text-red-500 "
+                                    "   text-red-500 "
 
                                 Blue ->
-                                    " rounded text-blue-500  "
+                                    "  text-blue-500  "
 
                                 Yellow ->
-                                    " rounded text-yellow-500 "
+                                    "  text-yellow-500 "
 
                                 Green ->
-                                    " rounded text-green-500 "
+                                    "  text-green-500 "
 
                         _ ->
                             " "
@@ -66,7 +66,7 @@ cell orientation coinPosition nodeType model =
                             ""
                    )
     in
-    button [ class ("focus:outline-none text-white text-center m-auto rounded-full " ++ " " ++ focusClass), onClick (MoveCoin coinPosition) ]
+    button [ class ("focus:outline-none text-white text-center m-auto  " ++ " " ++ focusClass), onClick (MoveCoin coinPosition) ]
         [ case maybePos of
             Just pos ->
                 let
