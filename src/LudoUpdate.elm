@@ -1,6 +1,6 @@
 module LudoUpdate exposing (update)
 
-import Ludo exposing (moveAllPositions)
+import Ludo exposing (moveAllPositions, moveStartBoxPosition)
 import LudoModel exposing (Model, Msg(..))
 import Random
 
@@ -22,5 +22,10 @@ update msg model =
 
         MoveCoin clickedPosition ->
             ( moveAllPositions clickedPosition model
+            , Cmd.none
+            )
+
+        HomeCoinClicked color num ->
+            ( moveStartBoxPosition model color num
             , Cmd.none
             )

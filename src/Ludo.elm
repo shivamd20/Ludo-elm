@@ -1,4 +1,4 @@
-module Ludo exposing (Node, NodeType(..), canMove, commonPathList, findCoinAtCoinPosition, getCommonPathNode, moveAllPositions, nextTurn, positionToString)
+module Ludo exposing (Node, NodeType(..), canMove, commonPathList, findCoinAtCoinPosition, getCommonPathNode, moveAllPositions, moveStartBoxPosition, nextTurn, positionToString)
 
 import Dict exposing (Dict)
 import List.Extra exposing (find)
@@ -27,29 +27,24 @@ starNode =
     { regularNode | nodeType = Star }
 
 
-startNode : PlayerColor -> Node
-startNode color =
-    { regularNode | nodeType = Start color }
+redStartNodeInfo : ( Int, Node )
+redStartNodeInfo =
+    ( 2, { nodeType = Start Red, next = InCommonPathPosition 3 } )
 
 
-redStartNode : Node
-redStartNode =
-    startNode Red
+blueStartNodeInfo : ( Int, Node )
+blueStartNodeInfo =
+    ( 41, { nodeType = Start Blue, next = InCommonPathPosition 42 } )
 
 
-blueStartNode : Node
-blueStartNode =
-    startNode Blue
+greenStartNodeInfo : ( Int, Node )
+greenStartNodeInfo =
+    ( 15, { nodeType = Start Green, next = InCommonPathPosition 16 } )
 
 
-greenStartNode : Node
-greenStartNode =
-    startNode Green
-
-
-yellowStartNode : Node
-yellowStartNode =
-    startNode Yellow
+yellowStartNodeInfo : ( Int, Node )
+yellowStartNodeInfo =
+    ( 28, { nodeType = Start Yellow, next = InCommonPathPosition 29 } )
 
 
 findCoinAtCoinPosition : List ( PlayerColor, Position ) -> Position -> Maybe ( PlayerColor, Position )
@@ -94,7 +89,7 @@ ludoGraph : Dict Int Node
 ludoGraph =
     Dict.fromList
         [ ( 1, { regularNode | next = InCommonPathPosition 2 } )
-        , ( 2, { redStartNode | next = InCommonPathPosition 3 } )
+        , redStartNodeInfo
         , ( 3, { regularNode | next = InCommonPathPosition 4 } )
         , ( 4, { regularNode | next = InCommonPathPosition 5 } )
         , ( 5, { regularNode | next = InCommonPathPosition 6 } )
@@ -107,7 +102,7 @@ ludoGraph =
         , ( 12, { regularNode | next = InCommonPathPosition 13 } )
         , ( 13, { regularNode | next = InCommonPathPosition 14 } )
         , ( 14, { regularNode | next = InCommonPathPosition 15 } )
-        , ( 15, { greenStartNode | next = InCommonPathPosition 16 } )
+        , greenStartNodeInfo
         , ( 16, { regularNode | next = InCommonPathPosition 17 } )
         , ( 17, { regularNode | next = InCommonPathPosition 18 } )
         , ( 18, { regularNode | next = InCommonPathPosition 19 } )
@@ -120,7 +115,7 @@ ludoGraph =
         , ( 25, { regularNode | next = InCommonPathPosition 26 } )
         , ( 26, { regularNode | next = InCommonPathPosition 27 } )
         , ( 27, { regularNode | next = InCommonPathPosition 28 } )
-        , ( 28, { yellowStartNode | next = InCommonPathPosition 29 } )
+        , yellowStartNodeInfo
         , ( 29, { regularNode | next = InCommonPathPosition 30 } )
         , ( 30, { regularNode | next = InCommonPathPosition 31 } )
         , ( 31, { regularNode | next = InCommonPathPosition 32 } )
@@ -133,7 +128,7 @@ ludoGraph =
         , ( 38, { regularNode | next = InCommonPathPosition 39 } )
         , ( 39, { regularNode | next = InCommonPathPosition 40 } )
         , ( 40, { regularNode | next = InCommonPathPosition 41 } )
-        , ( 41, { blueStartNode | next = InCommonPathPosition 42 } )
+        , blueStartNodeInfo
         , ( 42, { regularNode | next = InCommonPathPosition 43 } )
         , ( 43, { regularNode | next = InCommonPathPosition 44 } )
         , ( 44, { regularNode | next = InCommonPathPosition 45 } )
@@ -168,6 +163,57 @@ findInGraph currentPosition =
                 InStartBoxPosition n ->
                     n
             )
+
+
+moveStartBoxPosition : Model -> PlayerColor -> Int -> Model
+moveStartBoxPosition model colorClicked num =
+    { model
+        | positions =
+            List.map
+                (\posInfo ->
+                    let
+                        ( color, pos ) =
+                            posInfo
+                    in
+                    if
+                        colorClicked
+                            == color
+                            && (case pos of
+                                    InCommonPathPosition _ ->
+                                        False
+
+                                    InStartBoxPosition n ->
+                                        n == num
+                               )
+                    then
+                        ( color, getStartPosition color )
+
+                    else
+                        posInfo
+                )
+                model.positions
+        , diceNum = 0
+    }
+
+
+getStartPosition : PlayerColor -> Position
+getStartPosition color =
+    let
+        ( num, _ ) =
+            case color of
+                Red ->
+                    redStartNodeInfo
+
+                Green ->
+                    redStartNodeInfo
+
+                Blue ->
+                    redStartNodeInfo
+
+                Yellow ->
+                    redStartNodeInfo
+    in
+    InCommonPathPosition num
 
 
 moveAllPositions : Position -> Model -> Model
