@@ -33,16 +33,16 @@ cell orientation positions coinPosition nodeType =
                         Start color ->
                             case color of
                                 Red ->
-                                    "  rounded border-red-500 "
+                                    "  rounded text-red-500 "
 
                                 Blue ->
-                                    " rounded border-blue-500  "
+                                    " rounded text-blue-500  "
 
                                 Yellow ->
-                                    " rounded border-yellow-500 "
+                                    " rounded text-yellow-500 "
 
                                 Green ->
-                                    " rounded border-green-500 "
+                                    " rounded text-green-500 "
 
                         _ ->
                             " "
