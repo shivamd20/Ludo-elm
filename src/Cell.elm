@@ -1,9 +1,9 @@
 module Cell exposing (Orientation(..), cell)
 
-import Html exposing (Html, button)
+import Html exposing (Html, button, div)
 import Html.Attributes exposing (class, disabled)
 import Html.Events exposing (onClick)
-import Ludo exposing (NodeType(..), canMove, findCoinAtCoinPosition)
+import Ludo exposing (NodeType(..), canMove, findCoinsAtCoinPosition)
 import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position)
 
 
@@ -48,16 +48,16 @@ cell orientation coinPosition nodeType model =
                             " "
                    )
 
-        maybePos =
-            findCoinAtCoinPosition model.positions coinPosition
+        coinsAtPosition =
+            findCoinsAtCoinPosition model.positions coinPosition
 
         clickable =
-            case maybePos of
-                Nothing ->
-                    False
-
-                Just posInfo ->
-                    canMove model model.diceNum posInfo
+            List.any
+                (canMove
+                    model
+                    model.diceNum
+                )
+                coinsAtPosition
 
         focusClass =
             colorClassName
@@ -70,20 +70,43 @@ cell orientation coinPosition nodeType model =
                    )
     in
     button
-        [ class ("focus:outline-none text-white text-center m-auto  " ++ " " ++ focusClass)
+        [ class ("focus:outline-none text-white text-center m-auto " ++ " " ++ focusClass)
         , if clickable then
             onClick (MoveCoin coinPosition)
 
           else
             disabled True
         ]
-        [ case maybePos of
-            Just pos ->
-                let
+        [ div [ class "grid grid-cols-2 grid-rows-2 grid-cols-2 w-full h-full" ]
+            (case coinsAtPosition of
+                [] ->
+                    [ case nodeType of
+                        Regular ->
+                            Html.text "."
+
+                        Star ->
+                            Html.text "✫"
+
+                        Start _ ->
+                            Html.text "✫"
+                    ]
+
+                list ->
+                    multipleCoins list
+            )
+        ]
+
+
+multipleCoins : List ( PlayerColor, Position ) -> List (Html msg)
+multipleCoins list =
+    List.map
+        (\pos ->
+            div []
+                [ let
                     ( color, _ ) =
                         pos
-                in
-                case color of
+                  in
+                  case color of
                     Red ->
                         Html.text "🔴"
 
@@ -95,15 +118,6 @@ cell orientation coinPosition nodeType model =
 
                     Yellow ->
                         Html.text "\u{1F7E1}"
-
-            Nothing ->
-                case nodeType of
-                    Regular ->
-                        Html.text "."
-
-                    Star ->
-                        Html.text "✫"
-
-                    Start _ ->
-                        Html.text "✫"
-        ]
+                ]
+        )
+        list
