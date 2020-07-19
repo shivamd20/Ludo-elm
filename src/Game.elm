@@ -5,7 +5,7 @@ import CommonPath exposing (commonPath)
 import Dice exposing (diceDiv)
 import HomeBoxes exposing (homeBoxes)
 import HomeCells exposing (homeCells)
-import Html exposing (Html, div)
+import Html exposing (Html, br, div, hr)
 import Html.Attributes exposing (class)
 import Ludo exposing (NodeType(..))
 import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..), defaultPositions)
@@ -37,5 +37,10 @@ view model =
     div []
         [ div [ class "my-8 w-full text-center text-white" ]
             [ gridHtml model
+            , br [] []
+            , br [] []
+            , br [] []
+            , hr [] []
+            , Html.text (Debug.toString model)
             ]
         ]

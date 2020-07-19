@@ -1,6 +1,6 @@
 module LudoUpdate exposing (update)
 
-import Ludo exposing (moveAllPositions, moveStartBoxPosition)
+import Ludo exposing (canMove, moveAllPositions, moveStartBoxPosition, nextTurn)
 import LudoModel exposing (Model, Msg(..))
 import Random
 
@@ -13,7 +13,23 @@ update msg model =
 
         NewRandomNumber number ->
             ( if model.diceNum == 0 then
-                { model | diceNum = number }
+                let
+                    movable =
+                        List.any (canMove model number) model.positions
+                in
+                if movable then
+                    { model
+                        | diceNum =
+                            number
+                        , turn =
+                            model.turn
+                    }
+
+                else
+                    { model
+                        | diceNum = 0
+                        , turn = Ludo.nextTurn model.turn
+                    }
 
               else
                 model

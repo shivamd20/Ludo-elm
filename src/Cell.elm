@@ -57,7 +57,7 @@ cell orientation coinPosition nodeType model =
                     False
 
                 Just posInfo ->
-                    canMove model posInfo
+                    canMove model model.diceNum posInfo
 
         focusClass =
             colorClassName

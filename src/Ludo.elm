@@ -143,13 +143,21 @@ ludoGraph =
         ]
 
 
-canMove : Model -> ( PlayerColor, Position ) -> Bool
-canMove model posInfo =
+canMove : Model -> Int -> ( PlayerColor, Position ) -> Bool
+canMove model newDiceNum posInfo =
     let
-        ( playerColor, _ ) =
+        ( playerColor, pos ) =
             posInfo
     in
-    model.turn == playerColor && model.diceNum /= 0
+    model.turn
+        == playerColor
+        && (case pos of
+                InCommonPathPosition _ ->
+                    newDiceNum /= 0
+
+                InStartBoxPosition _ ->
+                    newDiceNum == 6
+           )
 
 
 findInGraph : Position -> Maybe Node
@@ -205,13 +213,13 @@ getStartPosition color =
                     redStartNodeInfo
 
                 Green ->
-                    redStartNodeInfo
+                    greenStartNodeInfo
 
                 Blue ->
-                    redStartNodeInfo
+                    blueStartNodeInfo
 
                 Yellow ->
-                    redStartNodeInfo
+                    yellowStartNodeInfo
     in
     InCommonPathPosition num
 
