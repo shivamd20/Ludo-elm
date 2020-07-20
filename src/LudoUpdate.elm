@@ -1,5 +1,6 @@
 module LudoUpdate exposing (update)
 
+import Array
 import Ludo exposing (canMove, moveAllPositions, moveStartBoxPosition, nextTurn)
 import LudoModel exposing (Model, Msg(..))
 import Random
@@ -15,7 +16,7 @@ update msg model =
             ( if model.diceNum == 0 then
                 let
                     movable =
-                        List.any (canMove model number) model.positions
+                        List.any (canMove model number) (Array.toList model.positions)
                 in
                 if movable then
                     { model

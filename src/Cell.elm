@@ -1,5 +1,6 @@
 module Cell exposing (Orientation(..), cell)
 
+import Array exposing (Array)
 import Html exposing (Html, button, div)
 import Html.Attributes exposing (class, disabled)
 import Html.Events exposing (onClick)
@@ -57,7 +58,9 @@ cell orientation coinPosition nodeType model =
                     model
                     model.diceNum
                 )
-                coinsAtPosition
+                (Array.toList
+                    coinsAtPosition
+                )
 
         focusClass =
             colorClassName
@@ -78,7 +81,7 @@ cell orientation coinPosition nodeType model =
             disabled True
         ]
         [ div [ class "grid grid-cols-2 grid-rows-2 grid-cols-2 w-full h-full" ]
-            (case coinsAtPosition of
+            (case Array.toList coinsAtPosition of
                 [] ->
                     [ case nodeType of
                         Regular ->

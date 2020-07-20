@@ -1,5 +1,6 @@
 module Ludo exposing (Node, NodeType(..), canMove, commonPathList, findCoinsAtCoinPosition, getCommonPathNode, moveAllPositions, moveStartBoxPosition, nextTurn, positionToString)
 
+import Array exposing (Array)
 import Dict exposing (Dict)
 import LudoModel exposing (Model, PlayerColor(..), Position(..))
 
@@ -46,9 +47,9 @@ yellowStartNodeInfo =
     ( 28, { nodeType = Start Yellow, next = InCommonPathPosition 29 } )
 
 
-findCoinsAtCoinPosition : List ( PlayerColor, Position ) -> Position -> List ( PlayerColor, Position )
+findCoinsAtCoinPosition : Array ( PlayerColor, Position ) -> Position -> Array ( PlayerColor, Position )
 findCoinsAtCoinPosition positions indexPosition =
-    List.filter
+    Array.filter
         (\pos ->
             let
                 ( _, p ) =
@@ -176,7 +177,7 @@ moveStartBoxPosition : Model -> PlayerColor -> Int -> Model
 moveStartBoxPosition model colorClicked num =
     { model
         | positions =
-            List.map
+            Array.map
                 (\posInfo ->
                     let
                         ( color, pos ) =
@@ -227,7 +228,7 @@ moveAllPositions : Position -> Model -> Model
 moveAllPositions clickedPosition model =
     let
         updatedPos =
-            List.map
+            Array.map
                 (\posInfo ->
                     let
                         ( _, currentPosition ) =
