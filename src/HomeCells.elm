@@ -1,6 +1,5 @@
 module HomeCells exposing (homeCells)
 
-import Array exposing (Array)
 import Html exposing (Attribute, Html, div)
 import Html.Attributes exposing (class, hidden)
 import Html.Events exposing (onClick)
@@ -26,9 +25,7 @@ getPositions model colorToGet n =
                             num == n
                    )
         )
-        (model.positions
-            |> Array.toList
-        )
+        model.positions
 
 
 homeCells : Model -> List (Html Msg)
