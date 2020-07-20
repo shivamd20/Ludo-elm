@@ -1,6 +1,7 @@
 module Ludo exposing (Node, NodeType(..), canMove, commonPathList, findCoinsAtCoinPosition, getCommonPathNode, moveAllPositions, moveStartBoxPosition, nextTurn, positionToString)
 
 import Dict exposing (Dict)
+import List.Extra exposing (elemIndex, findIndex, getAt, updateAt)
 import LudoModel exposing (Model, PlayerColor(..), Position(..))
 
 
@@ -226,20 +227,24 @@ getStartPosition color =
 moveAllPositions : Position -> Model -> Model
 moveAllPositions clickedPosition model =
     let
-        updatedPos =
-            List.map
+        maybeIndex =
+            findIndex
                 (\posInfo ->
                     let
-                        ( _, currentPosition ) =
+                        ( color, currentPosition ) =
                             posInfo
                     in
-                    if currentPosition /= clickedPosition then
-                        posInfo
-
-                    else
-                        move posInfo model clickedPosition
+                    currentPosition == clickedPosition && color == model.turn
                 )
                 model.positions
+
+        updatedPos =
+            case maybeIndex of
+                Just index ->
+                    updateAt index (\posInfo -> move posInfo model clickedPosition) model.positions
+
+                Nothing ->
+                    model.positions
     in
     { positions = updatedPos
     , diceNum =
