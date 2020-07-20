@@ -243,13 +243,9 @@ moveAllPositions clickedPosition model =
     in
     { positions = updatedPos
     , diceNum =
-        if updatedPos /= model.positions then
-            0
-
-        else
-            model.diceNum
+        0
     , turn =
-        if model.diceNum /= 6 && updatedPos /= model.positions then
+        if model.diceNum /= 6 then
             nextTurn model.turn
 
         else
