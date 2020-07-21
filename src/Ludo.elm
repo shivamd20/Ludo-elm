@@ -149,7 +149,9 @@ canMove model newDiceNum posInfo =
         ( playerColor, pos ) =
             posInfo
     in
-    model.turn
+    newDiceNum
+        /= 0
+        && model.turn
         == playerColor
         && (case pos of
                 InCommonPathPosition _ ->

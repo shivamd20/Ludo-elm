@@ -12,27 +12,27 @@ update msg model =
             ( model, Random.generate NewRandomNumber (Random.int 1 6) )
 
         NewRandomNumber number ->
-            ( if model.diceNum == 0 then
-                let
-                    movable =
-                        List.any (canMove model number) model.positions
-                in
-                if movable then
+            ( let
+                movable =
+                    List.filter (canMove model number) model.positions
+              in
+              case movable of
+                [] ->
+                    { model
+                        | diceNum = 0
+                        , turn = Ludo.nextTurn model.turn
+                    }
+
+                ( _, pos ) :: [] ->
+                    moveAllPositions pos { model | diceNum = number }
+
+                _ ->
                     { model
                         | diceNum =
                             number
                         , turn =
                             model.turn
                     }
-
-                else
-                    { model
-                        | diceNum = 0
-                        , turn = Ludo.nextTurn model.turn
-                    }
-
-              else
-                model
             , Cmd.none
             )
 
