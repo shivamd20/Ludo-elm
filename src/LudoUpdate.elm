@@ -26,13 +26,33 @@ update msg model =
                 ( _, pos ) :: [] ->
                     moveAllType { model | diceNum = number } pos
 
-                _ ->
-                    { model
-                        | diceNum =
-                            number
-                        , turn =
-                            model.turn
-                    }
+                list ->
+                    if
+                        List.all
+                            (\( _, pos ) ->
+                                case pos of
+                                    InStartBoxPosition _ ->
+                                        True
+
+                                    _ ->
+                                        False
+                            )
+                            list
+                    then
+                        case List.head list of
+                            Just ( _, pos ) ->
+                                moveAllType model pos
+
+                            Nothing ->
+                                model
+
+                    else
+                        { model
+                            | diceNum =
+                                number
+                            , turn =
+                                model.turn
+                        }
             , Cmd.none
             )
 
