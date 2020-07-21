@@ -1,7 +1,7 @@
 module Dice exposing (diceDiv)
 
 import Html exposing (Html, button, text)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, hidden)
 import Html.Events exposing (onClick)
 import LudoModel exposing (Msg(..), PlayerColor(..))
 
@@ -25,8 +25,12 @@ diceDiv diceNum turn =
     in
     button
         [ class ("rounded-full hover:bg-gray-600 focus:outline-none focus:shadow-outline col-span-2 row-span-2 border p-2 m-2 " ++ positionClass)
-        , onClick
-            GenerateRandomNumber
+        , if diceNum == 0 then
+            onClick
+                GenerateRandomNumber
+
+          else
+            hidden False
         ]
         [ text <|
             if diceNum == 0 then
