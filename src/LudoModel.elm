@@ -40,7 +40,7 @@ type Msg
     = GenerateRandomNumber
     | NewRandomNumber Int
     | MoveCoin Position
-    | HomeCoinClicked PlayerColor Int
+    | HomeCoinClicked Int
 
 
 type Position

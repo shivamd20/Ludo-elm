@@ -1,7 +1,7 @@
 module LudoUpdate exposing (update)
 
-import Ludo exposing (canMove, moveAllPositions, moveStartBoxPosition, nextTurn)
-import LudoModel exposing (Model, Msg(..))
+import Ludo exposing (canMove, moveAllType, nextTurn)
+import LudoModel exposing (Model, Msg(..), Position(..))
 import Random
 
 
@@ -24,7 +24,7 @@ update msg model =
                     }
 
                 ( _, pos ) :: [] ->
-                    moveAllPositions pos { model | diceNum = number }
+                    moveAllType { model | diceNum = number } pos
 
                 _ ->
                     { model
@@ -37,11 +37,11 @@ update msg model =
             )
 
         MoveCoin clickedPosition ->
-            ( moveAllPositions clickedPosition model
+            ( moveAllType model clickedPosition
             , Cmd.none
             )
 
-        HomeCoinClicked color num ->
-            ( moveStartBoxPosition model color num
+        HomeCoinClicked num ->
+            ( moveAllType model (InStartBoxPosition num)
             , Cmd.none
             )

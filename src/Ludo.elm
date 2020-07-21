@@ -1,7 +1,7 @@
-module Ludo exposing (Node, NodeType(..), canMove, commonPathList, findCoinsAtCoinPosition, getCommonPathNode, moveAllPositions, moveStartBoxPosition, nextTurn, positionToString)
+module Ludo exposing (Node, NodeType(..), canMove, commonPathList, findCoinsAtCoinPosition, getCommonPathNode, moveAllType, nextTurn, positionToString)
 
 import Dict exposing (Dict)
-import List.Extra exposing (elemIndex, findIndex, getAt, updateAt)
+import List.Extra exposing (findIndex, updateAt)
 import LudoModel exposing (Model, PlayerColor(..), Position(..))
 
 
@@ -224,6 +224,16 @@ getStartPosition color =
                     yellowStartNodeInfo
     in
     InCommonPathPosition num
+
+
+moveAllType : Model -> Position -> Model
+moveAllType model clickedPosition =
+    case clickedPosition of
+        InStartBoxPosition n ->
+            moveStartBoxPosition model model.turn n
+
+        InCommonPathPosition _ ->
+            moveAllPositions clickedPosition model
 
 
 moveAllPositions : Position -> Model -> Model
