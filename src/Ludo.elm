@@ -143,22 +143,22 @@ ludoGraph =
         ]
 
 
-canMove : Model -> Int -> ( PlayerColor, Position ) -> Bool
-canMove model newDiceNum posInfo =
+canMove : Model -> ( PlayerColor, Position ) -> Bool
+canMove model posInfo =
     let
         ( playerColor, pos ) =
             posInfo
     in
-    newDiceNum
+    model.diceNum
         /= 0
         && model.turn
         == playerColor
         && (case pos of
                 InCommonPathPosition _ ->
-                    newDiceNum /= 0
+                    model.diceNum /= 0
 
                 InStartBoxPosition _ ->
-                    newDiceNum == 6
+                    model.diceNum == 6
            )
 
 

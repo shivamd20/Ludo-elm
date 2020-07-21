@@ -55,7 +55,6 @@ cell orientation coinPosition nodeType model =
             List.any
                 (canMove
                     model
-                    model.diceNum
                 )
                 coinsAtPosition
 

@@ -79,7 +79,6 @@ clickOrHiddenAttribute model color num classNames =
         Just posInfo ->
             if
                 canMove model
-                    model.diceNum
                     posInfo
             then
                 [ onClick (HomeCoinClicked color num), class (classNames ++ " border") ]

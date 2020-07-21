@@ -14,7 +14,7 @@ update msg model =
         NewRandomNumber number ->
             ( let
                 movable =
-                    List.filter (canMove model number) model.positions
+                    List.filter (canMove { model | diceNum = number }) model.positions
               in
               case movable of
                 [] ->
