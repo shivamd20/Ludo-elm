@@ -4,11 +4,12 @@ import Html exposing (Attribute, Html, div)
 import Html.Attributes exposing (class, hidden)
 import Html.Events exposing (onClick)
 import List.Extra exposing (find)
+import Ludo exposing (canMove)
 import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..))
 
 
-getPositions : Model -> LudoModel.PlayerColor -> Int -> Maybe ( LudoModel.PlayerColor, Position )
-getPositions model colorToGet n =
+getPositionsInStartBox : Model -> LudoModel.PlayerColor -> Int -> Maybe ( LudoModel.PlayerColor, Position )
+getPositionsInStartBox model colorToGet n =
     find
         (\posInfo ->
             let
@@ -35,47 +36,53 @@ homeCells model =
 
 redHomeCells : Model -> List (Html Msg)
 redHomeCells model =
-    [ div [ class "rounded-full col-start-2 row-start-2 ", clickOrHiddenAttribute model Red 1 ] [ Html.text "🔴" ]
-    , div [ class "rounded-full col-start-5 row-start-2 ", clickOrHiddenAttribute model Red 2 ] [ Html.text "🔴" ]
-    , div [ class "rounded-full col-start-5 row-start-5 ", clickOrHiddenAttribute model Red 3 ] [ Html.text "🔴" ]
-    , div [ class "rounded-full col-start-2 row-start-5 ", clickOrHiddenAttribute model Red 4 ] [ Html.text "🔴" ]
+    [ div (clickOrHiddenAttribute model Red 1 " col-start-2 row-start-2 ") [ Html.text "🔴" ]
+    , div (clickOrHiddenAttribute model Red 2 " col-start-5 row-start-2 ") [ Html.text "🔴" ]
+    , div (clickOrHiddenAttribute model Red 3 " col-start-5 row-start-5 ") [ Html.text "🔴" ]
+    , div (clickOrHiddenAttribute model Red 4 " col-start-2 row-start-5 ") [ Html.text "🔴" ]
     ]
 
 
 greenHomeCells : Model -> List (Html Msg)
 greenHomeCells model =
-    [ div [ class "rounded-full col-start-11 row-start-2 ", clickOrHiddenAttribute model Green 1 ] [ Html.text "\u{1F7E2}" ]
-    , div [ class "rounded-full col-start-14 row-start-2 ", clickOrHiddenAttribute model Green 2 ] [ Html.text "\u{1F7E2}" ]
-    , div [ class "rounded-full col-start-14 row-start-5 ", clickOrHiddenAttribute model Green 3 ] [ Html.text "\u{1F7E2}" ]
-    , div [ class "rounded-full col-start-11 row-start-5 ", clickOrHiddenAttribute model Green 4 ] [ Html.text "\u{1F7E2}" ]
+    [ div (clickOrHiddenAttribute model Green 1 " col-start-11 row-start-2 ") [ Html.text "\u{1F7E2}" ]
+    , div (clickOrHiddenAttribute model Green 2 " col-start-14 row-start-2 ") [ Html.text "\u{1F7E2}" ]
+    , div (clickOrHiddenAttribute model Green 3 " col-start-14 row-start-5 ") [ Html.text "\u{1F7E2}" ]
+    , div (clickOrHiddenAttribute model Green 4 " col-start-11 row-start-5 ") [ Html.text "\u{1F7E2}" ]
     ]
 
 
 yellowHomeCells : Model -> List (Html Msg)
 yellowHomeCells model =
-    [ div [ class "rounded-full col-start-11 row-start-11 ", clickOrHiddenAttribute model Yellow 1 ] [ Html.text "\u{1F7E1}" ]
-    , div [ class "rounded-full col-start-14 row-start-11 ", clickOrHiddenAttribute model Yellow 2 ] [ Html.text "\u{1F7E1}" ]
-    , div [ class "rounded-full col-start-14 row-start-14 ", clickOrHiddenAttribute model Yellow 3 ] [ Html.text "\u{1F7E1}" ]
-    , div [ class "rounded-full col-start-11 row-start-14 ", clickOrHiddenAttribute model Yellow 4 ] [ Html.text "\u{1F7E1}" ]
+    [ div (clickOrHiddenAttribute model Yellow 1 " col-start-11 row-start-11 ") [ Html.text "\u{1F7E1}" ]
+    , div (clickOrHiddenAttribute model Yellow 2 " col-start-14 row-start-11 ") [ Html.text "\u{1F7E1}" ]
+    , div (clickOrHiddenAttribute model Yellow 3 " col-start-14 row-start-14 ") [ Html.text "\u{1F7E1}" ]
+    , div (clickOrHiddenAttribute model Yellow 4 " col-start-11 row-start-14 ") [ Html.text "\u{1F7E1}" ]
     ]
 
 
 blueHomeCells : Model -> List (Html Msg)
 blueHomeCells model =
-    [ div [ class "rounded-full col-start-2 row-start-11  ", clickOrHiddenAttribute model Blue 1 ] [ Html.text "🔵" ]
-    , div [ class "rounded-full col-start-5 row-start-11  ", clickOrHiddenAttribute model Blue 2 ] [ Html.text "🔵" ]
-    , div [ class "rounded-full col-start-5 row-start-14  ", clickOrHiddenAttribute model Blue 3 ] [ Html.text "🔵" ]
-    , div [ class "rounded-full col-start-2 row-start-14  ", clickOrHiddenAttribute model Blue 4 ] [ Html.text "🔵" ]
+    [ div (clickOrHiddenAttribute model Blue 1 " col-start-2 row-start-11  ") [ Html.text "🔵" ]
+    , div (clickOrHiddenAttribute model Blue 2 " col-start-5 row-start-11  ") [ Html.text "🔵" ]
+    , div (clickOrHiddenAttribute model Blue 3 " col-start-5 row-start-14  ") [ Html.text "🔵" ]
+    , div (clickOrHiddenAttribute model Blue 4 " col-start-2 row-start-14  ") [ Html.text "🔵" ]
     ]
 
 
-clickOrHiddenAttribute : Model -> PlayerColor -> Int -> Attribute Msg
-clickOrHiddenAttribute model color num =
-    if getPositions model color num == Nothing then
-        hidden True
+clickOrHiddenAttribute : Model -> PlayerColor -> Int -> String -> List (Attribute Msg)
+clickOrHiddenAttribute model color num classNames =
+    case getPositionsInStartBox model color num of
+        Nothing ->
+            [ hidden True, class classNames ]
 
-    else if model.diceNum == 6 then
-        onClick (HomeCoinClicked color num)
+        Just posInfo ->
+            if
+                canMove model
+                    model.diceNum
+                    posInfo
+            then
+                [ onClick (HomeCoinClicked color num), class (classNames ++ " border") ]
 
-    else
-        hidden False
+            else
+                [ class classNames ]
