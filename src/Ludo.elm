@@ -233,11 +233,11 @@ moveAllType model clickedPosition =
             moveStartBoxPosition model model.turn n
 
         InCommonPathPosition _ ->
-            moveAllPositions clickedPosition model
+            moveInCommonPath clickedPosition model
 
 
-moveAllPositions : Position -> Model -> Model
-moveAllPositions clickedPosition model =
+moveInCommonPath : Position -> Model -> Model
+moveInCommonPath clickedPosition model =
     let
         maybeIndex =
             findIndex
