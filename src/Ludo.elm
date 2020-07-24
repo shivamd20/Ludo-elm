@@ -1,8 +1,7 @@
 module Ludo exposing (Node, NodeType(..), canMove, commonPathList, findCoinsAtCoinPosition, getCommonPathNode, moveAllType, nextTurn, positionToString)
 
 import Dict exposing (Dict)
-import Html exposing (col)
-import List.Extra exposing (findIndex, getAt, updateAt, updateIf, updateIfIndex)
+import List.Extra exposing (findIndex, getAt, updateAt, updateIfIndex)
 import LudoModel exposing (Model, PlayerColor(..), Position(..))
 
 
