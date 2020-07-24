@@ -262,10 +262,6 @@ kill toBeKilledList model =
 
 getEmptyHomePosition : List ( PlayerColor, Position ) -> PlayerColor -> Int
 getEmptyHomePosition positions color =
-    let
-        log =
-            Debug.log "first find" color
-    in
     case List.filter (\num -> isHomePositionOccupied positions color num |> not) [ 1, 2, 3, 4 ] of
         [] ->
             0
@@ -277,9 +273,6 @@ getEmptyHomePosition positions color =
 isHomePositionOccupied : List ( PlayerColor, Position ) -> PlayerColor -> Int -> Bool
 isHomePositionOccupied positions color homePosNumber =
     let
-        log1 =
-            Debug.log ("positions " ++ Debug.toString color ++ " " ++ Debug.toString homePosNumber ++ " ") positions
-
         list =
             List.filter
                 (\( c, pos ) ->
