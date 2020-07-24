@@ -1,7 +1,8 @@
 module Ludo exposing (Node, NodeType(..), canMove, commonPathList, findCoinsAtCoinPosition, getCommonPathNode, moveAllType, nextTurn, positionToString)
 
 import Dict exposing (Dict)
-import List.Extra exposing (findIndex, updateAt)
+import Html exposing (col)
+import List.Extra exposing (findIndex, getAt, updateAt, updateIf, updateIfIndex)
 import LudoModel exposing (Model, PlayerColor(..), Position(..))
 
 
@@ -236,6 +237,89 @@ moveAllType model clickedPosition =
             moveInCommonPath clickedPosition model
 
 
+killAll : Model -> Maybe Position -> List ( PlayerColor, Position )
+killAll model maybePos =
+    case maybePos of
+        Just pos ->
+            case pos of
+                InCommonPathPosition _ ->
+                    kill (List.filter (\( color, p ) -> p == pos && color /= model.turn) model.positions) model
+
+                InStartBoxPosition _ ->
+                    model.positions
+
+        Nothing ->
+            model.positions
+
+
+kill : List ( PlayerColor, Position ) -> Model -> List ( PlayerColor, Position )
+kill toBeKilledList model =
+    case toBeKilledList of
+        [] ->
+            model.positions
+
+        posInfo :: restOfTheList ->
+            let
+                positionsAfterKilling =
+                    case findIndex (\pInfo -> pInfo == posInfo) model.positions of
+                        Nothing ->
+                            model.positions
+
+                        Just index ->
+                            updateIfIndex ((==) index) (\( color, _ ) -> ( color, InStartBoxPosition (getEmptyHomePosition model.positions color) )) model.positions
+            in
+            kill restOfTheList { model | positions = positionsAfterKilling }
+
+
+getEmptyHomePosition : List ( PlayerColor, Position ) -> PlayerColor -> Int
+getEmptyHomePosition positions color =
+    let
+        log =
+            Debug.log "first find" color
+    in
+    case List.filter (\num -> isHomePositionOccupied positions color num |> not) [ 1, 2, 3, 4 ] of
+        [] ->
+            0
+
+        x :: _ ->
+            x
+
+
+isHomePositionOccupied : List ( PlayerColor, Position ) -> PlayerColor -> Int -> Bool
+isHomePositionOccupied positions color homePosNumber =
+    let
+        log1 =
+            Debug.log ("positions " ++ Debug.toString color ++ " " ++ Debug.toString homePosNumber ++ " ") positions
+
+        list =
+            List.filter
+                (\( c, pos ) ->
+                    if c /= color then
+                        False
+
+                    else
+                        case pos of
+                            InCommonPathPosition _ ->
+                                False
+
+                            InStartBoxPosition n ->
+                                n == homePosNumber
+                )
+                positions
+    in
+    case list of
+        [] ->
+            False
+
+        ( _, pos ) :: _ ->
+            case pos of
+                InStartBoxPosition _ ->
+                    True
+
+                _ ->
+                    False
+
+
 moveInCommonPath : Position -> Model -> Model
 moveInCommonPath clickedPosition model =
     let
@@ -253,7 +337,17 @@ moveInCommonPath clickedPosition model =
         updatedPos =
             case maybeIndex of
                 Just index ->
-                    updateAt index (\posInfo -> move posInfo model clickedPosition) model.positions
+                    let
+                        updatedPositions =
+                            updateAt index (\posInfo -> move posInfo model clickedPosition) model.positions
+
+                        maybePos =
+                            getAt index updatedPositions |> Maybe.map (\( _, p ) -> p)
+
+                        updatedPosAfterKilling =
+                            killAll { model | positions = updatedPositions } maybePos
+                    in
+                    killAll { model | positions = updatedPosAfterKilling } maybePos
 
                 Nothing ->
                     model.positions
