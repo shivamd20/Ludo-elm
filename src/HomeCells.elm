@@ -19,11 +19,11 @@ getPositionsInStartBox model colorToGet n =
             colorToGet
                 == color
                 && (case pos of
-                        InCommonPathPosition _ ->
-                            False
-
                         InStartBoxPosition num ->
                             num == n
+
+                        _ ->
+                            False
                    )
         )
         model.positions

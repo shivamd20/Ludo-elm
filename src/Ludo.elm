@@ -71,7 +71,7 @@ getCommonPathNode position =
         InCommonPathPosition n ->
             Dict.get n ludoGraph
 
-        InStartBoxPosition n ->
+        _ ->
             Nothing
 
 
@@ -144,11 +144,11 @@ canMove model posInfo =
         && model.turn
         == playerColor
         && (case pos of
-                InCommonPathPosition _ ->
-                    model.diceNum /= 0
-
                 InStartBoxPosition _ ->
                     model.diceNum == 6
+
+                _ ->
+                    model.diceNum /= 0
            )
 
 
@@ -160,8 +160,8 @@ findInGraph currentPosition =
                 InCommonPathPosition n ->
                     n
 
-                InStartBoxPosition n ->
-                    n
+                _ ->
+                    0
             )
 
 
@@ -179,11 +179,11 @@ moveStartBoxPosition model colorClicked num =
                         colorClicked
                             == color
                             && (case pos of
-                                    InCommonPathPosition _ ->
-                                        False
-
                                     InStartBoxPosition n ->
                                         n == num
+
+                                    _ ->
+                                        False
                                )
                     then
                         ( color, getStartPosition color )
@@ -225,6 +225,9 @@ moveAllType model clickedPosition =
         InCommonPathPosition _ ->
             moveInCommonPath clickedPosition model
 
+        InStartPosition _ ->
+            moveInCommonPath clickedPosition model
+
 
 killAll : Model -> Maybe Position -> List ( PlayerColor, Position )
 killAll model maybePos =
@@ -234,7 +237,7 @@ killAll model maybePos =
                 InCommonPathPosition _ ->
                     kill (List.filter (\( color, p ) -> p == pos && color /= model.turn) model.positions) model
 
-                InStartBoxPosition _ ->
+                _ ->
                     model.positions
 
         Nothing ->
@@ -281,11 +284,11 @@ isHomePositionOccupied positions color homePosNumber =
 
                     else
                         case pos of
-                            InCommonPathPosition _ ->
-                                False
-
                             InStartBoxPosition n ->
                                 n == homePosNumber
+
+                            _ ->
+                                False
                 )
                 positions
     in
