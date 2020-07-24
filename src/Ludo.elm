@@ -338,12 +338,17 @@ moveInCommonPath clickedPosition model =
     , diceNum =
         0
     , turn =
-        if model.diceNum /= 6 then
-            nextTurn model.turn
+        if model.diceNum == 6 || killHappened model.turn model.positions updatedPos then
+            model.turn
 
         else
-            model.turn
+            nextTurn model.turn
     }
+
+
+killHappened : PlayerColor -> List ( PlayerColor, Position ) -> List ( PlayerColor, Position ) -> Bool
+killHappened color initialPos updatedPos =
+    List.filter (\( c, _ ) -> c /= color) initialPos /= List.filter (\( c, _ ) -> c /= color) updatedPos
 
 
 move : ( PlayerColor, Position ) -> Model -> Position -> ( PlayerColor, Position )
