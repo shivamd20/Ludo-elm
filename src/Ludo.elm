@@ -1,4 +1,4 @@
-module Ludo exposing (Node, NodeType(..), canMove, commonPathList, findCoinsAtCoinPosition, getCommonPathNode, moveAllType, nextTurn, positionToString)
+module Ludo exposing (Node, NodeType(..), canMove, commonPathList, findCoinsAtCoinPosition, getCommonPathNode, moveAllType, nextTurn)
 
 import Dict exposing (Dict)
 import List.Extra exposing (findIndex, getAt, updateAt, updateIfIndex)
@@ -63,16 +63,6 @@ findCoinsAtCoinPosition positions indexPosition =
 commonPathList : List Position
 commonPathList =
     List.map (\x -> InCommonPathPosition x) (Dict.keys ludoGraph)
-
-
-positionToString : Position -> String
-positionToString pos =
-    case pos of
-        InCommonPathPosition n ->
-            String.fromInt n
-
-        InStartBoxPosition n ->
-            ""
 
 
 getCommonPathNode : LudoModel.Position -> Maybe Node
