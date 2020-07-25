@@ -46,3 +46,4 @@ type Msg
 type Position
     = InCommonPathPosition Int
     | InStartBoxPosition Int
+    | InHomePathPosition PlayerColor Int
