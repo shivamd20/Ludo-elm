@@ -332,11 +332,8 @@ moveInCommonPath clickedPosition model =
 
                         maybePos =
                             getAt index updatedPositions |> Maybe.map (\( _, p ) -> p)
-
-                        updatedPosAfterKilling =
-                            killAll { model | positions = updatedPositions } maybePos
                     in
-                    killAll { model | positions = updatedPosAfterKilling } maybePos
+                    killAll { model | positions = updatedPositions } maybePos
 
                 Nothing ->
                     model.positions
