@@ -1,37 +1,27 @@
-module Ludo exposing (Node, canMove, commonPathList, findCoinsAtCoinPosition, getCommonPathNode, moveAllType, nextTurn)
+module Ludo exposing (canMove, commonPathList, findCoinsAtCoinPosition, moveAllType, nextTurn)
 
 import Dict exposing (Dict)
 import List.Extra exposing (findIndex, getAt, updateAt, updateIfIndex)
 import LudoModel exposing (CommonPathPosition(..), Model, PlayerColor(..), Position(..))
 
 
-type alias Node =
-    { next : Position
-    }
-
-
-regularNode : Node
-regularNode =
-    { next = InCommonPathPosition 2 None }
-
-
-redStartNodeInfo : Position
-redStartNodeInfo =
+redStartPosition : Position
+redStartPosition =
     InCommonPathPosition 2 (PathStart Red)
 
 
-blueStartNodeInfo : Position
-blueStartNodeInfo =
+blueStartPosition : Position
+blueStartPosition =
     InCommonPathPosition 42 (PathStart Blue)
 
 
-greenStartNodeInfo : Position
-greenStartNodeInfo =
+greenStartPosition : Position
+greenStartPosition =
     InCommonPathPosition 15 (LudoModel.PathStart Green)
 
 
-yellowStartNodeInfo : Position
-yellowStartNodeInfo =
+yellowStartPosition : Position
+yellowStartPosition =
     InCommonPathPosition 28 (PathStart Yellow)
 
 
@@ -57,79 +47,66 @@ commonPathList =
                     InCommonPathPosition 0 None
 
                 Just node ->
-                    node.next
+                    node
         )
         (Dict.keys ludoGraph)
 
 
-getCommonPathNode : LudoModel.Position -> Maybe Node
-getCommonPathNode position =
-    case position of
-        InCommonPathPosition n _ ->
-            Dict.get n ludoGraph
-
-        InStartBoxPosition _ ->
-            Nothing
-
-        InHomePathPosition _ _ ->
-            Nothing
-
-
-ludoGraph : Dict Int Node
+ludoGraph : Dict Int Position
 ludoGraph =
     Dict.fromList
-        [ ( 1, { regularNode | next = redStartNodeInfo } )
-        , ( 2, { next = InCommonPathPosition 3 None } )
-        , ( 3, { regularNode | next = InCommonPathPosition 4 None } )
-        , ( 4, { regularNode | next = InCommonPathPosition 5 None } )
-        , ( 5, { regularNode | next = InCommonPathPosition 6 None } )
-        , ( 6, { regularNode | next = InCommonPathPosition 7 None } )
-        , ( 7, { regularNode | next = InCommonPathPosition 8 None } )
-        , ( 8, { regularNode | next = InCommonPathPosition 9 None } )
-        , ( 9, { regularNode | next = InCommonPathPosition 10 PathStar } )
-        , ( 10, { next = InCommonPathPosition 11 None } )
-        , ( 11, { regularNode | next = InCommonPathPosition 12 None } )
-        , ( 12, { regularNode | next = InCommonPathPosition 13 None } )
-        , ( 13, { regularNode | next = InCommonPathPosition 14 None } )
-        , ( 14, { regularNode | next = greenStartNodeInfo } )
-        , ( 15, { next = InCommonPathPosition 16 None } )
-        , ( 16, { regularNode | next = InCommonPathPosition 17 None } )
-        , ( 17, { regularNode | next = InCommonPathPosition 18 None } )
-        , ( 18, { regularNode | next = InCommonPathPosition 19 None } )
-        , ( 19, { regularNode | next = InCommonPathPosition 20 None } )
-        , ( 20, { regularNode | next = InCommonPathPosition 21 None } )
-        , ( 21, { regularNode | next = InCommonPathPosition 22 None } )
-        , ( 22, { regularNode | next = InCommonPathPosition 23 PathStar } )
-        , ( 23, { next = InCommonPathPosition 24 None } )
-        , ( 24, { regularNode | next = InCommonPathPosition 25 None } )
-        , ( 25, { regularNode | next = InCommonPathPosition 26 None } )
-        , ( 26, { regularNode | next = InCommonPathPosition 27 None } )
-        , ( 27, { regularNode | next = yellowStartNodeInfo } )
-        , ( 28, { next = InCommonPathPosition 29 None } )
-        , ( 29, { regularNode | next = InCommonPathPosition 30 None } )
-        , ( 30, { regularNode | next = InCommonPathPosition 31 None } )
-        , ( 31, { regularNode | next = InCommonPathPosition 32 None } )
-        , ( 32, { regularNode | next = InCommonPathPosition 33 None } )
-        , ( 33, { regularNode | next = InCommonPathPosition 34 None } )
-        , ( 34, { regularNode | next = InCommonPathPosition 35 None } )
-        , ( 35, { regularNode | next = InCommonPathPosition 36 PathStar } )
-        , ( 36, { next = InCommonPathPosition 37 None } )
-        , ( 37, { regularNode | next = InCommonPathPosition 38 None } )
-        , ( 38, { regularNode | next = InCommonPathPosition 39 None } )
-        , ( 39, { regularNode | next = InCommonPathPosition 40 None } )
-        , ( 40, { regularNode | next = blueStartNodeInfo } )
-        , ( 41, { next = InCommonPathPosition 42 None } )
-        , ( 42, { regularNode | next = InCommonPathPosition 43 None } )
-        , ( 43, { regularNode | next = InCommonPathPosition 44 None } )
-        , ( 44, { regularNode | next = InCommonPathPosition 45 None } )
-        , ( 45, { regularNode | next = InCommonPathPosition 46 None } )
-        , ( 46, { regularNode | next = InCommonPathPosition 47 None } )
-        , ( 47, { regularNode | next = InCommonPathPosition 48 None } )
-        , ( 48, { regularNode | next = InCommonPathPosition 49 PathStar } )
-        , ( 49, { next = InCommonPathPosition 50 None } )
-        , ( 50, { regularNode | next = InCommonPathPosition 51 None } )
-        , ( 51, { regularNode | next = InCommonPathPosition 52 None } )
-        , ( 52, { regularNode | next = InCommonPathPosition 1 None } )
+        [ ( 1, redStartPosition )
+        , ( 2, InCommonPathPosition 3 None )
+        , ( 3, InCommonPathPosition 4 None )
+        , ( 4, InCommonPathPosition 5 None )
+        , ( 5, InCommonPathPosition 6 None )
+        , ( 6, InCommonPathPosition 7 None )
+        , ( 7, InCommonPathPosition 8 None )
+        , ( 8, InCommonPathPosition 9 None )
+        , ( 9, InCommonPathPosition 10 PathStar )
+        , ( 10, InCommonPathPosition 11 None )
+        , ( 11, InCommonPathPosition 12 None )
+        , ( 12, InCommonPathPosition 13 None )
+        , ( 13, InCommonPathPosition 14 None )
+        , ( 14, greenStartPosition )
+        , ( 15, InCommonPathPosition 16 None )
+        , ( 16, InCommonPathPosition 17 None )
+        , ( 17, InCommonPathPosition 18 None )
+        , ( 18, InCommonPathPosition 19 None )
+        , ( 19, InCommonPathPosition 20 None )
+        , ( 20, InCommonPathPosition 21 None )
+        , ( 21, InCommonPathPosition 22 None )
+        , ( 22, InCommonPathPosition 23 PathStar )
+        , ( 23, InCommonPathPosition 24 None )
+        , ( 24, InCommonPathPosition 25 None )
+        , ( 25, InCommonPathPosition 26 None )
+        , ( 26, InCommonPathPosition 27 None )
+        , ( 27, yellowStartPosition )
+        , ( 28, InCommonPathPosition 29 None )
+        , ( 29, InCommonPathPosition 30 None )
+        , ( 30, InCommonPathPosition 31 None )
+        , ( 31, InCommonPathPosition 32 None )
+        , ( 32, InCommonPathPosition 33 None )
+        , ( 33, InCommonPathPosition 34 None )
+        , ( 34, InCommonPathPosition 35 None )
+        , ( 35, InCommonPathPosition 36 PathStar )
+        , ( 36, InCommonPathPosition 37 None )
+        , ( 37, InCommonPathPosition 38 None )
+        , ( 38, InCommonPathPosition 39 None )
+        , ( 39, InCommonPathPosition 40 None )
+        , ( 40, blueStartPosition )
+        , ( 41, InCommonPathPosition 42 None )
+        , ( 42, InCommonPathPosition 43 None )
+        , ( 43, InCommonPathPosition 44 None )
+        , ( 44, InCommonPathPosition 45 None )
+        , ( 45, InCommonPathPosition 46 None )
+        , ( 46, InCommonPathPosition 47 None )
+        , ( 47, InCommonPathPosition 48 None )
+        , ( 48, InCommonPathPosition 49 PathStar )
+        , ( 49, InCommonPathPosition 50 None )
+        , ( 50, InCommonPathPosition 51 None )
+        , ( 51, InCommonPathPosition 52 None )
+        , ( 52, InCommonPathPosition 1 None )
         ]
 
 
@@ -152,7 +129,7 @@ canMove model posInfo =
            )
 
 
-findInGraph : Position -> Maybe Node
+findInGraph : Position -> Maybe Position
 findInGraph currentPosition =
     ludoGraph
         |> Dict.get
@@ -200,16 +177,16 @@ getStartPosition : PlayerColor -> Position
 getStartPosition color =
     case color of
         Red ->
-            redStartNodeInfo
+            redStartPosition
 
         Green ->
-            greenStartNodeInfo
+            greenStartPosition
 
         Blue ->
-            blueStartNodeInfo
+            blueStartPosition
 
         Yellow ->
-            yellowStartNodeInfo
+            yellowStartPosition
 
 
 moveAllType : Model -> Position -> Model
@@ -360,10 +337,10 @@ move posInfo model clickedPosition =
     else
         let
             node =
-                findInGraph currentPosition |> Maybe.withDefault { next = InCommonPathPosition 1 None }
+                findInGraph currentPosition |> Maybe.withDefault (InCommonPathPosition 1 None)
         in
         move
-            ( color, node.next )
+            ( color, node )
             { model | diceNum = model.diceNum - 1 }
             clickedPosition
 
