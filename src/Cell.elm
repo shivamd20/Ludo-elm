@@ -1,7 +1,7 @@
 module Cell exposing (Orientation(..), cell)
 
 import Html exposing (Html, button, div)
-import Html.Attributes exposing (class, disabled)
+import Html.Attributes exposing (class, disabled, style)
 import Html.Events exposing (onClick)
 import Ludo exposing (NodeType(..), canMove, findCoinsAtCoinPosition)
 import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position)
@@ -69,34 +69,58 @@ cell orientation coinPosition nodeType model =
                    )
     in
     button
-        [ class ("focus:outline-none text-white text-center m-auto border border-gray-700 rounded-full " ++ " " ++ focusClass)
+        [ class ("focus:outline-none text-white align-middle truncate text-center m-auto border border-gray-700 rounded-full break-words " ++ " " ++ focusClass)
         , if clickable then
             onClick (MoveCoin coinPosition)
 
           else
             disabled True
         ]
-        [ button []
-            (case coinsAtPosition of
-                [] ->
-                    [ case nodeType of
-                        Regular ->
-                            Html.text "."
+        [ case coinsAtPosition of
+            [] ->
+                case nodeType of
+                    Regular ->
+                        Html.text ""
 
-                        Star ->
-                            Html.text "✫"
+                    Star ->
+                        Html.text "✫"
 
-                        Start _ ->
-                            Html.text "✫"
+                    Start _ ->
+                        Html.text "✫"
+
+            list ->
+                let
+                    length =
+                        List.length list
+
+                    className =
+                        " tracking-tighter truncate w-10 break-words "
+                            ++ (if length == 1 then
+                                    ""
+
+                                else
+                                    "text-left"
+                               )
+
+                    letterSpacingStyle =
+                        if length == 1 then
+                            "0.5em"
+
+                        else if length < 5 then
+                            "-0.6em"
+
+                        else
+                            "-0.9em"
+                in
+                Html.button
+                    [ class className
+                    , style "letter-spacing" letterSpacingStyle
                     ]
-
-                list ->
-                    multipleCoins list
-            )
+                    [ multipleCoins list |> Html.text ]
         ]
 
 
-multipleCoins : List ( PlayerColor, Position ) -> List (Html msg)
+multipleCoins : List ( PlayerColor, Position ) -> String
 multipleCoins list =
     let
         className =
@@ -105,27 +129,28 @@ multipleCoins list =
                     ""
 
                 _ ->
-                    "text-xs"
+                    "text-xs break-words whitespace-normal"
     in
-    List.map
-        (\pos ->
-            Html.span [ class className ]
-                [ let
+    String.join
+        ""
+        (List.map
+            (\pos ->
+                let
                     ( color, _ ) =
                         pos
-                  in
-                  case color of
+                in
+                case color of
                     Red ->
-                        Html.text "🔴"
+                        "🔴"
 
                     Green ->
-                        Html.text "\u{1F7E2}"
+                        "\u{1F7E2}"
 
                     Blue ->
-                        Html.text "🔵"
+                        "🔵"
 
                     Yellow ->
-                        Html.text "\u{1F7E1}"
-                ]
+                        "\u{1F7E1}"
+            )
+            list
         )
-        list
