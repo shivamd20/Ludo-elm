@@ -1,4 +1,4 @@
-module LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..), defaultPositions)
+module LudoModel exposing (CommonPathPosition(..), Model, Msg(..), PlayerColor(..), Position(..), defaultPositions)
 
 
 type alias Model =
@@ -44,6 +44,13 @@ type Msg
 
 
 type Position
-    = InCommonPathPosition Int
+    = InCommonPathPosition Int CommonPathPosition
     | InStartBoxPosition Int
     | InHomePathPosition PlayerColor Int
+
+
+type CommonPathPosition
+    = PathStar
+    | PathStart PlayerColor
+    | PathEnd PlayerColor
+    | None
