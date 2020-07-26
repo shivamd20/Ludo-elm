@@ -5,21 +5,14 @@ import List.Extra exposing (findIndex, getAt, updateAt, updateIfIndex)
 import LudoModel exposing (CommonPathPosition(..), Model, PlayerColor(..), Position(..))
 
 
-type NodeType
-    = Regular
-    | Star
-    | Start PlayerColor
-
-
 type alias Node =
-    { nodeType : NodeType
-    , next : Position
+    { next : Position
     }
 
 
 regularNode : Node
 regularNode =
-    { next = InCommonPathPosition 2 None, nodeType = Regular }
+    { next = InCommonPathPosition 2 None }
 
 
 redStartNodeInfo : Position
@@ -86,7 +79,7 @@ ludoGraph : Dict Int Node
 ludoGraph =
     Dict.fromList
         [ ( 1, { regularNode | next = redStartNodeInfo } )
-        , ( 2, { nodeType = Start Red, next = InCommonPathPosition 3 None } )
+        , ( 2, { next = InCommonPathPosition 3 None } )
         , ( 3, { regularNode | next = InCommonPathPosition 4 None } )
         , ( 4, { regularNode | next = InCommonPathPosition 5 None } )
         , ( 5, { regularNode | next = InCommonPathPosition 6 None } )
@@ -94,12 +87,12 @@ ludoGraph =
         , ( 7, { regularNode | next = InCommonPathPosition 8 None } )
         , ( 8, { regularNode | next = InCommonPathPosition 9 None } )
         , ( 9, { regularNode | next = InCommonPathPosition 10 PathStar } )
-        , ( 10, { nodeType = Star, next = InCommonPathPosition 11 None } )
+        , ( 10, { next = InCommonPathPosition 11 None } )
         , ( 11, { regularNode | next = InCommonPathPosition 12 None } )
         , ( 12, { regularNode | next = InCommonPathPosition 13 None } )
         , ( 13, { regularNode | next = InCommonPathPosition 14 None } )
         , ( 14, { regularNode | next = greenStartNodeInfo } )
-        , ( 15, { nodeType = Start Green, next = InCommonPathPosition 16 None } )
+        , ( 15, { next = InCommonPathPosition 16 None } )
         , ( 16, { regularNode | next = InCommonPathPosition 17 None } )
         , ( 17, { regularNode | next = InCommonPathPosition 18 None } )
         , ( 18, { regularNode | next = InCommonPathPosition 19 None } )
@@ -107,12 +100,12 @@ ludoGraph =
         , ( 20, { regularNode | next = InCommonPathPosition 21 None } )
         , ( 21, { regularNode | next = InCommonPathPosition 22 None } )
         , ( 22, { regularNode | next = InCommonPathPosition 23 PathStar } )
-        , ( 23, { nodeType = Star, next = InCommonPathPosition 24 None } )
+        , ( 23, { next = InCommonPathPosition 24 None } )
         , ( 24, { regularNode | next = InCommonPathPosition 25 None } )
         , ( 25, { regularNode | next = InCommonPathPosition 26 None } )
         , ( 26, { regularNode | next = InCommonPathPosition 27 None } )
         , ( 27, { regularNode | next = yellowStartNodeInfo } )
-        , ( 28, { nodeType = Start Yellow, next = InCommonPathPosition 29 None } )
+        , ( 28, { next = InCommonPathPosition 29 None } )
         , ( 29, { regularNode | next = InCommonPathPosition 30 None } )
         , ( 30, { regularNode | next = InCommonPathPosition 31 None } )
         , ( 31, { regularNode | next = InCommonPathPosition 32 None } )
@@ -120,12 +113,12 @@ ludoGraph =
         , ( 33, { regularNode | next = InCommonPathPosition 34 None } )
         , ( 34, { regularNode | next = InCommonPathPosition 35 None } )
         , ( 35, { regularNode | next = InCommonPathPosition 36 PathStar } )
-        , ( 36, { nodeType = Star, next = InCommonPathPosition 37 None } )
+        , ( 36, { next = InCommonPathPosition 37 None } )
         , ( 37, { regularNode | next = InCommonPathPosition 38 None } )
         , ( 38, { regularNode | next = InCommonPathPosition 39 None } )
         , ( 39, { regularNode | next = InCommonPathPosition 40 None } )
         , ( 40, { regularNode | next = blueStartNodeInfo } )
-        , ( 41, { nodeType = Start Blue, next = InCommonPathPosition 42 None } )
+        , ( 41, { next = InCommonPathPosition 42 None } )
         , ( 42, { regularNode | next = InCommonPathPosition 43 None } )
         , ( 43, { regularNode | next = InCommonPathPosition 44 None } )
         , ( 44, { regularNode | next = InCommonPathPosition 45 None } )
@@ -133,7 +126,7 @@ ludoGraph =
         , ( 46, { regularNode | next = InCommonPathPosition 47 None } )
         , ( 47, { regularNode | next = InCommonPathPosition 48 None } )
         , ( 48, { regularNode | next = InCommonPathPosition 49 PathStar } )
-        , ( 49, { nodeType = Star, next = InCommonPathPosition 50 None } )
+        , ( 49, { next = InCommonPathPosition 50 None } )
         , ( 50, { regularNode | next = InCommonPathPosition 51 None } )
         , ( 51, { regularNode | next = InCommonPathPosition 52 None } )
         , ( 52, { regularNode | next = InCommonPathPosition 1 None } )
@@ -367,7 +360,7 @@ move posInfo model clickedPosition =
     else
         let
             node =
-                findInGraph currentPosition |> Maybe.withDefault { next = InCommonPathPosition 1 None, nodeType = Regular }
+                findInGraph currentPosition |> Maybe.withDefault { next = InCommonPathPosition 1 None }
         in
         move
             ( color, node.next )
