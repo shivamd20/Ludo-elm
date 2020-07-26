@@ -69,14 +69,14 @@ cell orientation coinPosition nodeType model =
                    )
     in
     button
-        [ class ("focus:outline-none text-white text-center m-auto " ++ " " ++ focusClass)
+        [ class ("focus:outline-none text-white text-center m-auto border border-gray-700 rounded-full " ++ " " ++ focusClass)
         , if clickable then
             onClick (MoveCoin coinPosition)
 
           else
             disabled True
         ]
-        [ div [ class "grid grid-cols-2 grid-rows-2 grid-cols-2 w-full h-full" ]
+        [ button []
             (case coinsAtPosition of
                 [] ->
                     [ case nodeType of
@@ -98,9 +98,18 @@ cell orientation coinPosition nodeType model =
 
 multipleCoins : List ( PlayerColor, Position ) -> List (Html msg)
 multipleCoins list =
+    let
+        className =
+            case list of
+                _ :: [] ->
+                    ""
+
+                _ ->
+                    "text-xs"
+    in
     List.map
         (\pos ->
-            div []
+            Html.span [ class className ]
                 [ let
                     ( color, _ ) =
                         pos
