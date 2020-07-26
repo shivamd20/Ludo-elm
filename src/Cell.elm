@@ -3,8 +3,8 @@ module Cell exposing (Orientation(..), cell)
 import Html exposing (Html, button, div)
 import Html.Attributes exposing (class, disabled, style)
 import Html.Events exposing (onClick)
-import Ludo exposing (NodeType(..), canMove, findCoinsAtCoinPosition)
-import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position)
+import Ludo exposing (canMove, findCoinsAtCoinPosition)
+import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..))
 
 
 type Orientation
@@ -13,8 +13,8 @@ type Orientation
     | None
 
 
-cell : Orientation -> Position -> NodeType -> Model -> Html Msg
-cell orientation coinPosition nodeType model =
+cell : Orientation -> Position -> Model -> Html Msg
+cell orientation coinPosition model =
     let
         orientationClassName =
             case orientation of
@@ -29,20 +29,25 @@ cell orientation coinPosition nodeType model =
 
         colorClassName =
             orientationClassName
-                ++ (case nodeType of
-                        Start color ->
-                            case color of
-                                Red ->
-                                    "   text-red-500 "
+                ++ (case coinPosition of
+                        InCommonPathPosition n cPath ->
+                            case cPath of
+                                LudoModel.PathStart color ->
+                                    case color of
+                                        Red ->
+                                            "   text-red-500 "
 
-                                Blue ->
-                                    "  text-blue-500  "
+                                        Blue ->
+                                            "  text-blue-500  "
 
-                                Yellow ->
-                                    "  text-yellow-500 "
+                                        Yellow ->
+                                            "  text-yellow-500 "
 
-                                Green ->
-                                    "  text-green-500 "
+                                        Green ->
+                                            "  text-green-500 "
+
+                                _ ->
+                                    ""
 
                         _ ->
                             " "
@@ -78,15 +83,23 @@ cell orientation coinPosition nodeType model =
         ]
         [ case coinsAtPosition of
             [] ->
-                case nodeType of
-                    Regular ->
-                        Html.text "."
+                case coinPosition of
+                    InCommonPathPosition _ cPath ->
+                        case cPath of
+                            LudoModel.None ->
+                                Html.text "."
 
-                    Star ->
-                        Html.text "✫"
+                            LudoModel.PathStar ->
+                                Html.text "✫"
 
-                    Start _ ->
-                        Html.text "✫"
+                            LudoModel.PathStart _ ->
+                                Html.text "✫"
+
+                            _ ->
+                                Html.text ""
+
+                    _ ->
+                        Html.text ""
 
             list ->
                 let

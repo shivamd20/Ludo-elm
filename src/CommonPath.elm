@@ -4,7 +4,7 @@ import Array
 import Cell exposing (Orientation(..), cell)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
-import Ludo exposing (commonPathList, getCommonPathNode)
+import Ludo exposing (commonPathList)
 import LudoModel exposing (Model, Msg, Position)
 
 
@@ -41,4 +41,4 @@ cellRow orientation model start end =
 
 nodeToHorizontalCell : Orientation -> Model -> Position -> Html Msg
 nodeToHorizontalCell orientation model coinPosition =
-    cell orientation coinPosition (Maybe.withDefault Ludo.Regular (Maybe.map (\node -> node.nodeType) (getCommonPathNode coinPosition))) model
+    cell orientation coinPosition model
