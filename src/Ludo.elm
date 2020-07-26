@@ -22,11 +22,6 @@ regularNode =
     { next = InCommonPathPosition 2 None, nodeType = Regular }
 
 
-starNode : Node
-starNode =
-    { regularNode | nodeType = Star }
-
-
 redStartNodeInfo : Position
 redStartNodeInfo =
     InCommonPathPosition 2 (PathStart Red)
@@ -39,12 +34,12 @@ blueStartNodeInfo =
 
 greenStartNodeInfo : Position
 greenStartNodeInfo =
-    InCommonPathPosition 16 (LudoModel.PathStart Green)
+    InCommonPathPosition 15 (LudoModel.PathStart Green)
 
 
 yellowStartNodeInfo : Position
 yellowStartNodeInfo =
-    InCommonPathPosition 29 (PathStart Yellow)
+    InCommonPathPosition 28 (PathStart Yellow)
 
 
 findCoinsAtCoinPosition : List ( PlayerColor, Position ) -> Position -> List ( PlayerColor, Position )
@@ -99,7 +94,7 @@ ludoGraph =
         , ( 7, { regularNode | next = InCommonPathPosition 8 None } )
         , ( 8, { regularNode | next = InCommonPathPosition 9 None } )
         , ( 9, { regularNode | next = InCommonPathPosition 10 None } )
-        , ( 10, { starNode | next = InCommonPathPosition 11 None } )
+        , ( 10, { nodeType = Star, next = InCommonPathPosition 11 None } )
         , ( 11, { regularNode | next = InCommonPathPosition 12 None } )
         , ( 12, { regularNode | next = InCommonPathPosition 13 None } )
         , ( 13, { regularNode | next = InCommonPathPosition 14 None } )
@@ -112,7 +107,7 @@ ludoGraph =
         , ( 20, { regularNode | next = InCommonPathPosition 21 None } )
         , ( 21, { regularNode | next = InCommonPathPosition 22 None } )
         , ( 22, { regularNode | next = InCommonPathPosition 23 None } )
-        , ( 23, { starNode | next = InCommonPathPosition 24 None } )
+        , ( 23, { nodeType = Star, next = InCommonPathPosition 24 None } )
         , ( 24, { regularNode | next = InCommonPathPosition 25 None } )
         , ( 25, { regularNode | next = InCommonPathPosition 26 None } )
         , ( 26, { regularNode | next = InCommonPathPosition 27 None } )
@@ -125,7 +120,7 @@ ludoGraph =
         , ( 33, { regularNode | next = InCommonPathPosition 34 None } )
         , ( 34, { regularNode | next = InCommonPathPosition 35 None } )
         , ( 35, { regularNode | next = InCommonPathPosition 36 None } )
-        , ( 36, { starNode | next = InCommonPathPosition 37 None } )
+        , ( 36, { nodeType = Star, next = InCommonPathPosition 37 None } )
         , ( 37, { regularNode | next = InCommonPathPosition 38 None } )
         , ( 38, { regularNode | next = InCommonPathPosition 39 None } )
         , ( 39, { regularNode | next = InCommonPathPosition 40 None } )
@@ -138,7 +133,7 @@ ludoGraph =
         , ( 46, { regularNode | next = InCommonPathPosition 47 None } )
         , ( 47, { regularNode | next = InCommonPathPosition 48 None } )
         , ( 48, { regularNode | next = InCommonPathPosition 49 None } )
-        , ( 49, { starNode | next = InCommonPathPosition 50 None } )
+        , ( 49, { nodeType = Star, next = InCommonPathPosition 50 None } )
         , ( 50, { regularNode | next = InCommonPathPosition 51 None } )
         , ( 51, { regularNode | next = InCommonPathPosition 52 None } )
         , ( 52, { regularNode | next = InCommonPathPosition 1 None } )
