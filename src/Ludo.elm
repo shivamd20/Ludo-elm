@@ -208,8 +208,16 @@ killAll model maybePos =
     case maybePos of
         Just pos ->
             case pos of
-                InCommonPathPosition _ _ ->
-                    kill (List.filter (\( color, p ) -> p == pos && color /= model.turn) model.positions) model
+                InCommonPathPosition _ cPath ->
+                    case cPath of
+                        LudoModel.PathStar ->
+                            model.positions
+
+                        LudoModel.PathStart _ ->
+                            model.positions
+
+                        _ ->
+                            kill (List.filter (\( color, p ) -> p == pos && color /= model.turn) model.positions) model
 
                 _ ->
                     model.positions
