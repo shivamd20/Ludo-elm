@@ -6,7 +6,7 @@ import Dice exposing (diceDiv)
 import HomeBoxes exposing (homeBoxes)
 import HomeCells exposing (homeCells)
 import Html exposing (Html, br, div, hr)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, style)
 import Ludo exposing (NodeType(..))
 import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..), defaultPositions)
 import LudoUpdate exposing (update)
@@ -24,7 +24,9 @@ init _ =
 
 gridHtml : Model -> Html Msg
 gridHtml model =
-    div [ class "grid text-xl text-center grid-cols-15  grid-rows-15 sm:h-128 sm:w-128 h-64 w-64 m-auto p-3 border border-gray-700" ]
+    div
+        [ class "grid text-4xl text-center grid-cols-15  grid-rows-15 m-auto p-3  h-wscreen w-screen lg:h-screen lg:w-hscreen"
+        ]
         (commonPath model
             ++ homeBoxes
             ++ diceDiv model.diceNum model.turn
@@ -35,7 +37,7 @@ gridHtml model =
 view : Model -> Html Msg
 view model =
     div []
-        [ div [ class "my-8 w-full text-center text-white" ]
+        [ div [ class "my-8  text-center text-white" ]
             [ gridHtml model
             , br [] []
             , br [] []

@@ -49,10 +49,12 @@ module.exports = {
       },
       width: {
         '1/16': '6.25%',
+        hscreen: '100vh',
       },
       height: {
         '1/16': '6.25%',
         '1/6': '16.66666%',
+        wscreen: '100vw',
       },
       spacing: {
         '96': '24rem',

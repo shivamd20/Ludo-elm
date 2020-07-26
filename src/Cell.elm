@@ -94,9 +94,9 @@ cell orientation coinPosition nodeType model =
                         List.length list
 
                     className =
-                        " tracking-tighter truncate w-10 break-words "
+                        " tracking-tighter break-words "
                             ++ (if length == 1 then
-                                    ""
+                                    " text-right "
 
                                 else
                                     "text-left"
@@ -104,7 +104,7 @@ cell orientation coinPosition nodeType model =
 
                     letterSpacingStyle =
                         if length == 1 then
-                            "0.5em"
+                            ""
 
                         else if length < 8 then
                             "-0.8em"
