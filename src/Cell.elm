@@ -106,8 +106,8 @@ cell orientation coinPosition nodeType model =
                         if length == 1 then
                             "0.5em"
 
-                        else if length < 5 then
-                            "-0.6em"
+                        else if length < 8 then
+                            "-0.8em"
 
                         else
                             "-0.9em"
