@@ -69,7 +69,7 @@ cell orientation coinPosition nodeType model =
                    )
     in
     button
-        [ class ("focus:outline-none text-white align-middle truncate text-center m-auto border border-gray-700 rounded-full break-words " ++ " " ++ focusClass)
+        [ class ("focus:outline-none text-white align-middle truncate text-center m-auto  rounded-full break-words " ++ " " ++ focusClass)
         , if clickable then
             onClick (MoveCoin coinPosition)
 
@@ -80,7 +80,7 @@ cell orientation coinPosition nodeType model =
             [] ->
                 case nodeType of
                     Regular ->
-                        Html.text ""
+                        Html.text "."
 
                     Star ->
                         Html.text "✫"
@@ -122,15 +122,6 @@ cell orientation coinPosition nodeType model =
 
 multipleCoins : List ( PlayerColor, Position ) -> String
 multipleCoins list =
-    let
-        className =
-            case list of
-                _ :: [] ->
-                    ""
-
-                _ ->
-                    "text-xs break-words whitespace-normal"
-    in
     String.join
         ""
         (List.map
