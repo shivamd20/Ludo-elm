@@ -84,7 +84,7 @@ cell orientation coinPosition model =
         [ case coinsAtPosition of
             [] ->
                 case coinPosition of
-                    InCommonPathPosition _ cPath ->
+                    InCommonPathPosition n cPath ->
                         case cPath of
                             LudoModel.None ->
                                 Html.text "."
@@ -95,8 +95,21 @@ cell orientation coinPosition model =
                             LudoModel.PathStart _ ->
                                 Html.text "✫"
 
-                            _ ->
-                                Html.text ""
+                            LudoModel.PathEnd color ->
+                                Html.text
+                                    (case color of
+                                        Red ->
+                                            "👉"
+
+                                        Blue ->
+                                            "👆"
+
+                                        Green ->
+                                            "👇"
+
+                                        Yellow ->
+                                            "👈"
+                                    )
 
                     _ ->
                         Html.text ""
