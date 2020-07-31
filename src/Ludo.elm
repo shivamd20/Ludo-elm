@@ -200,7 +200,24 @@ moveAllType model clickedPosition =
 
         -- TODO
         InHomePathPosition _ _ ->
-            model
+            moveInHomePathPosition clickedPosition model
+
+
+moveInHomePathPosition : Position -> Model -> Model
+moveInHomePathPosition pos model =
+    { model
+        | positions =
+            List.map
+                (\( color, p ) ->
+                    case p of
+                        InHomePathPosition _ _ ->
+                            ( color, p )
+
+                        _ ->
+                            ( color, p )
+                )
+                model.positions
+    }
 
 
 killAll : Model -> Maybe Position -> List ( PlayerColor, Position )

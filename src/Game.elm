@@ -1,6 +1,7 @@
 module Game exposing (main)
 
 import Browser
+import Cell exposing (Orientation(..), cell)
 import CommonPath exposing (commonPath)
 import Dice exposing (diceDiv)
 import HomeBoxes exposing (homeBoxes)
@@ -28,6 +29,7 @@ gridHtml model =
         ]
         (commonPath model
             ++ homeBoxes
+            ++ endPath model
             ++ diceDiv model.diceNum model.turn
             :: homeCells model
         )
@@ -45,3 +47,24 @@ view model =
             , Html.text (Debug.toString model)
             ]
         ]
+
+
+endPath : Model -> List (Html Msg)
+endPath model =
+    [ div [ class " rounded-lg col-start-2 row-start-8 col-span-6 border-t border-b" ]
+        ([ 1, 2, 3, 4, 5, 6 ]
+            |> List.map (\b -> cell Horizontal (InHomePathPosition Red b) model)
+        )
+    , div [ class " rounded-lg col-start-8 row-start-2 row-span-6 border-l border-r" ]
+        ([ 1, 2, 3, 4, 5, 6 ]
+            |> List.map (\b -> cell Vertical (InHomePathPosition Green b) model)
+        )
+    , div [ class " rounded-lg col-start-9 row-start-8 col-span-6 border-t border-b" ]
+        ([ 6, 5, 4, 3, 2, 1 ]
+            |> List.map (\b -> cell Horizontal (InHomePathPosition Yellow b) model)
+        )
+    , div [ class " rounded-lg col-start-8 row-start-9 row-span-6 border-l border-r" ]
+        ([ 6, 5, 4, 3, 2, 1 ]
+            |> List.map (\b -> cell Vertical (InHomePathPosition Blue b) model)
+        )
+    ]

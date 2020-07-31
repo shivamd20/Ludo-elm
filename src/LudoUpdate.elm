@@ -60,8 +60,3 @@ update msg model =
             ( moveAllType model clickedPosition
             , Cmd.none
             )
-
-        HomeCoinClicked num ->
-            ( moveAllType model (InStartBoxPosition num)
-            , Cmd.none
-            )

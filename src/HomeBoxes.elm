@@ -16,7 +16,7 @@ colorHomeBoxes =
     , div [ class "col-start-10 row-start-1 border row-span-6 border-green-500 col-span-6 rounded-lg" ] []
     , div [ class "col-start-1 row-start-10 border row-span-6 border-blue-500 col-span-6 rounded-lg" ] []
     , div [ class "col-start-10 row-start-10 border row-span-6 border-yellow-500  col-span-6 rounded-lg" ] []
-    , div [ class "col-start-7 row-start-7 border row-span-3 border-gray-500  col-span-3 rounded-lg" ] []
+    , div [ class "col-start-7 row-start-7 border row-span-3 border-gray-500  col-span-3 rounded-full" ] []
     ]
 
 
