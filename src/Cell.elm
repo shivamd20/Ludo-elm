@@ -112,7 +112,7 @@ cell orientation coinPosition model =
                                     )
 
                     _ ->
-                        Html.text ""
+                        Html.text "."
 
             list ->
                 let
