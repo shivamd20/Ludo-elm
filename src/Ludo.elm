@@ -44,7 +44,7 @@ commonPathList =
         (\x ->
             case Dict.get (x - 1) ludoGraph of
                 Nothing ->
-                    InCommonPathPosition 0 None
+                    InCommonPathPosition 1 None
 
                 Just node ->
                     node
