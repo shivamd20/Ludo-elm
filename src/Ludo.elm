@@ -133,17 +133,34 @@ canMove model posInfo =
            )
 
 
-findInGraph : Position -> Maybe Position
-findInGraph currentPosition =
-    ludoGraph
-        |> Dict.get
-            (case currentPosition of
-                InCommonPathPosition n _ ->
-                    n
+findNextPositionInCommonPath : Int -> Position
+findNextPositionInCommonPath n =
+    (ludoGraph
+        |> Dict.get n
+    )
+        |> Maybe.withDefault (InCommonPathPosition 1 None)
+
+
+findInGraph : PlayerColor -> Position -> Position
+findInGraph turn currentPosition =
+    case currentPosition of
+        InCommonPathPosition n commonPathInfo ->
+            case commonPathInfo of
+                PathEnd color ->
+                    if color == turn then
+                        InHomePathPosition color 1
+
+                    else
+                        findNextPositionInCommonPath n
 
                 _ ->
-                    0
-            )
+                    findNextPositionInCommonPath n
+
+        InHomePathPosition playercolor n ->
+            InHomePathPosition playercolor (n + 1)
+
+        _ ->
+            InCommonPathPosition 1 None
 
 
 moveStartBoxPosition : Model -> PlayerColor -> Int -> Model
@@ -199,77 +216,8 @@ moveAllType model clickedPosition =
         InStartBoxPosition n ->
             moveStartBoxPosition model model.turn n
 
-        InCommonPathPosition _ _ ->
+        _ ->
             moveInCommonPath clickedPosition model
-
-        InHomePathPosition _ posInHomePath ->
-            moveInHomePathPosition posInHomePath model
-
-
-moveInHomePathPosition : Int -> Model -> Model
-moveInHomePathPosition posInHomePath model =
-    let
-        maybeIndexOfTheCoin =
-            findIndex
-                (\( color, pos ) ->
-                    color
-                        == model.turn
-                        && (case pos of
-                                InHomePathPosition _ n ->
-                                    n == posInHomePath
-
-                                _ ->
-                                    False
-                           )
-                )
-                model.positions
-    in
-    case maybeIndexOfTheCoin of
-        Just indexOfTheCoin ->
-            let
-                updatedModel =
-                    { model
-                        | positions =
-                            updateAt indexOfTheCoin
-                                (\( color, pos ) ->
-                                    case pos of
-                                        InHomePathPosition _ num ->
-                                            ( color, InHomePathPosition color (num + model.diceNum) )
-
-                                        _ ->
-                                            ( color, pos )
-                                )
-                                model.positions
-                    }
-
-                modalAfterUpdatedTurn =
-                    if
-                        List.filter
-                            (\( c, p ) ->
-                                c
-                                    == model.turn
-                                    && p
-                                    == InHomePathPosition c 6
-                            )
-                            model.positions
-                            == List.filter
-                                (\( c, p ) ->
-                                    c
-                                        == updatedModel.turn
-                                        && p
-                                        == InHomePathPosition c 6
-                                )
-                                updatedModel.positions
-                    then
-                        { updatedModel | turn = nextTurn model.turn }
-
-                    else
-                        updatedModel
-            in
-            { modalAfterUpdatedTurn | diceNum = 0 }
-
-        Nothing ->
-            model
 
 
 killAll : Model -> Maybe Position -> List ( PlayerColor, Position )
@@ -389,12 +337,27 @@ moveInCommonPath clickedPosition model =
     , diceNum =
         0
     , turn =
-        if model.diceNum == 6 || killHappened model.turn model.positions updatedPos then
+        if
+            model.diceNum
+                == 6
+                || killHappened model.turn model.positions updatedPos
+                || goalPathReached model.turn model.positions updatedPos
+        then
             model.turn
 
         else
             nextTurn model.turn
     }
+
+
+goalPathReached : PlayerColor -> List ( PlayerColor, Position ) -> List ( PlayerColor, Position ) -> Bool
+goalPathReached turn initialPos updatedPos =
+    List.filter
+        (\( _, p ) -> p == InHomePathPosition turn 6)
+        initialPos
+        /= List.filter
+            (\( _, p ) -> p == InHomePathPosition turn 6)
+            updatedPos
 
 
 killHappened : PlayerColor -> List ( PlayerColor, Position ) -> List ( PlayerColor, Position ) -> Bool
@@ -413,11 +376,11 @@ move posInfo model clickedPosition =
 
     else
         let
-            node =
-                findInGraph currentPosition |> Maybe.withDefault (InCommonPathPosition 1 None)
+            pos =
+                findInGraph model.turn currentPosition
         in
         move
-            ( color, node )
+            ( color, pos )
             { model | diceNum = model.diceNum - 1 }
             clickedPosition
 
