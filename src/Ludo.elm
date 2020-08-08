@@ -12,7 +12,7 @@ redStartPosition =
 
 blueStartPosition : Position
 blueStartPosition =
-    InCommonPathPosition 42 (PathStart Blue)
+    InCommonPathPosition 41 (PathStart Blue)
 
 
 greenStartPosition : Position
