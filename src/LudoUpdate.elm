@@ -58,5 +58,8 @@ update msg model =
             , Cmd.none
             )
 
+        MakeMove clickedPosition ->
+            ( model, Ports.movePosCoins clickedPosition )
+
         RollDice ->
             ( model, Ports.rollDice () )

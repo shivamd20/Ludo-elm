@@ -81,7 +81,7 @@ clickOrHiddenAttribute model color num classNames =
                 canMove model
                     posInfo
             then
-                [ onClick (MoveCoin (InStartBoxPosition num)), class (classNames ++ " border") ]
+                [ onClick (MakeMove (InStartBoxPosition num)), class (classNames ++ " border") ]
 
             else
                 [ class classNames ]

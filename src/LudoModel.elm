@@ -40,6 +40,7 @@ type Msg
     = NewRandomNumber Int
     | MoveCoin Position
     | RollDice
+    | MakeMove Position
 
 
 type Position

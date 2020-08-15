@@ -25,7 +25,10 @@ init _ =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Ports.diceRolledReceiver (\num -> NewRandomNumber num)
+    Sub.batch
+        [ Ports.diceRolledReceiver (\num -> NewRandomNumber num)
+        , Ports.moveCoinsPosReceiver (\pos -> MoveCoin pos)
+        ]
 
 
 gridHtml : Model -> Html Msg

@@ -76,7 +76,7 @@ cell orientation coinPosition model =
     button
         [ class ("focus:outline-none text-white align-middle truncate text-center m-auto  rounded-full break-words " ++ " " ++ focusClass)
         , if clickable then
-            onClick (MoveCoin coinPosition)
+            onClick (MakeMove coinPosition)
 
           else
             disabled True

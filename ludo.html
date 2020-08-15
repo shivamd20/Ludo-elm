@@ -16,6 +16,10 @@
       app.ports.rollDice.subscribe(function (message) {
         app.ports.diceRolledReceiver.send(Math.floor(Math.random() * 6) + 1);
       });
+
+      app.ports.moveCoins.subscribe(function (message) {
+        app.ports.moveCoinsReceiver.send(message);
+      });
     </script>
   </body>
 </html>
