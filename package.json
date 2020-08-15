@@ -7,6 +7,10 @@
   "main": "index.html",
   "license": "MIT",
   "dependencies": {
+    "socket.io": "^2.3.0",
     "tailwindcss": "^1.4.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
