@@ -27,7 +27,7 @@ diceDiv diceNum turn =
         [ class ("rounded-full hover:bg-gray-600 focus:outline-none focus:shadow-outline col-span-2 row-span-2 border p-2 m-2 " ++ positionClass)
         , if diceNum == 0 then
             onClick
-                GenerateRandomNumber
+                RollDice
 
           else
             hidden False

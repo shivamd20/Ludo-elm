@@ -10,16 +10,22 @@ import Html exposing (Html, br, div, hr)
 import Html.Attributes exposing (class)
 import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..), defaultPositions)
 import LudoUpdate exposing (update)
+import Ports
 
 
 main : Program () Model Msg
 main =
-    Browser.element { init = init, update = update, view = view, subscriptions = \_ -> Sub.none }
+    Browser.element { init = init, update = update, view = view, subscriptions = subscriptions }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( { diceNum = 0, turn = Red, positions = defaultPositions }, Cmd.none )
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Ports.diceRolledReceiver (\num -> NewRandomNumber num)
 
 
 gridHtml : Model -> Html Msg

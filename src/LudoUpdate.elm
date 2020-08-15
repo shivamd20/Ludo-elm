@@ -2,15 +2,12 @@ module LudoUpdate exposing (update)
 
 import Ludo exposing (canMove, moveAllType, nextTurn)
 import LudoModel exposing (Model, Msg(..), Position(..))
-import Random
+import Ports
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GenerateRandomNumber ->
-            ( model, Random.generate NewRandomNumber (Random.int 1 6) )
-
         NewRandomNumber number ->
             ( let
                 movable =
@@ -60,3 +57,6 @@ update msg model =
             ( moveAllType model clickedPosition
             , Cmd.none
             )
+
+        RollDice ->
+            ( model, Ports.rollDice () )

@@ -12,6 +12,10 @@
       var app = Elm.Game.init({
         node: document.getElementById('elm-app-is-loaded-here'),
       });
+
+      app.ports.rollDice.subscribe(function (message) {
+        app.ports.diceRolledReceiver.send(Math.floor(Math.random() * 6) + 1);
+      });
     </script>
   </body>
 </html>

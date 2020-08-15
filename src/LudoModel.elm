@@ -37,9 +37,9 @@ type PlayerColor
 
 
 type Msg
-    = GenerateRandomNumber
-    | NewRandomNumber Int
+    = NewRandomNumber Int
     | MoveCoin Position
+    | RollDice
 
 
 type Position
