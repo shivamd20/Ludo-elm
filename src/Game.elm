@@ -6,8 +6,8 @@ import CommonPath exposing (commonPath)
 import Dice exposing (diceDiv)
 import HomeBoxes exposing (homeBoxes)
 import HomeCells exposing (homeCells)
-import Html exposing (Html, br, button, div, hr, input)
-import Html.Attributes exposing (class, disabled, hidden, placeholder, type_, value)
+import Html exposing (Html, br, button, div, input)
+import Html.Attributes exposing (class, disabled, placeholder, type_, value)
 import Html.Events exposing (onClick, onInput)
 import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..), defaultPositions)
 import LudoUpdate exposing (update)
@@ -21,7 +21,17 @@ main =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { diceNum = 0, turn = Red, positions = defaultPositions, maxPlayers = Just 2, room = Nothing, roomToJoin = "", messageToDisplay = "" }, Cmd.none )
+    ( { diceNum = 0
+      , turn = Red
+      , positions = defaultPositions
+      , maxPlayers = Just 2
+      , room = Nothing
+      , roomToJoin = ""
+      , messageToDisplay = ""
+      , selectedPlayer = Blue
+      }
+    , Cmd.none
+    )
 
 
 subscriptions : Model -> Sub Msg
@@ -30,8 +40,8 @@ subscriptions _ =
         [ Ports.diceRolledReceiver (\num -> NewRandomNumber num)
         , Ports.moveCoinsPosReceiver (\pos -> MoveCoin pos)
         , Ports.errorReceiver (\m -> UpdateMessage m)
-        , Ports.joinGameReceiver (\room -> UpdateRoom room)
-        , Ports.newGameReceiver (\room -> UpdateRoom room)
+        , Ports.joinGamePlayerReceiver (\( room, color ) -> UpdateRoom room color)
+        , Ports.newGameReceiver (\room -> UpdateRoom room Blue)
         ]
 
 
@@ -53,7 +63,7 @@ view model =
     div []
         [ div [] [ Html.text model.messageToDisplay ]
         , case model.room of
-            Just room ->
+            Just _ ->
                 div []
                     [ div [ class "my-8  text-center text-white" ]
                         [ gridHtml model

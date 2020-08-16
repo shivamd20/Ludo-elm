@@ -9,6 +9,7 @@ type alias Model =
     , room : Maybe String
     , roomToJoin : String
     , messageToDisplay : String
+    , selectedPlayer : PlayerColor
     }
 
 
@@ -50,7 +51,7 @@ type Msg
     | OnRoomJoinClicked
     | OnStartGameClicked
     | UpdateMessage String
-    | UpdateRoom String
+    | UpdateRoom String PlayerColor
 
 
 type Position

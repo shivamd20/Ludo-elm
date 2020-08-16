@@ -97,5 +97,5 @@ update msg model =
         UpdateMessage m ->
             ( { model | messageToDisplay = m }, Cmd.none )
 
-        UpdateRoom room ->
-            ( { model | room = Just room }, Cmd.none )
+        UpdateRoom room color ->
+            ( { model | room = Just room, selectedPlayer = color }, Cmd.none )
