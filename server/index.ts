@@ -1,6 +1,6 @@
 import express from 'express';
 import {createServer} from 'http';
-import socketio, {Socket} from 'socket.io';
+import socketio from 'socket.io';
 
 const application = express();
 
@@ -9,41 +9,55 @@ const io = socketio(http);
 
 const rooms = new Map<string, Room>();
 
-let roomIdCounter = 1000;
-
 application.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', (socket) => {
-  socket.on('create_room', ({maxPlayers, playerData}) => {
+  socket.on('create_room', ({maxPlayers = 2}, fn) => {
     console.log('received event', maxPlayers);
     const newlyCreatedRoom = createNewRoom();
     rooms.set(newlyCreatedRoom, {
       maxPlayers,
       creationTime: new Date(),
-      players: [{playerData, socket}],
-      roomName: newlyCreatedRoom,
+      orderToBeFilled: 2,
     });
     socket.join(newlyCreatedRoom);
-    socket.emit('create_room_result', {roomName: newlyCreatedRoom});
+    if (fn) fn({roomName: newlyCreatedRoom});
+    console.log('someone created a room', rooms.get(newlyCreatedRoom));
   });
 
-  socket.on('join_room', (msg) => {
-    if (rooms.has(msg.roomName)) {
-      socket.join(msg.roomName);
-      socket.emit('join_room_sucess', {});
+  socket.on('join_room', ({roomName}, fn) => {
+    if (rooms.has(roomName)) {
+      socket.join(roomName);
+      const roomData: Room = rooms.get(roomName) as Room;
+
+      if (roomData.maxPlayers > roomData.orderToBeFilled) {
+        fn({error: 'max player limit reached'});
+      } else {
+        fn({
+          order: roomData?.orderToBeFilled,
+        });
+      }
+
+      console.log('someone joined the room', roomData);
+
+      rooms.set(roomName, {
+        ...roomData,
+        orderToBeFilled: roomData.orderToBeFilled + 1,
+      });
     } else {
-      socket.emit('join_room_failure', {msg: 'room_not_found'});
+      fn({msg: 'room_not_found'});
     }
   });
 
-  socket.on('game_event', (msg) => {
-    if (rooms.has(msg.roomName)) {
-      io.to(msg.roomName).emit('game_event', msg.event);
-    } else {
-      socket.emit('game_event_failure', {msg: 'room_not_found'});
-    }
+  socket.on('game_event', (data) => {
+    Object.keys(socket.rooms)
+      .filter((r) => r !== socket.id)
+      .forEach((room) => {
+        io.to(room).emit('game_event', data);
+        console.log('brodcasted', event);
+      });
   });
 });
 
@@ -52,17 +66,12 @@ http.listen(3000, () => {
 });
 
 interface Room {
-  roomName: string;
   maxPlayers: number;
-  players: Player[];
   creationTime: Date;
+  orderToBeFilled: number;
 }
 
-interface Player {
-  playerData: any;
-  socket: Socket;
-}
-
+let roomIdCounter = 0;
 function createNewRoom() {
   roomIdCounter++;
   return roomIdCounter + '';
