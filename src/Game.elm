@@ -28,20 +28,20 @@ init _ =
       , room = Nothing
       , roomToJoin = ""
       , messageToDisplay = ""
-      , selectedPlayer = Blue
+      , selectedPlayer = Red
       }
     , Cmd.none
     )
 
 
 subscriptions : Model -> Sub Msg
-subscriptions _ =
+subscriptions model =
     Sub.batch
         [ Ports.diceRolledReceiver (\num -> NewRandomNumber num)
         , Ports.moveCoinsPosReceiver (\pos -> MoveCoin pos)
         , Ports.errorReceiver (\m -> UpdateMessage m)
-        , Ports.joinGamePlayerReceiver (\( room, color ) -> UpdateRoom room color)
-        , Ports.newGameReceiver (\room -> UpdateRoom room Blue)
+        , Ports.joinGamePlayerReceiver (\( room, color, maxPlayer ) -> UpdateRoom room color (Just maxPlayer))
+        , Ports.newGameReceiver (\room -> UpdateRoom room Red model.maxPlayers)
         ]
 
 
@@ -53,7 +53,7 @@ gridHtml model =
         (commonPath model
             ++ homeBoxes
             ++ endPath model
-            ++ diceDiv model.diceNum model.turn
+            ++ diceDiv model
             :: homeCells model
         )
 

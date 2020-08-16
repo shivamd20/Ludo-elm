@@ -44,6 +44,7 @@ io.on('connection', (socket) => {
 
         fn({
           order: roomData?.orderToBeFilled,
+          maxPlayers: roomData.maxPlayers,
         });
 
         rooms.set(roomName, {

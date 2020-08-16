@@ -6,11 +6,11 @@ import Html.Events exposing (onClick)
 import LudoModel exposing (Msg(..), PlayerColor(..))
 
 
-diceDiv : Int -> PlayerColor -> Html Msg
-diceDiv diceNum turn =
+diceDiv : LudoModel.Model -> Html Msg
+diceDiv model =
     let
         positionClass =
-            case turn of
+            case model.turn of
                 Red ->
                     "col-start-3 row-start-3"
 
@@ -24,8 +24,8 @@ diceDiv diceNum turn =
                     "col-start-12 row-start-12"
     in
     button
-        [ class ("rounded-full hover:bg-gray-600 focus:outline-none focus:shadow-outline col-span-2 row-span-2 border p-2 m-2 " ++ positionClass)
-        , if diceNum == 0 then
+        [ class ("disabled:opacity-50 rounded-full hover:bg-gray-600 focus:outline-none focus:shadow-outline col-span-2 row-span-2 border p-2 m-2 " ++ positionClass)
+        , if model.diceNum == 0 && model.turn == model.selectedPlayer then
             onClick
                 RollDice
 
@@ -33,9 +33,9 @@ diceDiv diceNum turn =
             hidden False
         ]
         [ text <|
-            if diceNum == 0 then
+            if model.diceNum == 0 then
                 "roll"
 
             else
-                String.fromInt diceNum
+                String.fromInt model.diceNum
         ]

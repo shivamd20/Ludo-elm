@@ -51,7 +51,7 @@ type Msg
     | OnRoomJoinClicked
     | OnStartGameClicked
     | UpdateMessage String
-    | UpdateRoom String PlayerColor
+    | UpdateRoom String PlayerColor (Maybe Int)
 
 
 type Position

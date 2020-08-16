@@ -1,7 +1,7 @@
 module LudoUpdate exposing (update)
 
-import Ludo exposing (canMove, moveAllType, nextTurn)
-import LudoModel exposing (Model, Msg(..), Position(..))
+import Ludo exposing (canMove, moveAllType)
+import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..))
 import Ports
 
 
@@ -79,7 +79,7 @@ update msg model =
                             Nothing
 
                         Just num ->
-                            if num > 0 && num < 5 then
+                            if num > 1 && num < 5 then
                                 Just num
 
                             else
@@ -97,5 +97,25 @@ update msg model =
         UpdateMessage m ->
             ( { model | messageToDisplay = m }, Cmd.none )
 
-        UpdateRoom room color ->
-            ( { model | room = Just room, selectedPlayer = color }, Cmd.none )
+        UpdateRoom room color maxPlayers ->
+            ( { model
+                | room = Just room
+                , selectedPlayer = color
+                , maxPlayers = maxPlayers
+                , positions =
+                    List.filter
+                        (\( c, pos ) ->
+                            case maxPlayers of
+                                Just 2 ->
+                                    c == Red || c == Yellow
+
+                                Just 3 ->
+                                    c == Red || c == Green || c == Yellow
+
+                                _ ->
+                                    True
+                        )
+                        model.positions
+              }
+            , Cmd.none
+            )

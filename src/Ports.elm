@@ -18,7 +18,7 @@ port moveCoinsReceiver : (( Int, Int, Int ) -> msg) -> Sub msg
 port joinGame : String -> Cmd msg
 
 
-port joinGameReceiver : (( String, Int ) -> msg) -> Sub msg
+port joinGameReceiver : (( String, Int, Int ) -> msg) -> Sub msg
 
 
 port createNewGame : Int -> Cmd msg
@@ -30,10 +30,10 @@ port newGameReceiver : (String -> msg) -> Sub msg
 port errorReceiver : (String -> msg) -> Sub msg
 
 
-joinGamePlayerReceiver : (( String, PlayerColor ) -> msg) -> Sub msg
+joinGamePlayerReceiver : (( String, PlayerColor, Int ) -> msg) -> Sub msg
 joinGamePlayerReceiver fn =
     joinGameReceiver
-        (\( room, order ) ->
+        (\( room, order, maxPlayer ) ->
             fn
                 ( room
                 , case order of
@@ -41,16 +41,17 @@ joinGamePlayerReceiver fn =
                         Red
 
                     2 ->
-                        Blue
-
-                    3 ->
                         Green
 
-                    4 ->
+                    3 ->
                         Yellow
+
+                    4 ->
+                        Blue
 
                     _ ->
                         Red
+                , maxPlayer
                 )
         )
 
