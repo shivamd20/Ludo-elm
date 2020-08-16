@@ -35,23 +35,22 @@ io.on('connection', (socket) => {
 
   socket.on('join_room', ({roomName}, fn) => {
     if (rooms.has(roomName)) {
-      socket.join(roomName);
       const roomData: Room = rooms.get(roomName) as Room;
 
-      if (roomData.maxPlayers > roomData.orderToBeFilled) {
+      if (roomData.orderToBeFilled > roomData.maxPlayers) {
         fn({error: 'max player limit reached'});
       } else {
+        socket.join(roomName);
+
         fn({
           order: roomData?.orderToBeFilled,
         });
+
+        rooms.set(roomName, {
+          ...roomData,
+          orderToBeFilled: roomData.orderToBeFilled + 1,
+        });
       }
-
-      console.log('someone joined the room', roomData);
-
-      rooms.set(roomName, {
-        ...roomData,
-        orderToBeFilled: roomData.orderToBeFilled + 1,
-      });
     } else {
       fn({error: 'room_not_found'});
     }
