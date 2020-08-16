@@ -1,4 +1,4 @@
-port module Ports exposing (diceRolledReceiver, errorReceiver, joinGame, joinGameReceiver, moveCoinsPosReceiver, movePosCoins, rollDice)
+port module Ports exposing (createNewGame, diceRolledReceiver, errorReceiver, joinGame, joinGameReceiver, moveCoinsPosReceiver, movePosCoins, newGameReceiver, rollDice)
 
 import LudoModel exposing (CommonPathPosition(..), Msg(..), PlayerColor(..), Position(..))
 
@@ -19,6 +19,12 @@ port joinGame : String -> Cmd msg
 
 
 port joinGameReceiver : (String -> msg) -> Sub msg
+
+
+port createNewGame : Int -> Cmd msg
+
+
+port newGameReceiver : (String -> msg) -> Sub msg
 
 
 port errorReceiver : (String -> msg) -> Sub msg

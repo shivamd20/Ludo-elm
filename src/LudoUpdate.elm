@@ -92,7 +92,7 @@ update msg model =
             ( model, Ports.joinGame model.roomToJoin )
 
         OnStartGameClicked ->
-            ( model, Cmd.none )
+            ( model, Ports.createNewGame (Maybe.withDefault 2 model.maxPlayers) )
 
         UpdateMessage m ->
             ( { model | messageToDisplay = m }, Cmd.none )

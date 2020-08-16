@@ -31,6 +31,7 @@ subscriptions _ =
         , Ports.moveCoinsPosReceiver (\pos -> MoveCoin pos)
         , Ports.errorReceiver (\m -> UpdateMessage m)
         , Ports.joinGameReceiver (\room -> UpdateRoom room)
+        , Ports.newGameReceiver (\room -> UpdateRoom room)
         ]
 
 

@@ -21,7 +21,6 @@
       });
 
       app.ports.moveCoins.subscribe(function (message) {
-        console.log(message);
         app.ports.moveCoinsReceiver.send(message);
       });
 
@@ -32,6 +31,18 @@
             app.ports.errorReceiver.send(data.error);
           } else {
             app.ports.joinGameReceiver.send(roomName);
+          }
+        });
+      });
+
+      app.ports.createNewGame.subscribe(function (maxPlayers) {
+        console.log(maxPlayers);
+
+        socket.emit('create_room', {maxPlayers}, (data) => {
+          if (data.error) {
+            app.ports.errorReceiver.send(data.error);
+          } else {
+            app.ports.newGameReceiver.send(data.roomName);
           }
         });
       });
