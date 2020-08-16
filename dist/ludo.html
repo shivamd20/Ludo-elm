@@ -19,6 +19,7 @@
       app.ports.rollDice.subscribe(function () {
         const randomNumber = Math.floor(Math.random() * 6) + 1;
         socket.emit('game_event', {type: 'roll_dice', data: randomNumber});
+        app.ports.diceRolledReceiver.send(randomNumber);
       });
 
       socket.on('game_event', ({type, data}) => {
@@ -34,6 +35,7 @@
 
       app.ports.moveCoins.subscribe(function (message) {
         socket.emit('game_event', {type: 'move_coins', data: message});
+        app.ports.moveCoinsReceiver.send(message);
       });
 
       app.ports.joinGame.subscribe(function (roomName) {

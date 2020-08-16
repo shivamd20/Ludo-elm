@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
     Object.keys(socket.rooms)
       .filter((r) => r !== socket.id)
       .forEach((room) => {
-        io.to(room).emit('game_event', data);
+        socket.broadcast.emit('game_event', data);
       });
   });
 });
