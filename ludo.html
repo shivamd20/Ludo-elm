@@ -22,6 +22,11 @@
         console.log(message);
         app.ports.moveCoinsReceiver.send(message);
       });
+
+      app.ports.joinGame.subscribe(function (message) {
+        // app.ports.errorReceiver.send('galat hai ye sab');
+        app.ports.joinGameReceiver.send(message);
+      });
     </script>
   </body>
 </html>

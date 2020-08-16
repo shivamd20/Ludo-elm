@@ -63,3 +63,39 @@ update msg model =
 
         RollDice ->
             ( model, Ports.rollDice () )
+
+        RoomToBeJoinedChanged string ->
+            ( { model | roomToJoin = string }, Cmd.none )
+
+        MaxPlayersChanged string ->
+            ( { model
+                | maxPlayers =
+                    let
+                        maybeNum =
+                            String.toInt string
+                    in
+                    case maybeNum of
+                        Nothing ->
+                            Nothing
+
+                        Just num ->
+                            if num > 0 && num < 5 then
+                                Just num
+
+                            else
+                                Nothing
+              }
+            , Cmd.none
+            )
+
+        OnRoomJoinClicked ->
+            ( model, Ports.joinGame model.roomToJoin )
+
+        OnStartGameClicked ->
+            ( model, Cmd.none )
+
+        UpdateMessage m ->
+            ( { model | messageToDisplay = m }, Cmd.none )
+
+        UpdateRoom room ->
+            ( { model | room = Just room }, Cmd.none )

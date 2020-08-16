@@ -5,6 +5,10 @@ type alias Model =
     { diceNum : Int
     , positions : List ( PlayerColor, Position )
     , turn : PlayerColor
+    , maxPlayers : Maybe Int
+    , room : Maybe String
+    , roomToJoin : String
+    , messageToDisplay : String
     }
 
 
@@ -41,6 +45,12 @@ type Msg
     | MoveCoin Position
     | RollDice
     | MakeMove Position
+    | RoomToBeJoinedChanged String
+    | MaxPlayersChanged String
+    | OnRoomJoinClicked
+    | OnStartGameClicked
+    | UpdateMessage String
+    | UpdateRoom String
 
 
 type Position

@@ -6,8 +6,9 @@ import CommonPath exposing (commonPath)
 import Dice exposing (diceDiv)
 import HomeBoxes exposing (homeBoxes)
 import HomeCells exposing (homeCells)
-import Html exposing (Html, br, div, hr)
-import Html.Attributes exposing (class)
+import Html exposing (Html, br, button, div, hr, input)
+import Html.Attributes exposing (class, disabled, hidden, placeholder, type_, value)
+import Html.Events exposing (onClick, onInput)
 import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..), defaultPositions)
 import LudoUpdate exposing (update)
 import Ports
@@ -20,7 +21,7 @@ main =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { diceNum = 0, turn = Red, positions = defaultPositions }, Cmd.none )
+    ( { diceNum = 0, turn = Red, positions = defaultPositions, maxPlayers = Just 2, room = Nothing, roomToJoin = "", messageToDisplay = "" }, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
@@ -28,6 +29,8 @@ subscriptions _ =
     Sub.batch
         [ Ports.diceRolledReceiver (\num -> NewRandomNumber num)
         , Ports.moveCoinsPosReceiver (\pos -> MoveCoin pos)
+        , Ports.errorReceiver (\m -> UpdateMessage m)
+        , Ports.joinGameReceiver (\room -> UpdateRoom room)
         ]
 
 
@@ -47,14 +50,63 @@ gridHtml model =
 view : Model -> Html Msg
 view model =
     div []
-        [ div [ class "my-8  text-center text-white" ]
-            [ gridHtml model
-            , br [] []
-            , br [] []
-            , br [] []
-            , hr [] []
-            , Html.text (Debug.toString model)
+        [ div [] [ Html.text model.messageToDisplay ]
+        , case model.room of
+            Just room ->
+                div []
+                    [ div [ class "my-8  text-center text-white" ]
+                        [ gridHtml model
+                        , br [] []
+                        , br [] []
+                        , br [] []
+                        , Html.text (Maybe.withDefault "" model.room)
+                        , Html.text (Debug.toString model)
+                        ]
+                    ]
+
+            Nothing ->
+                gameStartView model
+        ]
+
+
+gameStartView : Model -> Html Msg
+gameStartView model =
+    div [ class " w-10 w-full text-xl" ]
+        [ input
+            [ class "mx-10 my-3 mt-10 shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            , type_ "number"
+            , onInput MaxPlayersChanged
+            , placeholder "Number of Players"
+            , value
+                (case model.maxPlayers of
+                    Nothing ->
+                        ""
+
+                    Just str ->
+                        String.fromInt str
+                )
             ]
+            []
+        , button
+            [ disabled (model.maxPlayers == Nothing)
+            , onClick LudoModel.OnStartGameClicked
+            , class "disabled:opacity-75 mx-10 my-3 mb-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            ]
+            [ Html.text "Start New Game" ]
+        , br [] []
+        , input
+            [ class "mx-10 my-3 p-5  shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            , placeholder "Room Name To Join"
+            , onInput RoomToBeJoinedChanged
+            , value model.roomToJoin
+            ]
+            []
+        , button
+            [ class " disabled:opacity-75 mx-10 my-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            , onClick OnRoomJoinClicked
+            , disabled (model.roomToJoin == "")
+            ]
+            [ Html.text "Join Game" ]
         ]
 
 
