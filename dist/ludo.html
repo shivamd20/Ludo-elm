@@ -16,12 +16,24 @@
 
       var socket = io();
 
-      app.ports.rollDice.subscribe(function (message) {
-        app.ports.diceRolledReceiver.send(Math.floor(Math.random() * 6) + 1);
+      app.ports.rollDice.subscribe(function () {
+        const randomNumber = Math.floor(Math.random() * 6) + 1;
+        socket.emit('game_event', {type: 'roll_dice', data: randomNumber});
+      });
+
+      socket.on('game_event', ({type, data}) => {
+        switch (type) {
+          case 'roll_dice':
+            app.ports.diceRolledReceiver.send(data);
+            break;
+          case 'move_coins':
+            app.ports.moveCoinsReceiver.send(data);
+            break;
+        }
       });
 
       app.ports.moveCoins.subscribe(function (message) {
-        app.ports.moveCoinsReceiver.send(message);
+        socket.emit('game_event', {type: 'move_coins', data: message});
       });
 
       app.ports.joinGame.subscribe(function (roomName) {

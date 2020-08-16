@@ -62,7 +62,6 @@ io.on('connection', (socket) => {
       .filter((r) => r !== socket.id)
       .forEach((room) => {
         io.to(room).emit('game_event', data);
-        console.log('brodcasted', event);
       });
   });
 });
