@@ -20,7 +20,7 @@ application.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  socket.on('create_room', ({maxPlayers = 2}, fn) => {
+  socket.on('create_room', ({maxPlayers} = {maxPlayers: 2}, fn) => {
     console.log('received event', maxPlayers);
     const newlyCreatedRoom = createNewRoom();
     rooms.set(newlyCreatedRoom, {
@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
         orderToBeFilled: roomData.orderToBeFilled + 1,
       });
     } else {
-      fn({msg: 'room_not_found'});
+      fn({error: 'room_not_found'});
     }
   });
 

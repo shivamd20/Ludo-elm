@@ -7,14 +7,16 @@
   <body class="bg-gray-900 text-white">
     <div id="elm-app-is-loaded-here"></div>
     <script src="ludo.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
     <script>
       var app = Elm.Game.init({
         node: document.getElementById('elm-app-is-loaded-here'),
       });
 
+      var socket = io();
+
       app.ports.rollDice.subscribe(function (message) {
-        console.log(message);
         app.ports.diceRolledReceiver.send(Math.floor(Math.random() * 6) + 1);
       });
 
@@ -23,9 +25,15 @@
         app.ports.moveCoinsReceiver.send(message);
       });
 
-      app.ports.joinGame.subscribe(function (message) {
-        // app.ports.errorReceiver.send('galat hai ye sab');
-        app.ports.joinGameReceiver.send(message);
+      app.ports.joinGame.subscribe(function (roomName) {
+        socket.emit('join_room', {roomName}, (data) => {
+          console.log(data);
+          if (data.error) {
+            app.ports.errorReceiver.send(data.error);
+          } else {
+            app.ports.joinGameReceiver.send(roomName);
+          }
+        });
       });
     </script>
   </body>
