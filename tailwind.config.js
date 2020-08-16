@@ -64,6 +64,7 @@ module.exports = {
   },
   variants: {
     outline: ['focus', 'responsive', 'hover'],
+    opacity: ['disabled'],
     transitionProperty: ['responsive', 'hover', 'focus'],
     scale: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
   },
