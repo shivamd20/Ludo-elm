@@ -1,5 +1,6 @@
 import express from 'express';
 import {createServer} from 'http';
+import path from 'path';
 import socketio from 'socket.io';
 
 const application = express();
@@ -8,6 +9,11 @@ const http = createServer(application);
 const io = socketio(http);
 
 const rooms = new Map<string, Room>();
+
+application.use(
+  '/app',
+  express.static(path.resolve(__dirname, '..') + '/dist')
+);
 
 application.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
