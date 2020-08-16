@@ -333,20 +333,21 @@ moveInCommonPath clickedPosition model =
                 Nothing ->
                     model.positions
     in
-    { positions = updatedPos
-    , diceNum =
-        0
-    , turn =
-        if
-            model.diceNum
-                == 6
-                || killHappened model.turn model.positions updatedPos
-                || goalPathReached model.turn model.positions updatedPos
-        then
-            model.turn
+    { model
+        | positions = updatedPos
+        , diceNum =
+            0
+        , turn =
+            if
+                model.diceNum
+                    == 6
+                    || killHappened model.turn model.positions updatedPos
+                    || goalPathReached model.turn model.positions updatedPos
+            then
+                model.turn
 
-        else
-            nextTurn model.turn
+            else
+                nextTurn model.turn
     }
 
 
