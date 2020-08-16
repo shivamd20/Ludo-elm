@@ -16,7 +16,7 @@ application.use(
 );
 
 application.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.redirect('app/ludo.html');
 });
 
 io.on('connection', (socket) => {
