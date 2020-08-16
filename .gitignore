@@ -2,3 +2,4 @@ node_modules/
 elm-stuff/
 ludo.js
 css/tailwind.css
+dist/tailwind.css
