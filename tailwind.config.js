@@ -1,4 +1,8 @@
 module.exports = {
+  purge: {
+    mode: 'all',
+    content: ['./src/**/*.elm', './src/**/*.html'],
+  },
   theme: {
     extend: {
       gridTemplateColumns: {
