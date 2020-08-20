@@ -118,8 +118,6 @@ canMove model posInfo =
     in
     model.diceNum
         /= 0
-        && model.selectedPlayer
-        == model.turn
         && model.turn
         == playerColor
         && (case pos of
