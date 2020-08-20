@@ -1,14 +1,14 @@
 {
   "name": "first",
   "scripts": {
-    "start": "elm-live src/Game.elm -- --output dist/ludo.js  --debug",
-    "styles": "npx tailwindcss build css/tailwind.src.css -o dist/tailwind.css "
+    "start": "elm-live src/Game.elm -- --output ludo.js  --debug",
+    "styles": "npx tailwindcss build css/tailwind.src.css -o dist/tailwind.css ",
+    "build": "elm make src/Game.elm --optimize --output=ludo.js"
   },
   "version": "1.0.0",
   "main": "index.html",
   "license": "MIT",
   "dependencies": {
-    "socket.io": "^2.3.0",
     "tailwindcss": "^1.4.6"
   },
   "devDependencies": {
