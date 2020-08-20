@@ -28,7 +28,7 @@ init _ =
       , room = Nothing
       , roomToJoin = ""
       , messageToDisplay = ""
-      , selectedPlayer = Blue
+      , selectedPlayer = Red
       , participants = [ Red, Green, Yellow, Blue ]
       }
     , Cmd.none
@@ -54,7 +54,7 @@ gridHtml model =
         (commonPath model
             ++ homeBoxes
             ++ endPath model
-            ++ diceDiv model.diceNum model.turn
+            ++ diceDiv model
             :: homeCells model
         )
 

@@ -80,7 +80,7 @@ update msg model =
                             Nothing
 
                         Just num ->
-                            if num > 0 && num < 5 then
+                            if num > 1 && num < 5 then
                                 Just num
 
                             else
@@ -104,7 +104,7 @@ update msg model =
                     { model | participants = getParticipantsByMaxPlayers maxPlayers }
 
                 updatedModel =
-                    { modelWithUpdatedParticipants | room = Just room, selectedPlayer = orderToPlayerColor order maxPlayers }
+                    { modelWithUpdatedParticipants | room = Just room, selectedPlayer = orderToPlayerColor modelWithUpdatedParticipants (order - 1) }
             in
             ( { updatedModel
                 | positions =
