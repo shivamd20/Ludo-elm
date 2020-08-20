@@ -1,7 +1,7 @@
 module.exports = {
   purge: {
     mode: 'all',
-    content: ['./src/**/*.elm', './src/**/*.html'],
+    content: ['./src/**/*.elm', '**/*.html'],
   },
   theme: {
     extend: {
