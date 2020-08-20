@@ -57,11 +57,13 @@ cell orientation coinPosition model =
             findCoinsAtCoinPosition model.positions coinPosition
 
         clickable =
-            List.any
-                (canMove
-                    model
-                )
-                coinsAtPosition
+            model.turn
+                == model.selectedPlayer
+                && List.any
+                    (canMove
+                        model
+                    )
+                    coinsAtPosition
 
         focusClass =
             colorClassName
