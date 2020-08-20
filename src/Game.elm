@@ -66,19 +66,35 @@ view model =
         , case model.room of
             Just _ ->
                 div []
-                    [ div [ class "my-8  text-center text-white" ]
+                    [ div [ class "my-8  text-center text-white text-6xl" ]
                         [ gridHtml model
+                        , Html.text ("Room:  " ++ Maybe.withDefault "" model.room)
                         , br [] []
+                        , Html.text ("turn: " ++ turnToString model.turn)
                         , br [] []
-                        , br [] []
-                        , Html.text (Maybe.withDefault "" model.room)
-                        , Html.text (Debug.toString model)
+                        , Html.text ("me :" ++ turnToString model.selectedPlayer)
                         ]
                     ]
 
             Nothing ->
                 gameStartView model
         ]
+
+
+turnToString : PlayerColor -> String
+turnToString color =
+    case color of
+        Red ->
+            "Red"
+
+        Green ->
+            "Green"
+
+        Blue ->
+            "Blue"
+
+        Yellow ->
+            "Yellow"
 
 
 gameStartView : Model -> Html Msg

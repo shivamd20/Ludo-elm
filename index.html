@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="tailwind.css" />
+    <link rel="stylesheet" href="dist/tailwind.css" />
   </head>
 
   <body class="bg-gray-900 text-white">
     <div id="elm-app-is-loaded-here"></div>
     <script src="ludo.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ludo-galaxy.herokuapp.com/socket.io/socket.io.js"></script>
 
     <script>
       function sound(src) {
@@ -25,13 +25,13 @@
         };
       }
 
-      var diceRoll = new sound('diceRoll.mp3');
+      var diceRoll = new sound('dist/diceRoll.mp3');
 
       var app = Elm.Game.init({
         node: document.getElementById('elm-app-is-loaded-here'),
       });
 
-      var socket = io();
+      var socket = io('https://ludo-galaxy.herokuapp.com/');
 
       app.ports.rollDice.subscribe(function () {
         const randomNumber = Math.floor(Math.random() * 6) + 1;
