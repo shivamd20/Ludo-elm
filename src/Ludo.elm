@@ -118,8 +118,6 @@ canMove model posInfo =
     in
     model.diceNum
         /= 0
-        && model.selectedPlayer
-        == model.turn
         && model.turn
         == playerColor
         && (case pos of
@@ -349,7 +347,7 @@ moveInCommonPath clickedPosition model =
                 model.turn
 
             else
-                nextTurn model.turn
+                nextTurn model model.turn
     }
 
 
@@ -388,17 +386,38 @@ move posInfo model clickedPosition =
             clickedPosition
 
 
-nextTurn : PlayerColor -> PlayerColor
-nextTurn color =
-    case color of
-        Red ->
-            Green
+nextTurn : Model -> PlayerColor -> PlayerColor
+nextTurn model color =
+    case model.participants of
+        first :: second :: [] ->
+            if color == first then
+                second
 
-        Green ->
-            Yellow
+            else
+                first
 
-        Blue ->
+        first :: second :: third :: fourth :: [] ->
+            if color == first then
+                second
+
+            else if color == second then
+                third
+
+            else if color == third then
+                fourth
+
+            else
+                first
+
+        first :: second :: third :: [] ->
+            if color == first then
+                second
+
+            else if color == second then
+                third
+
+            else
+                first
+
+        _ ->
             Red
-
-        Yellow ->
-            Blue

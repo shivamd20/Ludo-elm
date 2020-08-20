@@ -1,6 +1,7 @@
 module LudoUpdate exposing (update)
 
-import Ludo exposing (canMove, moveAllType)
+import List.Extra exposing (getAt)
+import Ludo exposing (canMove, moveAllType, nextTurn)
 import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..))
 import Ports
 
@@ -17,7 +18,7 @@ update msg model =
                 [] ->
                     { model
                         | diceNum = 0
-                        , turn = Ludo.nextTurn model.turn
+                        , turn = Ludo.nextTurn model model.turn
                     }
 
                 ( _, pos ) :: [] ->
@@ -97,25 +98,39 @@ update msg model =
         UpdateMessage m ->
             ( { model | messageToDisplay = m }, Cmd.none )
 
-        UpdateRoom room color maxPlayers ->
-            ( { model
-                | room = Just room
-                , selectedPlayer = color
-                , maxPlayers = maxPlayers
-                , positions =
+        UpdateRoom room order maxPlayers ->
+            let
+                modelWithUpdatedParticipants =
+                    { model | participants = getParticipantsByMaxPlayers maxPlayers }
+
+                updatedModel =
+                    { modelWithUpdatedParticipants | room = Just room, selectedPlayer = orderToPlayerColor modelWithUpdatedParticipants (order - 1) }
+            in
+            ( { updatedModel
+                | positions =
                     List.filter
-                        (\( c, pos ) ->
-                            case maxPlayers of
-                                Just 2 ->
-                                    c == Red || c == Yellow
-
-                                Just 3 ->
-                                    c == Red || c == Green || c == Yellow
-
-                                _ ->
-                                    True
+                        (\( color, _ ) ->
+                            List.filter (\c -> c == color) updatedModel.participants /= []
                         )
-                        model.positions
+                        updatedModel.positions
               }
             , Cmd.none
             )
+
+
+getParticipantsByMaxPlayers : Int -> List PlayerColor
+getParticipantsByMaxPlayers maxPlayers =
+    case maxPlayers of
+        2 ->
+            [ Red, Yellow ]
+
+        3 ->
+            [ Red, Green, Yellow ]
+
+        _ ->
+            [ Red, Green, Yellow, Blue ]
+
+
+orderToPlayerColor : Model -> Int -> PlayerColor
+orderToPlayerColor model order =
+    Maybe.withDefault Red (getAt order model.participants)

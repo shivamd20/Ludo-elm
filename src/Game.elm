@@ -29,6 +29,7 @@ init _ =
       , roomToJoin = ""
       , messageToDisplay = ""
       , selectedPlayer = Red
+      , participants = [ Red, Green, Yellow, Blue ]
       }
     , Cmd.none
     )
@@ -40,8 +41,8 @@ subscriptions model =
         [ Ports.diceRolledReceiver (\num -> NewRandomNumber num)
         , Ports.moveCoinsPosReceiver (\pos -> MoveCoin pos)
         , Ports.errorReceiver (\m -> UpdateMessage m)
-        , Ports.joinGamePlayerReceiver (\( room, color, maxPlayer ) -> UpdateRoom room color (Just maxPlayer))
-        , Ports.newGameReceiver (\room -> UpdateRoom room Red model.maxPlayers)
+        , Ports.joinGameReceiver (\( room, order, maxPlayers ) -> UpdateRoom room order maxPlayers)
+        , Ports.newGameReceiver (\room -> UpdateRoom room 1 (Maybe.withDefault 2 model.maxPlayers))
         ]
 
 
