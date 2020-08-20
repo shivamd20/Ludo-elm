@@ -1,7 +1,8 @@
 module LudoUpdate exposing (update)
 
+import List.Extra exposing (getAt)
 import Ludo exposing (canMove, moveAllType, nextTurn)
-import LudoModel exposing (Model, Msg(..), Position(..))
+import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..))
 import Ports
 
 
@@ -17,7 +18,7 @@ update msg model =
                 [] ->
                     { model
                         | diceNum = 0
-                        , turn = Ludo.nextTurn model.turn
+                        , turn = Ludo.nextTurn model model.turn
                     }
 
                 ( _, pos ) :: [] ->
@@ -97,5 +98,39 @@ update msg model =
         UpdateMessage m ->
             ( { model | messageToDisplay = m }, Cmd.none )
 
-        UpdateRoom room color ->
-            ( { model | room = Just room, selectedPlayer = color }, Cmd.none )
+        UpdateRoom room order maxPlayers ->
+            let
+                modelWithUpdatedParticipants =
+                    { model | participants = getParticipantsByMaxPlayers maxPlayers }
+
+                updatedModel =
+                    { modelWithUpdatedParticipants | room = Just room, selectedPlayer = orderToPlayerColor order maxPlayers }
+            in
+            ( { updatedModel
+                | positions =
+                    List.filter
+                        (\( color, _ ) ->
+                            List.filter (\c -> c == color) updatedModel.participants /= []
+                        )
+                        updatedModel.positions
+              }
+            , Cmd.none
+            )
+
+
+getParticipantsByMaxPlayers : Int -> List PlayerColor
+getParticipantsByMaxPlayers maxPlayers =
+    case maxPlayers of
+        2 ->
+            [ Red, Yellow ]
+
+        3 ->
+            [ Red, Green, Yellow ]
+
+        _ ->
+            [ Red, Green, Yellow, Blue ]
+
+
+orderToPlayerColor : Model -> Int -> PlayerColor
+orderToPlayerColor model order =
+    Maybe.withDefault Red (getAt order model.participants)

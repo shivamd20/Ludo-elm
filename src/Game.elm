@@ -29,19 +29,20 @@ init _ =
       , roomToJoin = ""
       , messageToDisplay = ""
       , selectedPlayer = Blue
+      , participants = [ Red, Green, Yellow, Blue ]
       }
     , Cmd.none
     )
 
 
 subscriptions : Model -> Sub Msg
-subscriptions _ =
+subscriptions model =
     Sub.batch
         [ Ports.diceRolledReceiver (\num -> NewRandomNumber num)
         , Ports.moveCoinsPosReceiver (\pos -> MoveCoin pos)
         , Ports.errorReceiver (\m -> UpdateMessage m)
-        , Ports.joinGamePlayerReceiver (\( room, color ) -> UpdateRoom room color)
-        , Ports.newGameReceiver (\room -> UpdateRoom room Blue)
+        , Ports.joinGameReceiver (\( room, order, maxPlayers ) -> UpdateRoom room order maxPlayers)
+        , Ports.newGameReceiver (\room -> UpdateRoom room 1 (Maybe.withDefault 2 model.maxPlayers))
         ]
 
 
