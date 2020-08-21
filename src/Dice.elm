@@ -29,7 +29,7 @@ diceDiv model =
                         " animate__animated animate__bounce animate__infinite  "
 
                     else
-                        " animate__animated animate__flip animate__infinite "
+                        " animate__animated animate__wobble  "
                    )
     in
     button

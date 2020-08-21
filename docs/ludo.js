@@ -9631,9 +9631,14 @@ var $author$project$LudoModel$Blue = {$: 'Blue'};
 var $author$project$LudoModel$Green = {$: 'Green'};
 var $author$project$LudoModel$Red = {$: 'Red'};
 var $author$project$LudoModel$Yellow = {$: 'Yellow'};
+var $author$project$LudoModel$InCommonPathPosition = F2(
+	function (a, b) {
+		return {$: 'InCommonPathPosition', a: a, b: b};
+	});
 var $author$project$LudoModel$InStartBoxPosition = function (a) {
 	return {$: 'InStartBoxPosition', a: a};
 };
+var $author$project$LudoModel$None = {$: 'None'};
 var $author$project$LudoModel$defaultPositions = _List_fromArray(
 	[
 		_Utils_Tuple2(
@@ -9644,10 +9649,10 @@ var $author$project$LudoModel$defaultPositions = _List_fromArray(
 		$author$project$LudoModel$InStartBoxPosition(2)),
 		_Utils_Tuple2(
 		$author$project$LudoModel$Red,
-		$author$project$LudoModel$InStartBoxPosition(3)),
+		A2($author$project$LudoModel$InCommonPathPosition, 3, $author$project$LudoModel$None)),
 		_Utils_Tuple2(
 		$author$project$LudoModel$Red,
-		$author$project$LudoModel$InStartBoxPosition(4)),
+		A2($author$project$LudoModel$InCommonPathPosition, 3, $author$project$LudoModel$None)),
 		_Utils_Tuple2(
 		$author$project$LudoModel$Green,
 		$author$project$LudoModel$InStartBoxPosition(1)),
@@ -9758,15 +9763,10 @@ var $author$project$Ports$moveCoinsReceiver = _Platform_incomingPort(
 				A2($elm$json$Json$Decode$index, 1, $elm$json$Json$Decode$int));
 		},
 		A2($elm$json$Json$Decode$index, 0, $elm$json$Json$Decode$int)));
-var $author$project$LudoModel$InCommonPathPosition = F2(
-	function (a, b) {
-		return {$: 'InCommonPathPosition', a: a, b: b};
-	});
 var $author$project$LudoModel$InHomePathPosition = F2(
 	function (a, b) {
 		return {$: 'InHomePathPosition', a: a, b: b};
 	});
-var $author$project$LudoModel$None = {$: 'None'};
 var $author$project$LudoModel$PathEnd = function (a) {
 	return {$: 'PathEnd', a: a};
 };
@@ -11158,7 +11158,7 @@ var $author$project$Cell$cell = F3(
 			$elm$core$List$any,
 			$author$project$Ludo$canMove(model),
 			coinsAtPosition);
-		var focusClass = colorClassName + ('  ' + (clickable ? ' border ' : ''));
+		var focusClass = colorClassName + ('  ' + (clickable ? ' animate__animated animate__heartBeat animate__infinite ' : ''));
 		return A2(
 			$elm$html$Html$button,
 			_List_fromArray(
@@ -11552,7 +11552,7 @@ var $author$project$Dice$diceDiv = function (model) {
 	}();
 	var positionClassWithAnimation = _Utils_ap(
 		positionClass,
-		(!model.diceNum) ? ' animate__animated animate__bounce animate__infinite  ' : ' animate__animated animate__flip animate__infinite ');
+		(!model.diceNum) ? ' animate__animated animate__bounce animate__infinite  ' : ' animate__animated animate__wobble  ');
 	return A2(
 		$elm$html$Html$button,
 		_List_fromArray(
@@ -11787,12 +11787,12 @@ var $author$project$HomeCells$clickOrHiddenAttribute = F4(
 				]);
 		} else {
 			var posInfo = _v0.a;
-			return A2($author$project$Ludo$canMove, model, posInfo) ? _List_fromArray(
+			return (_Utils_eq(model.selectedPlayer, model.turn) && A2($author$project$Ludo$canMove, model, posInfo)) ? _List_fromArray(
 				[
 					$elm$html$Html$Events$onClick(
 					$author$project$LudoModel$MakeMove(
 						$author$project$LudoModel$InStartBoxPosition(num))),
-					$elm$html$Html$Attributes$class(classNames + ' border')
+					$elm$html$Html$Attributes$class(classNames + '  animate__animated animate__heartBeat animate__infinite ')
 				]) : _List_fromArray(
 				[
 					$elm$html$Html$Attributes$class(classNames)

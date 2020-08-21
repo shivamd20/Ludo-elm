@@ -78,10 +78,12 @@ clickOrHiddenAttribute model color num classNames =
 
         Just posInfo ->
             if
-                canMove model
-                    posInfo
+                model.selectedPlayer
+                    == model.turn
+                    && canMove model
+                        posInfo
             then
-                [ onClick (MakeMove (InStartBoxPosition num)), class (classNames ++ " border") ]
+                [ onClick (MakeMove (InStartBoxPosition num)), class (classNames ++ "  animate__animated animate__heartBeat animate__infinite ") ]
 
             else
                 [ class classNames ]

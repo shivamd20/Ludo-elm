@@ -69,7 +69,7 @@ cell orientation coinPosition model =
             colorClassName
                 ++ "  "
                 ++ (if clickable then
-                        " border "
+                        " animate__animated animate__heartBeat animate__infinite "
 
                     else
                         ""
