@@ -5134,14 +5134,9 @@ var $author$project$LudoModel$Blue = 2;
 var $author$project$LudoModel$Green = 1;
 var $author$project$LudoModel$Red = 0;
 var $author$project$LudoModel$Yellow = 3;
-var $author$project$LudoModel$InCommonPathPosition = F2(
-	function (a, b) {
-		return {$: 0, a: a, b: b};
-	});
 var $author$project$LudoModel$InStartBoxPosition = function (a) {
 	return {$: 1, a: a};
 };
-var $author$project$LudoModel$None = {$: 3};
 var $author$project$LudoModel$defaultPositions = _List_fromArray(
 	[
 		_Utils_Tuple2(
@@ -5152,10 +5147,10 @@ var $author$project$LudoModel$defaultPositions = _List_fromArray(
 		$author$project$LudoModel$InStartBoxPosition(2)),
 		_Utils_Tuple2(
 		0,
-		A2($author$project$LudoModel$InCommonPathPosition, 3, $author$project$LudoModel$None)),
+		$author$project$LudoModel$InStartBoxPosition(3)),
 		_Utils_Tuple2(
 		0,
-		A2($author$project$LudoModel$InCommonPathPosition, 3, $author$project$LudoModel$None)),
+		$author$project$LudoModel$InStartBoxPosition(4)),
 		_Utils_Tuple2(
 		1,
 		$author$project$LudoModel$InStartBoxPosition(1)),
@@ -5269,10 +5264,15 @@ var $author$project$Ports$moveCoinsReceiver = _Platform_incomingPort(
 				A2($elm$json$Json$Decode$index, 1, $elm$json$Json$Decode$int));
 		},
 		A2($elm$json$Json$Decode$index, 0, $elm$json$Json$Decode$int)));
+var $author$project$LudoModel$InCommonPathPosition = F2(
+	function (a, b) {
+		return {$: 0, a: a, b: b};
+	});
 var $author$project$LudoModel$InHomePathPosition = F2(
 	function (a, b) {
 		return {$: 2, a: a, b: b};
 	});
+var $author$project$LudoModel$None = {$: 3};
 var $author$project$LudoModel$PathEnd = function (a) {
 	return {$: 2, a: a};
 };
