@@ -1,7 +1,7 @@
 {
   "name": "first",
   "scripts": {
-    "start": "elm-live src/Game.elm -- --output ludo.js  --debug",
+    "start": "elm-live src/Game.elm -- --output docs/ludo.js  --debug",
     "styles": "npx tailwindcss build css/tailwind.src.css -o docs/tailwind.css ",
     "prod-styles": "NODE_ENV=production npx tailwindcss build css/tailwind.src.css -o docs/tailwind.css ",
     "build": "elm make src/Game.elm --optimize --output=docs/ludo.js"
