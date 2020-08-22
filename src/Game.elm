@@ -140,20 +140,20 @@ gameStartView model =
 
 endPath : Model -> List (Html Msg)
 endPath model =
-    [ div [ class "  col-start-2 row-start-8 col-span-5 bg-red-800  " ]
-        ([ 1, 2, 3, 4, 5 ]
+    [ div [ class "  col-start-2 row-start-8 col-span-6 bg-red-800  " ]
+        ([ 1, 2, 3, 4, 5, 6 ]
             |> List.map (\b -> cell Horizontal (InHomePathPosition Red b) model)
         )
-    , div [ class "  col-start-8 row-start-2 row-span-5  bg-green-800  " ]
-        ([ 1, 2, 3, 4, 5 ]
+    , div [ class "  col-start-8 row-start-2 row-span-6  bg-green-800  " ]
+        ([ 1, 2, 3, 4, 5, 6 ]
             |> List.map (\b -> cell Vertical (InHomePathPosition Green b) model)
         )
-    , div [ class "  col-start-10 row-start-8 col-span-5 bg-yellow-800  " ]
-        ([ 5, 4, 3, 2, 1 ]
+    , div [ class "  col-start-9 row-start-8 col-span-6 bg-yellow-800  " ]
+        ([ 6, 5, 4, 3, 2, 1 ]
             |> List.map (\b -> cell Horizontal (InHomePathPosition Yellow b) model)
         )
-    , div [ class "  col-start-8 row-start-10 row-span-5 bg-blue-800 " ]
-        ([ 5, 4, 3, 2, 1 ]
+    , div [ class "  col-start-8 row-start-9 row-span-6 bg-blue-800 " ]
+        ([ 6, 5, 4, 3, 2, 1 ]
             |> List.map (\b -> cell Vertical (InHomePathPosition Blue b) model)
         )
     ]
