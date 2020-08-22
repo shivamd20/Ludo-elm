@@ -1,9 +1,11 @@
 module Dice exposing (diceDiv)
 
-import Html exposing (Html, button, text)
+import Html exposing (Html, button, img, text)
 import Html.Attributes exposing (class, hidden)
 import Html.Events exposing (onClick)
 import LudoModel exposing (Msg(..), PlayerColor(..))
+import Svg exposing (..)
+import Svg.Attributes exposing (..)
 
 
 diceDiv : LudoModel.Model -> Html Msg
@@ -32,19 +34,18 @@ diceDiv model =
                         " animate__animated animate__wobble  "
                    )
     in
-    button
-        [ class ("disabled:opacity-50 rounded-full hover:bg-gray-600 focus:outline-none focus:shadow-outline col-span-2 row-span-2 border p-2 m-2 animate__animated animate__bounce " ++ positionClassWithAnimation)
-        , if model.diceNum == 0 && model.turn == model.selectedPlayer then
-            onClick
-                RollDice
+    if model.diceNum == 0 then
+        img
+            [ Html.Attributes.src "dice.svg"
+            , if model.diceNum == 0 && model.turn == model.selectedPlayer then
+                onClick
+                    RollDice
 
-          else
-            hidden False
-        ]
-        [ text <|
-            if model.diceNum == 0 then
-                "roll"
+              else
+                hidden False
+            , Html.Attributes.class ("disabled:opacity-50  hover:bg-gray-600  col-span-2 row-span-2  animate__animated animate__bounce text-center " ++ positionClassWithAnimation)
+            ]
+            []
 
-            else
-                String.fromInt model.diceNum
-        ]
+    else
+        Html.button [ Html.Attributes.class ("disabled:opacity-50  border hover:bg-gray-600  col-span-2 row-span-2  animate__animated animate__bounce text-center " ++ positionClassWithAnimation) ] [ Html.text (String.fromInt model.diceNum) ]

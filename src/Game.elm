@@ -49,7 +49,7 @@ subscriptions model =
 gridHtml : Model -> Html Msg
 gridHtml model =
     div
-        [ class "grid text-4xl text-center grid-cols-15  grid-rows-15 m-auto p-3  h-wscreen w-screen lg:h-screen lg:w-hscreen"
+        [ class "grid  text-center  grid-cols-15  grid-rows-15 m-auto p-3  h-wscreen w-screen lg:h-screen lg:w-hscreen"
         ]
         (commonPath model
             ++ homeBoxes
@@ -66,7 +66,7 @@ view model =
         , case model.room of
             Just _ ->
                 div []
-                    [ div [ class "my-8  text-center text-white text-6xl" ]
+                    [ div [ class "my-8  text-center text-white" ]
                         [ gridHtml model
                         , Html.text ("Room:  " ++ Maybe.withDefault "" model.room)
                         , br [] []
@@ -99,7 +99,7 @@ turnToString color =
 
 gameStartView : Model -> Html Msg
 gameStartView model =
-    div [ class " w-10 w-full text-xl" ]
+    div [ class " w-10 w-full text-xs " ]
         [ input
             [ class "mx-10 my-3 mt-10 shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             , type_ "number"
