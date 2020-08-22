@@ -69,8 +69,6 @@ view model =
                     [ div [ class "my-8  text-center text-white" ]
                         [ gridHtml model
                         , Html.text ("Room:  " ++ Maybe.withDefault "" model.room)
-                        , br [] []
-                        , Html.text ("me :" ++ turnToString model.selectedPlayer)
                         ]
                     ]
 
