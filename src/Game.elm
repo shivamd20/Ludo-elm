@@ -70,8 +70,6 @@ view model =
                         [ gridHtml model
                         , Html.text ("Room:  " ++ Maybe.withDefault "" model.room)
                         , br [] []
-                        , Html.text ("turn: " ++ turnToString model.turn)
-                        , br [] []
                         , Html.text ("me :" ++ turnToString model.selectedPlayer)
                         ]
                     ]
