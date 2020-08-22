@@ -3145,6 +3145,10 @@ object {
   opacity: 0.75;
 }
 
+.outline-none {
+  outline: 0;
+}
+
 .focus\:outline-none:focus {
   outline: 0;
 }
@@ -3206,6 +3210,10 @@ object {
 
 .shadow {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.shadow-outline {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
 }
 
 .focus\:shadow-outline:focus {

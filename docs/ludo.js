@@ -6631,7 +6631,6 @@ var $author$project$LudoUpdate$update = F2(
 					$elm$core$Platform$Cmd$none);
 		}
 	});
-var $elm$html$Html$br = _VirtualDom_node('br');
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
 		return A2(
@@ -6649,6 +6648,7 @@ var $author$project$LudoModel$OnStartGameClicked = {$: 7};
 var $author$project$LudoModel$RoomToBeJoinedChanged = function (a) {
 	return {$: 4, a: a};
 };
+var $elm$html$Html$br = _VirtualDom_node('br');
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$json$Json$Encode$bool = _Json_wrap;
 var $elm$html$Html$Attributes$boolProperty = F2(
@@ -7333,7 +7333,7 @@ var $author$project$Dice$diceDiv = function (model) {
 			[
 				((!model.E) && _Utils_eq(model.aU, model.aN)) ? $elm$html$Html$Events$onClick($author$project$LudoModel$RollDice) : $elm$html$Html$Attributes$hidden(false),
 				$elm$svg$Svg$Attributes$viewBox('0 0 512 512'),
-				$elm$svg$Svg$Attributes$class('disabled:opacity-50   hover:bg-gray-600  col-span-2 row-span-2  animate__animated animate__bounce text-center ' + positionClassWithAnimation)
+				$elm$svg$Svg$Attributes$class('disabled:opacity-50 outline-none focus:outline-none  hover:bg-gray-600  col-span-2 row-span-2  animate__animated animate__bounce text-center ' + positionClassWithAnimation)
 			]),
 		_List_fromArray(
 			[
@@ -7343,7 +7343,7 @@ var $author$project$Dice$diceDiv = function (model) {
 					[
 						$elm$svg$Svg$Attributes$d('M0 0h512v512H0z'),
 						$elm$svg$Svg$Attributes$fill('#000'),
-						$elm$svg$Svg$Attributes$fillOpacity('0.1')
+						$elm$svg$Svg$Attributes$fillOpacity('0')
 					]),
 				_List_Nil),
 				A2(
@@ -7482,74 +7482,84 @@ var $author$project$HomeBoxes$blueHomeBoxes = _List_fromArray(
 		A2($author$project$HomeBoxes$homeBox, 'col-start-1 row-start-13', 2),
 		A2($author$project$HomeBoxes$homeBox, 'col-start-4 row-start-13', 2)
 	]);
-var $author$project$HomeBoxes$colorHomeBoxes = _List_fromArray(
-	[
-		A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('col-start-1 row-start-1 border-4 row-span-6 border-red-800 col-span-6 rounded-lg')
-			]),
-		_List_Nil),
-		A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('col-start-10 row-start-1 border-4 row-span-6 border-green-800 col-span-6 rounded-lg')
-			]),
-		_List_Nil),
-		A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('col-start-1 row-start-10 border-4 row-span-6 border-blue-800 col-span-6 rounded-lg')
-			]),
-		_List_Nil),
-		A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('col-start-10 row-start-10 border-4 row-span-6 border-yellow-800  col-span-6 rounded-lg')
-			]),
-		_List_Nil),
-		A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('col-start-7 row-start-7  row-span-3  col-span-3 rounded-lg grid grid-cols-3  grid-rows-3')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('  col-start-1 row-start-1 row-span-2 border-l-4 border-t-4 border-red-800  ')
-					]),
-				_List_Nil),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('  col-start-2 row-start-1 col-span-2 border-t-4 border-r-4 border-green-800  ')
-					]),
-				_List_Nil),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('  col-start-1 row-start-3 col-span-2 border-l-4 border-b-4 border-blue-800 ')
-					]),
-				_List_Nil),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class(' col-start-3 row-start-2 row-span-2 border-r-4 border-b-4 border-yellow-800  ')
-					]),
-				_List_Nil)
-			]))
-	]);
+var $author$project$HomeBoxes$mineClass = F2(
+	function (model, color) {
+		return _Utils_eq(model.aN, color) ? ' shadow-outline' : '';
+	});
+var $author$project$HomeBoxes$colorHomeBoxes = function (model) {
+	return _List_fromArray(
+		[
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class(
+					'col-start-1 row-start-1 border-4 row-span-6 border-red-800 col-span-6 rounded-lg ' + A2($author$project$HomeBoxes$mineClass, model, 0))
+				]),
+			_List_Nil),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class(
+					'col-start-10 row-start-1 border-4 row-span-6 border-green-800 col-span-6 rounded-lg' + A2($author$project$HomeBoxes$mineClass, model, 1))
+				]),
+			_List_Nil),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class(
+					'col-start-1 row-start-10 border-4 row-span-6 border-blue-800 col-span-6 rounded-lg' + A2($author$project$HomeBoxes$mineClass, model, 2))
+				]),
+			_List_Nil),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class(
+					'col-start-10 row-start-10 border-4 row-span-6 border-yellow-800  col-span-6 rounded-lg' + A2($author$project$HomeBoxes$mineClass, model, 3))
+				]),
+			_List_Nil),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('col-start-7 row-start-7  row-span-3  col-span-3 rounded-lg grid grid-cols-3  grid-rows-3')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('  col-start-1 row-start-1 row-span-2 border-l-4 border-t-4 border-red-800  ')
+						]),
+					_List_Nil),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('  col-start-2 row-start-1 col-span-2 border-t-4 border-r-4 border-green-800  ')
+						]),
+					_List_Nil),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('  col-start-1 row-start-3 col-span-2 border-l-4 border-b-4 border-blue-800 ')
+						]),
+					_List_Nil),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class(' col-start-3 row-start-2 row-span-2 border-r-4 border-b-4 border-yellow-800  ')
+						]),
+					_List_Nil)
+				]))
+		]);
+};
 var $author$project$HomeBoxes$greenHomeBoxes = _List_fromArray(
 	[
 		A2($author$project$HomeBoxes$homeBox, 'col-start-10 row-start-1', 1),
@@ -7571,13 +7581,15 @@ var $author$project$HomeBoxes$yellowHomeBoxes = _List_fromArray(
 		A2($author$project$HomeBoxes$homeBox, 'col-start-10 row-start-13', 3),
 		A2($author$project$HomeBoxes$homeBox, 'col-start-13 row-start-13', 3)
 	]);
-var $author$project$HomeBoxes$homeBoxes = _Utils_ap(
-	$author$project$HomeBoxes$colorHomeBoxes,
-	_Utils_ap(
-		$author$project$HomeBoxes$redHomeBoxes,
+var $author$project$HomeBoxes$homeBoxes = function (model) {
+	return _Utils_ap(
+		$author$project$HomeBoxes$colorHomeBoxes(model),
 		_Utils_ap(
-			$author$project$HomeBoxes$blueHomeBoxes,
-			_Utils_ap($author$project$HomeBoxes$greenHomeBoxes, $author$project$HomeBoxes$yellowHomeBoxes))));
+			$author$project$HomeBoxes$redHomeBoxes,
+			_Utils_ap(
+				$author$project$HomeBoxes$blueHomeBoxes,
+				_Utils_ap($author$project$HomeBoxes$greenHomeBoxes, $author$project$HomeBoxes$yellowHomeBoxes))));
+};
 var $elm_community$list_extra$List$Extra$find = F2(
 	function (predicate, list) {
 		find:
@@ -7792,25 +7804,13 @@ var $author$project$Game$gridHtml = function (model) {
 		_Utils_ap(
 			$author$project$CommonPath$commonPath(model),
 			_Utils_ap(
-				$author$project$HomeBoxes$homeBoxes,
+				$author$project$HomeBoxes$homeBoxes(model),
 				_Utils_ap(
 					$author$project$Game$endPath(model),
 					A2(
 						$elm$core$List$cons,
 						$author$project$Dice$diceDiv(model),
 						$author$project$HomeCells$homeCells(model))))));
-};
-var $author$project$Game$turnToString = function (color) {
-	switch (color) {
-		case 0:
-			return 'Red';
-		case 1:
-			return 'Green';
-		case 2:
-			return 'Blue';
-		default:
-			return 'Yellow';
-	}
 };
 var $author$project$Game$view = function (model) {
 	return A2(
@@ -7843,13 +7843,7 @@ var $author$project$Game$view = function (model) {
 									[
 										$author$project$Game$gridHtml(model),
 										$elm$html$Html$text(
-										'Room:  ' + A2($elm$core$Maybe$withDefault, '', model.M)),
-										A2($elm$html$Html$br, _List_Nil, _List_Nil),
-										$elm$html$Html$text(
-										'turn: ' + $author$project$Game$turnToString(model.aU)),
-										A2($elm$html$Html$br, _List_Nil, _List_Nil),
-										$elm$html$Html$text(
-										'me :' + $author$project$Game$turnToString(model.aN))
+										'Room:  ' + A2($elm$core$Maybe$withDefault, '', model.M))
 									]))
 							]));
 				} else {
