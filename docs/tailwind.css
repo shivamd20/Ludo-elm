@@ -115,10 +115,6 @@ small {
  * Remove the border on images inside links in IE 10.
  */
 
-img {
-  border-style: none;
-}
-
 /* Forms
    ========================================================================== */
 
@@ -374,10 +370,6 @@ html {
  * https://github.com/tailwindcss/tailwindcss/issues/362
  */
 
-img {
-  border-style: solid;
-}
-
 input::-moz-placeholder {
   color: #a0aec0;
 }
@@ -457,7 +449,7 @@ code {
  * https://github.com/mozdevs/cssremedy/issues/14
  */
 
-img,
+
 svg,
 audio,
 object {
@@ -471,11 +463,6 @@ object {
  *
  * https://github.com/mozdevs/cssremedy/issues/14
  */
-
-img {
-  max-width: 100%;
-  height: auto;
-}
 
 :root {
   --animate-duration: 50s;
@@ -3323,10 +3310,6 @@ img {
   grid-column: span 3 / span 3;
 }
 
-.col-span-5 {
-  grid-column: span 5 / span 5;
-}
-
 .col-span-6 {
   grid-column: span 6 / span 6;
 }
@@ -3403,10 +3386,6 @@ img {
   grid-row: span 3 / span 3;
 }
 
-.row-span-5 {
-  grid-row: span 5 / span 5;
-}
-
 .row-span-6 {
   grid-row: span 6 / span 6;
 }
@@ -3465,6 +3444,17 @@ img {
 
 .row-start-15 {
   grid-row-start: 15;
+}
+
+.transform {
+  --transform-translate-x: 0;
+  --transform-translate-y: 0;
+  --transform-rotate: 0;
+  --transform-skew-x: 0;
+  --transform-skew-y: 0;
+  --transform-scale-x: 1;
+  --transform-scale-y: 1;
+  transform: translateX(var(--transform-translate-x)) translateY(var(--transform-translate-y)) rotate(var(--transform-rotate)) skewX(var(--transform-skew-x)) skewY(var(--transform-skew-y)) scaleX(var(--transform-scale-x)) scaleY(var(--transform-scale-y));
 }
 
 @media (min-width: 640px) {
