@@ -52,7 +52,7 @@ gridHtml model =
         [ class "grid  text-center  grid-cols-15  grid-rows-15 m-auto md:p-3  h-wscreen w-screen lg:h-screen lg:w-hscreen text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl"
         ]
         (commonPath model
-            ++ homeBoxes
+            ++ homeBoxes model
             ++ endPath model
             ++ diceDiv model
             :: homeCells model
