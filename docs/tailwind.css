@@ -115,6 +115,10 @@ small {
  * Remove the border on images inside links in IE 10.
  */
 
+img {
+  border-style: none;
+}
+
 /* Forms
    ========================================================================== */
 
@@ -370,6 +374,10 @@ html {
  * https://github.com/tailwindcss/tailwindcss/issues/362
  */
 
+img {
+  border-style: solid;
+}
+
 input::-moz-placeholder {
   color: #a0aec0;
 }
@@ -449,7 +457,8 @@ code {
  * https://github.com/mozdevs/cssremedy/issues/14
  */
 
-
+img,
+svg,
 audio,
 object {
   display: block;
@@ -462,6 +471,11 @@ object {
  *
  * https://github.com/mozdevs/cssremedy/issues/14
  */
+
+img {
+  max-width: 100%;
+  height: auto;
+}
 
 :root {
   --animate-duration: 50s;
@@ -2917,10 +2931,34 @@ object {
   background-color: rgba(26, 32, 44, var(--bg-opacity));
 }
 
+.bg-red-800 {
+  --bg-opacity: 1;
+  background-color: #9b2c2c;
+  background-color: rgba(155, 44, 44, var(--bg-opacity));
+}
+
+.bg-yellow-800 {
+  --bg-opacity: 1;
+  background-color: #975a16;
+  background-color: rgba(151, 90, 22, var(--bg-opacity));
+}
+
+.bg-green-800 {
+  --bg-opacity: 1;
+  background-color: #276749;
+  background-color: rgba(39, 103, 73, var(--bg-opacity));
+}
+
 .bg-blue-500 {
   --bg-opacity: 1;
   background-color: #4299e1;
   background-color: rgba(66, 153, 225, var(--bg-opacity));
+}
+
+.bg-blue-800 {
+  --bg-opacity: 1;
+  background-color: #2c5282;
+  background-color: rgba(44, 82, 130, var(--bg-opacity));
 }
 
 .hover\:bg-gray-600:hover {
@@ -2935,28 +2973,16 @@ object {
   background-color: rgba(43, 108, 176, var(--bg-opacity));
 }
 
-.border-gray-500 {
-  --border-opacity: 1;
-  border-color: #a0aec0;
-  border-color: rgba(160, 174, 192, var(--border-opacity));
-}
-
-.border-red-500 {
-  --border-opacity: 1;
-  border-color: #f56565;
-  border-color: rgba(245, 101, 101, var(--border-opacity));
-}
-
 .border-red-700 {
   --border-opacity: 1;
   border-color: #c53030;
   border-color: rgba(197, 48, 48, var(--border-opacity));
 }
 
-.border-yellow-500 {
+.border-red-800 {
   --border-opacity: 1;
-  border-color: #ecc94b;
-  border-color: rgba(236, 201, 75, var(--border-opacity));
+  border-color: #9b2c2c;
+  border-color: rgba(155, 44, 44, var(--border-opacity));
 }
 
 .border-yellow-700 {
@@ -2965,10 +2991,10 @@ object {
   border-color: rgba(183, 121, 31, var(--border-opacity));
 }
 
-.border-green-500 {
+.border-yellow-800 {
   --border-opacity: 1;
-  border-color: #48bb78;
-  border-color: rgba(72, 187, 120, var(--border-opacity));
+  border-color: #975a16;
+  border-color: rgba(151, 90, 22, var(--border-opacity));
 }
 
 .border-green-700 {
@@ -2977,16 +3003,22 @@ object {
   border-color: rgba(47, 133, 90, var(--border-opacity));
 }
 
-.border-blue-500 {
+.border-green-800 {
   --border-opacity: 1;
-  border-color: #4299e1;
-  border-color: rgba(66, 153, 225, var(--border-opacity));
+  border-color: #276749;
+  border-color: rgba(39, 103, 73, var(--border-opacity));
 }
 
 .border-blue-700 {
   --border-opacity: 1;
   border-color: #2b6cb0;
   border-color: rgba(43, 108, 176, var(--border-opacity));
+}
+
+.border-blue-800 {
+  --border-opacity: 1;
+  border-color: #2c5282;
+  border-color: rgba(44, 82, 130, var(--border-opacity));
 }
 
 .rounded {
@@ -3001,24 +3033,28 @@ object {
   border-radius: 9999px;
 }
 
+.border-4 {
+  border-width: 4px;
+}
+
 .border {
   border-width: 1px;
 }
 
-.border-t {
-  border-top-width: 1px;
+.border-t-4 {
+  border-top-width: 4px;
 }
 
-.border-r {
-  border-right-width: 1px;
+.border-r-4 {
+  border-right-width: 4px;
 }
 
-.border-b {
-  border-bottom-width: 1px;
+.border-b-4 {
+  border-bottom-width: 4px;
 }
 
-.border-l {
-  border-left-width: 1px;
+.border-l-4 {
+  border-left-width: 4px;
 }
 
 .block {
@@ -3075,24 +3111,12 @@ object {
   height: 100vw;
 }
 
-.text-xl {
-  font-size: 1.25rem;
-}
-
-.text-4xl {
-  font-size: 2.25rem;
-}
-
-.text-6xl {
-  font-size: 4rem;
+.text-xs {
+  font-size: 0.75rem;
 }
 
 .leading-tight {
   line-height: 1.25;
-}
-
-.m-2 {
-  margin: 0.5rem;
 }
 
 .m-5 {
@@ -3144,14 +3168,6 @@ object {
 
 .overflow-hidden {
   overflow: hidden;
-}
-
-.p-2 {
-  padding: 0.5rem;
-}
-
-.p-3 {
-  padding: 0.75rem;
 }
 
 .p-5 {
@@ -3291,6 +3307,10 @@ object {
   width: 100vw;
 }
 
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .grid-cols-15 {
   grid-template-columns: repeat(15, minmax(0, 1fr));
 }
@@ -3301,6 +3321,10 @@ object {
 
 .col-span-3 {
   grid-column: span 3 / span 3;
+}
+
+.col-span-5 {
+  grid-column: span 5 / span 5;
 }
 
 .col-span-6 {
@@ -3363,6 +3387,10 @@ object {
   grid-column-start: 15;
 }
 
+.grid-rows-3 {
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+}
+
 .grid-rows-15 {
   grid-template-rows: repeat(15, minmax(0, 1fr));
 }
@@ -3373,6 +3401,10 @@ object {
 
 .row-span-3 {
   grid-row: span 3 / span 3;
+}
+
+.row-span-5 {
+  grid-row: span 5 / span 5;
 }
 
 .row-span-6 {
@@ -3435,12 +3467,38 @@ object {
   grid-row-start: 15;
 }
 
+@media (min-width: 640px) {
+  .sm\:text-sm {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:text-base {
+    font-size: 1rem;
+  }
+
+  .md\:p-3 {
+    padding: 0.75rem;
+  }
+}
+
 @media (min-width: 1024px) {
   .lg\:h-screen {
     height: 100vh;
   }
 
+  .lg\:text-lg {
+    font-size: 1.125rem;
+  }
+
   .lg\:w-hscreen {
     width: 100vh;
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:text-xl {
+    font-size: 1.25rem;
   }
 }

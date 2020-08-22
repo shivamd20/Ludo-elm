@@ -49,7 +49,7 @@ subscriptions model =
 gridHtml : Model -> Html Msg
 gridHtml model =
     div
-        [ class "grid  text-center  grid-cols-15  grid-rows-15 m-auto p-3  h-wscreen w-screen lg:h-screen lg:w-hscreen"
+        [ class "grid  text-center  grid-cols-15  grid-rows-15 m-auto md:p-3  h-wscreen w-screen lg:h-screen lg:w-hscreen text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl"
         ]
         (commonPath model
             ++ homeBoxes
@@ -99,7 +99,7 @@ turnToString color =
 
 gameStartView : Model -> Html Msg
 gameStartView model =
-    div [ class " w-10 w-full text-xs " ]
+    div [ class " w-10 w-full  " ]
         [ input
             [ class "mx-10 my-3 mt-10 shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             , type_ "number"
@@ -140,20 +140,20 @@ gameStartView model =
 
 endPath : Model -> List (Html Msg)
 endPath model =
-    [ div [ class " rounded-lg col-start-2 row-start-8 col-span-6 border-red-500 border-t border-b" ]
-        ([ 1, 2, 3, 4, 5, 6 ]
+    [ div [ class "  col-start-2 row-start-8 col-span-5 bg-red-800  " ]
+        ([ 1, 2, 3, 4, 5 ]
             |> List.map (\b -> cell Horizontal (InHomePathPosition Red b) model)
         )
-    , div [ class " rounded-lg col-start-8 row-start-2 row-span-6  border-green-500 border-l border-r" ]
-        ([ 1, 2, 3, 4, 5, 6 ]
+    , div [ class "  col-start-8 row-start-2 row-span-5  bg-green-800  " ]
+        ([ 1, 2, 3, 4, 5 ]
             |> List.map (\b -> cell Vertical (InHomePathPosition Green b) model)
         )
-    , div [ class " rounded-lg col-start-9 row-start-8 col-span-6 border-yellow-500 border-t border-b" ]
-        ([ 6, 5, 4, 3, 2, 1 ]
+    , div [ class "  col-start-10 row-start-8 col-span-5 bg-yellow-800  " ]
+        ([ 5, 4, 3, 2, 1 ]
             |> List.map (\b -> cell Horizontal (InHomePathPosition Yellow b) model)
         )
-    , div [ class " rounded-lg col-start-8 row-start-9 row-span-6 border-blue-500 border-l border-r" ]
-        ([ 6, 5, 4, 3, 2, 1 ]
+    , div [ class "  col-start-8 row-start-10 row-span-5 bg-blue-800 " ]
+        ([ 5, 4, 3, 2, 1 ]
             |> List.map (\b -> cell Vertical (InHomePathPosition Blue b) model)
         )
     ]

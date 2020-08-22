@@ -35,22 +35,22 @@ cell orientation coinPosition model =
                                 LudoModel.PathStart color ->
                                     case color of
                                         Red ->
-                                            "   text-red-500 "
+                                            "   text-red-500 bg-red-800  "
 
                                         Blue ->
-                                            "  text-blue-500  "
+                                            "  text-blue-500 bg-blue-800  "
 
                                         Yellow ->
-                                            "  text-yellow-500 "
+                                            "  text-yellow-500 bg-yellow-800  "
 
                                         Green ->
-                                            "  text-green-500 "
+                                            "  text-green-500 bg-green-800  "
 
                                 _ ->
-                                    ""
+                                    " text-gray-700  "
 
                         _ ->
-                            " "
+                            " text-gray-700 "
                    )
 
         coinsAtPosition =
@@ -76,7 +76,7 @@ cell orientation coinPosition model =
                    )
     in
     button
-        [ class ("focus:outline-none text-white align-middle truncate text-center m-auto  rounded-full break-words " ++ " " ++ focusClass)
+        [ class ("focus:outline-none  align-middle truncate text-center m-auto   break-words " ++ " " ++ focusClass)
         , if clickable then
             onClick (MakeMove coinPosition)
 
