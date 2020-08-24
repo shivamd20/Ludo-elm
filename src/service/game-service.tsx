@@ -84,6 +84,10 @@ export default class GameService {
       );
     });
   }
+
+  dispose() {
+    this.socket.close();
+  }
 }
 
 function sound(src: string) {

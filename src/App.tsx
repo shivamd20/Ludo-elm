@@ -7,6 +7,10 @@ function App() {
   React.useEffect(() => {
     const gameService: GameService = new GameService();
     if (div.current !== null) gameService.connectPortsToMessages(div.current);
+
+    return () => {
+      gameService.dispose();
+    };
   }, []);
 
   return <div ref={div}> </div>;
