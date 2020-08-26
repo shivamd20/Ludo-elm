@@ -1,10 +1,13 @@
 module Cell exposing (Orientation(..), cell)
 
+import Coin exposing (coin)
 import Html exposing (Html, button)
 import Html.Attributes exposing (class, disabled, style)
 import Html.Events exposing (onClick)
 import Ludo exposing (canMove, findCoinsAtCoinPosition)
 import LudoModel exposing (Model, Msg(..), PlayerColor(..), Position(..))
+import Svg exposing (..)
+import Svg.Attributes exposing (..)
 
 
 type Orientation
@@ -76,7 +79,7 @@ cell orientation coinPosition model =
                    )
     in
     button
-        [ class ("focus:outline-none  align-middle truncate text-center m-auto   break-words " ++ " " ++ focusClass)
+        [ Html.Attributes.class ("focus:outline-none  align-middle truncate text-center m-auto   break-words " ++ " " ++ focusClass)
         , if clickable then
             onClick (MakeMove coinPosition)
 
@@ -141,35 +144,36 @@ cell orientation coinPosition model =
                             "-0.9em"
                 in
                 Html.button
-                    [ class className
-                    , style "letter-spacing" letterSpacingStyle
+                    [ Html.Attributes.class className
+                    , Html.Attributes.style "letter-spacing" letterSpacingStyle
                     ]
-                    [ multipleCoins list |> Html.text ]
+                    [ multipleCoins
+                        list
+                    ]
         ]
 
 
-multipleCoins : List ( PlayerColor, Position ) -> String
+multipleCoins : List ( PlayerColor, Position ) -> Html msg
 multipleCoins list =
-    String.join
-        ""
-        (List.map
-            (\pos ->
+    svg [ viewBox "0 0 100 100", Svg.Attributes.class "w-full h-full text-red-700" ]
+        (List.indexedMap
+            (\i pos ->
                 let
                     ( color, _ ) =
                         pos
                 in
                 case color of
                     Red ->
-                        "🔴"
+                        coin "red" i
 
                     Green ->
-                        "\u{1F7E2}"
+                        coin "green" i
 
                     Blue ->
-                        "🔵"
+                        coin "blue" i
 
                     Yellow ->
-                        "\u{1F7E1}"
+                        coin "yellow" i
             )
             list
         )

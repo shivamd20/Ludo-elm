@@ -6845,26 +6845,59 @@ var $author$project$Ludo$findCoinsAtCoinPosition = F2(
 			},
 			positions);
 	});
+var $elm$svg$Svg$Attributes$class = _VirtualDom_attribute('class');
+var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
+var $elm$svg$Svg$Attributes$cx = _VirtualDom_attribute('cx');
+var $elm$svg$Svg$Attributes$cy = _VirtualDom_attribute('cy');
+var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
+var $elm$svg$Svg$Attributes$r = _VirtualDom_attribute('r');
+var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
+var $elm$svg$Svg$Attributes$strokeWidth = _VirtualDom_attribute('stroke-width');
+var $author$project$Coin$coin = F2(
+	function (_class, i) {
+		return A2(
+			$elm$svg$Svg$circle,
+			_List_fromArray(
+				[
+					$elm$svg$Svg$Attributes$cx(
+					$elm$core$String$fromInt(50 + (i * 10))),
+					$elm$svg$Svg$Attributes$cy('50'),
+					$elm$svg$Svg$Attributes$r(
+					$elm$core$String$fromInt(45)),
+					$elm$svg$Svg$Attributes$stroke('black'),
+					$elm$svg$Svg$Attributes$strokeWidth('1'),
+					$elm$svg$Svg$Attributes$fill(_class)
+				]),
+			_List_Nil);
+	});
+var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
+var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
 var $author$project$Cell$multipleCoins = function (list) {
 	return A2(
-		$elm$core$String$join,
-		'',
+		$elm$svg$Svg$svg,
+		_List_fromArray(
+			[
+				$elm$svg$Svg$Attributes$viewBox('0 0 100 100'),
+				$elm$svg$Svg$Attributes$class('w-full h-full text-red-700')
+			]),
 		A2(
-			$elm$core$List$map,
-			function (pos) {
-				var _v0 = pos;
-				var color = _v0.a;
-				switch (color) {
-					case 0:
-						return '🔴';
-					case 1:
-						return '\uD83D\uDFE2';
-					case 2:
-						return '🔵';
-					default:
-						return '\uD83D\uDFE1';
-				}
-			},
+			$elm$core$List$indexedMap,
+			F2(
+				function (i, pos) {
+					var _v0 = pos;
+					var color = _v0.a;
+					switch (color) {
+						case 0:
+							return A2($author$project$Coin$coin, 'red', i);
+						case 1:
+							return A2($author$project$Coin$coin, 'green', i);
+						case 2:
+							return A2($author$project$Coin$coin, 'blue', i);
+						default:
+							return A2($author$project$Coin$coin, 'yellow', i);
+					}
+				}),
 			list));
 };
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
@@ -6967,8 +7000,7 @@ var $author$project$Cell$cell = F3(
 								]),
 							_List_fromArray(
 								[
-									$elm$html$Html$text(
-									$author$project$Cell$multipleCoins(list))
+									$author$project$Cell$multipleCoins(list)
 								]));
 					}
 				}()
@@ -7298,18 +7330,13 @@ var $author$project$CommonPath$commonPath = function (model) {
 		]);
 };
 var $author$project$LudoModel$RollDice = {$: 2};
-var $elm$svg$Svg$Attributes$class = _VirtualDom_attribute('class');
 var $elm$svg$Svg$Attributes$d = _VirtualDom_attribute('d');
-var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
 var $elm$svg$Svg$Attributes$fillOpacity = _VirtualDom_attribute('fill-opacity');
-var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
 var $elm$svg$Svg$g = $elm$svg$Svg$trustedNode('g');
 var $elm$html$Html$Attributes$hidden = $elm$html$Html$Attributes$boolProperty('hidden');
 var $elm$svg$Svg$path = $elm$svg$Svg$trustedNode('path');
 var $elm$svg$Svg$Attributes$style = _VirtualDom_attribute('style');
-var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
 var $elm$svg$Svg$Attributes$transform = _VirtualDom_attribute('transform');
-var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
 var $author$project$Dice$diceDiv = function (model) {
 	var positionClass = function () {
 		var _v0 = model.aU;
@@ -7653,6 +7680,19 @@ var $author$project$HomeCells$clickOrHiddenAttribute = F4(
 				]);
 		}
 	});
+var $author$project$Coin$coinSvg = function (_class) {
+	return A2(
+		$elm$svg$Svg$svg,
+		_List_fromArray(
+			[
+				$elm$svg$Svg$Attributes$viewBox('0 0 100 100'),
+				$elm$svg$Svg$Attributes$class('w-full h-full text-red-700')
+			]),
+		_List_fromArray(
+			[
+				A2($author$project$Coin$coin, _class, 0)
+			]));
+};
 var $author$project$HomeCells$blueHomeCells = function (model) {
 	return _List_fromArray(
 		[
@@ -7661,28 +7701,28 @@ var $author$project$HomeCells$blueHomeCells = function (model) {
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 2, 1, ' col-start-2 row-start-11  align-middle'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('🔵')
+					$author$project$Coin$coinSvg('blue')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 2, 2, ' col-start-5 row-start-11  align-middle'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('🔵')
+					$author$project$Coin$coinSvg('blue')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 2, 3, ' col-start-5 row-start-14  align-middle'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('🔵')
+					$author$project$Coin$coinSvg('blue')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 2, 4, ' col-start-2 row-start-14 align-middle '),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('🔵')
+					$author$project$Coin$coinSvg('blue')
 				]))
 		]);
 };
@@ -7694,28 +7734,28 @@ var $author$project$HomeCells$greenHomeCells = function (model) {
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 1, 1, ' col-start-11 row-start-2 align-middle'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('\uD83D\uDFE2')
+					$author$project$Coin$coinSvg('green')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 1, 2, ' col-start-14 row-start-2 align-middle'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('\uD83D\uDFE2')
+					$author$project$Coin$coinSvg('green')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 1, 3, ' col-start-14 row-start-5 align-middle'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('\uD83D\uDFE2')
+					$author$project$Coin$coinSvg('green')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 1, 4, ' col-start-11 row-start-5 align-middle'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('\uD83D\uDFE2')
+					$author$project$Coin$coinSvg('green')
 				]))
 		]);
 };
@@ -7727,28 +7767,28 @@ var $author$project$HomeCells$redHomeCells = function (model) {
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 0, 1, ' col-start-2 row-start-2 align-middle text-center'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('🔴')
+					$author$project$Coin$coinSvg('red')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 0, 2, ' col-start-5 row-start-2 align-middle text-center'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('🔴')
+					$author$project$Coin$coinSvg('red')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 0, 3, ' col-start-5 row-start-5 align-middle text-center'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('🔴')
+					$author$project$Coin$coinSvg('red')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 0, 4, ' col-start-2 row-start-5 align-middle text-center'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('🔴')
+					$author$project$Coin$coinSvg('red')
 				]))
 		]);
 };
@@ -7760,28 +7800,28 @@ var $author$project$HomeCells$yellowHomeCells = function (model) {
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 3, 1, ' col-start-11 row-start-11 align-middle'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('\uD83D\uDFE1')
+					$author$project$Coin$coinSvg('yellow')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 3, 2, ' col-start-14 row-start-11 align-middle'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('\uD83D\uDFE1')
+					$author$project$Coin$coinSvg('yellow')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 3, 3, ' col-start-14 row-start-14 align-middle'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('\uD83D\uDFE1')
+					$author$project$Coin$coinSvg('yellow')
 				])),
 			A2(
 			$elm$html$Html$button,
 			A4($author$project$HomeCells$clickOrHiddenAttribute, model, 3, 4, ' col-start-11 row-start-14 align-middle'),
 			_List_fromArray(
 				[
-					$elm$html$Html$text('\uD83D\uDFE1')
+					$author$project$Coin$coinSvg('yellow')
 				]))
 		]);
 };

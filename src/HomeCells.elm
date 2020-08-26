@@ -1,5 +1,6 @@
 module HomeCells exposing (homeCells)
 
+import Coin exposing (coinSvg)
 import Html exposing (Attribute, Html, button, div)
 import Html.Attributes exposing (class, hidden)
 import Html.Events exposing (onClick)
@@ -36,37 +37,37 @@ homeCells model =
 
 redHomeCells : Model -> List (Html Msg)
 redHomeCells model =
-    [ button (clickOrHiddenAttribute model Red 1 " col-start-2 row-start-2 align-middle text-center") [ Html.text "🔴" ]
-    , button (clickOrHiddenAttribute model Red 2 " col-start-5 row-start-2 align-middle text-center") [ Html.text "🔴" ]
-    , button (clickOrHiddenAttribute model Red 3 " col-start-5 row-start-5 align-middle text-center") [ Html.text "🔴" ]
-    , button (clickOrHiddenAttribute model Red 4 " col-start-2 row-start-5 align-middle text-center") [ Html.text "🔴" ]
+    [ button (clickOrHiddenAttribute model Red 1 " col-start-2 row-start-2 align-middle text-center") [ coinSvg "red" ]
+    , button (clickOrHiddenAttribute model Red 2 " col-start-5 row-start-2 align-middle text-center") [ coinSvg "red" ]
+    , button (clickOrHiddenAttribute model Red 3 " col-start-5 row-start-5 align-middle text-center") [ coinSvg "red" ]
+    , button (clickOrHiddenAttribute model Red 4 " col-start-2 row-start-5 align-middle text-center") [ coinSvg "red" ]
     ]
 
 
 greenHomeCells : Model -> List (Html Msg)
 greenHomeCells model =
-    [ button (clickOrHiddenAttribute model Green 1 " col-start-11 row-start-2 align-middle") [ Html.text "\u{1F7E2}" ]
-    , button (clickOrHiddenAttribute model Green 2 " col-start-14 row-start-2 align-middle") [ Html.text "\u{1F7E2}" ]
-    , button (clickOrHiddenAttribute model Green 3 " col-start-14 row-start-5 align-middle") [ Html.text "\u{1F7E2}" ]
-    , button (clickOrHiddenAttribute model Green 4 " col-start-11 row-start-5 align-middle") [ Html.text "\u{1F7E2}" ]
+    [ button (clickOrHiddenAttribute model Green 1 " col-start-11 row-start-2 align-middle") [ coinSvg "green" ]
+    , button (clickOrHiddenAttribute model Green 2 " col-start-14 row-start-2 align-middle") [ coinSvg "green" ]
+    , button (clickOrHiddenAttribute model Green 3 " col-start-14 row-start-5 align-middle") [ coinSvg "green" ]
+    , button (clickOrHiddenAttribute model Green 4 " col-start-11 row-start-5 align-middle") [ coinSvg "green" ]
     ]
 
 
 yellowHomeCells : Model -> List (Html Msg)
 yellowHomeCells model =
-    [ button (clickOrHiddenAttribute model Yellow 1 " col-start-11 row-start-11 align-middle") [ Html.text "\u{1F7E1}" ]
-    , button (clickOrHiddenAttribute model Yellow 2 " col-start-14 row-start-11 align-middle") [ Html.text "\u{1F7E1}" ]
-    , button (clickOrHiddenAttribute model Yellow 3 " col-start-14 row-start-14 align-middle") [ Html.text "\u{1F7E1}" ]
-    , button (clickOrHiddenAttribute model Yellow 4 " col-start-11 row-start-14 align-middle") [ Html.text "\u{1F7E1}" ]
+    [ button (clickOrHiddenAttribute model Yellow 1 " col-start-11 row-start-11 align-middle") [ coinSvg "yellow" ]
+    , button (clickOrHiddenAttribute model Yellow 2 " col-start-14 row-start-11 align-middle") [ coinSvg "yellow" ]
+    , button (clickOrHiddenAttribute model Yellow 3 " col-start-14 row-start-14 align-middle") [ coinSvg "yellow" ]
+    , button (clickOrHiddenAttribute model Yellow 4 " col-start-11 row-start-14 align-middle") [ coinSvg "yellow" ]
     ]
 
 
 blueHomeCells : Model -> List (Html Msg)
 blueHomeCells model =
-    [ button (clickOrHiddenAttribute model Blue 1 " col-start-2 row-start-11  align-middle") [ Html.text "🔵" ]
-    , button (clickOrHiddenAttribute model Blue 2 " col-start-5 row-start-11  align-middle") [ Html.text "🔵" ]
-    , button (clickOrHiddenAttribute model Blue 3 " col-start-5 row-start-14  align-middle") [ Html.text "🔵" ]
-    , button (clickOrHiddenAttribute model Blue 4 " col-start-2 row-start-14 align-middle ") [ Html.text "🔵" ]
+    [ button (clickOrHiddenAttribute model Blue 1 " col-start-2 row-start-11  align-middle") [ coinSvg "blue" ]
+    , button (clickOrHiddenAttribute model Blue 2 " col-start-5 row-start-11  align-middle") [ coinSvg "blue" ]
+    , button (clickOrHiddenAttribute model Blue 3 " col-start-5 row-start-14  align-middle") [ coinSvg "blue" ]
+    , button (clickOrHiddenAttribute model Blue 4 " col-start-2 row-start-14 align-middle ") [ coinSvg "blue" ]
     ]
 
 
