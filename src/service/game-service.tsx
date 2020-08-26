@@ -1,12 +1,13 @@
 import io from 'socket.io-client';
+import {environment} from '../environment';
 
 export default class GameService {
   socket: SocketIOClient.Socket;
   diceRoll: {play: () => void; stop: () => void};
 
   constructor() {
-    this.socket = io('https://ludo-galaxy.herokuapp.com/');
-    this.diceRoll = sound('diceRoll.mp3');
+    this.socket = io(environment.socketUrl);
+    this.diceRoll = sound(environment.diceRollSound);
   }
 
   connectPortsToMessages(element: HTMLElement) {
