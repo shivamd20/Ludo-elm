@@ -1,5 +1,6 @@
 module Cell exposing (Orientation(..), cell)
 
+import Coin exposing (coin)
 import Html exposing (Html, button)
 import Html.Attributes exposing (class, disabled, style)
 import Html.Events exposing (onClick)
@@ -176,15 +177,3 @@ multipleCoins list =
             )
             list
         )
-
-
-coin class i =
-    Svg.circle
-        [ Svg.Attributes.cx (String.fromInt (50 + i * 10))
-        , Svg.Attributes.cy "50"
-        , Svg.Attributes.r (String.fromInt 45)
-        , Svg.Attributes.stroke "black"
-        , Svg.Attributes.strokeWidth "1"
-        , Svg.Attributes.fill class
-        ]
-        []
