@@ -6,7 +6,7 @@
     "prod-styles": "NODE_ENV=production npx tailwindcss build css/tailwind.src.css -o public/tailwind.css ",
     "build": "yarn run prod-styles && elm make src/Game.elm --optimize --output=public/ludo.js",
     "r-start": "react-scripts start",
-    "r-build": "react-scripts build",
+    "r-build": "yarn run build && react-scripts build",
     "r-test": "react-scripts test",
     "r-eject": "react-scripts eject"
   },
@@ -47,5 +47,7 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://shivamd20.github.io/Ludo-elm/"
+
 }
