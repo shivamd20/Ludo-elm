@@ -1,10 +1,10 @@
 {
   "name": "first",
   "scripts": {
-    "start": "elm-live src/Game.elm -- --output docs/ludo.js  --debug",
-    "styles": "npx tailwindcss build css/tailwind.src.css -o docs/tailwind.css ",
-    "prod-styles": "NODE_ENV=production npx tailwindcss build css/tailwind.src.css -o docs/tailwind.css ",
-    "build": "elm make src/Game.elm --optimize --output=docs/ludo.js",
+    "start": "elm-live src/Game.elm -- --output public/ludo.js  --debug",
+    "styles": "npx tailwindcss build css/tailwind.src.css -o public/tailwind.css ",
+    "prod-styles": "NODE_ENV=production npx tailwindcss build css/tailwind.src.css -o public/tailwind.css ",
+    "build": "yarn run prod-styles && elm make src/Game.elm --optimize --output=public/ludo.js",
     "r-start": "react-scripts start",
     "r-build": "react-scripts build",
     "r-test": "react-scripts test",
