@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/Ludo-elm/static/css/main.eb117849.chunk.css",
-    "main.js": "/Ludo-elm/static/js/main.eb5f2263.chunk.js",
-    "main.js.map": "/Ludo-elm/static/js/main.eb5f2263.chunk.js.map",
+    "main.css": "/Ludo-elm/static/css/main.92bb7c40.chunk.css",
+    "main.js": "/Ludo-elm/static/js/main.938822b5.chunk.js",
+    "main.js.map": "/Ludo-elm/static/js/main.938822b5.chunk.js.map",
     "runtime-main.js": "/Ludo-elm/static/js/runtime-main.55be4941.js",
     "runtime-main.js.map": "/Ludo-elm/static/js/runtime-main.55be4941.js.map",
-    "static/js/2.444ada9c.chunk.js": "/Ludo-elm/static/js/2.444ada9c.chunk.js",
-    "static/js/2.444ada9c.chunk.js.map": "/Ludo-elm/static/js/2.444ada9c.chunk.js.map",
+    "static/js/2.a289e398.chunk.js": "/Ludo-elm/static/js/2.a289e398.chunk.js",
+    "static/js/2.a289e398.chunk.js.map": "/Ludo-elm/static/js/2.a289e398.chunk.js.map",
     "index.html": "/Ludo-elm/index.html",
-    "precache-manifest.265286e4cf3dfe8ded82b1302f0e0df2.js": "/Ludo-elm/precache-manifest.265286e4cf3dfe8ded82b1302f0e0df2.js",
+    "precache-manifest.c5d18726164fb2a8b3022afaa28559b1.js": "/Ludo-elm/precache-manifest.c5d18726164fb2a8b3022afaa28559b1.js",
     "service-worker.js": "/Ludo-elm/service-worker.js",
-    "static/css/main.eb117849.chunk.css.map": "/Ludo-elm/static/css/main.eb117849.chunk.css.map",
-    "static/js/2.444ada9c.chunk.js.LICENSE.txt": "/Ludo-elm/static/js/2.444ada9c.chunk.js.LICENSE.txt"
+    "static/css/main.92bb7c40.chunk.css.map": "/Ludo-elm/static/css/main.92bb7c40.chunk.css.map",
+    "static/js/2.a289e398.chunk.js.LICENSE.txt": "/Ludo-elm/static/js/2.a289e398.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.55be4941.js",
-    "static/js/2.444ada9c.chunk.js",
-    "static/css/main.eb117849.chunk.css",
-    "static/js/main.eb5f2263.chunk.js"
+    "static/js/2.a289e398.chunk.js",
+    "static/css/main.92bb7c40.chunk.css",
+    "static/js/main.938822b5.chunk.js"
   ]
 }

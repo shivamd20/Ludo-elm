@@ -4189,8 +4189,8 @@ function _Browser_getViewport()
 	return {
 		ao: _Browser_getScene(),
 		at: {
-			G: _Browser_window.pageXOffset,
-			H: _Browser_window.pageYOffset,
+			F: _Browser_window.pageXOffset,
+			G: _Browser_window.pageYOffset,
 			x: _Browser_doc.documentElement.clientWidth,
 			s: _Browser_doc.documentElement.clientHeight
 		}
@@ -4231,8 +4231,8 @@ function _Browser_getViewportOf(id)
 				s: node.scrollHeight
 			},
 			at: {
-				G: node.scrollLeft,
-				H: node.scrollTop,
+				F: node.scrollLeft,
+				G: node.scrollTop,
 				x: node.clientWidth,
 				s: node.clientHeight
 			}
@@ -4266,14 +4266,14 @@ function _Browser_getElement(id)
 		return {
 			ao: _Browser_getScene(),
 			at: {
-				G: x,
-				H: y,
+				F: x,
+				G: y,
 				x: _Browser_doc.documentElement.clientWidth,
 				s: _Browser_doc.documentElement.clientHeight
 			},
 			az: {
-				G: x + rect.left,
-				H: y + rect.top,
+				F: x + rect.left,
+				G: y + rect.top,
 				x: rect.width,
 				s: rect.height
 			}
@@ -5194,7 +5194,7 @@ var $author$project$Game$init = function (_v0) {
 	return _Utils_Tuple2(
 		{
 			E: 0,
-			F: $elm$core$Maybe$Just(2),
+			I: $elm$core$Maybe$Just(2),
 			aa: '',
 			aJ: _List_fromArray(
 				[0, 1, 3, 2]),
@@ -5347,16 +5347,20 @@ var $author$project$Ports$moveCoinsPosReceiver = function (fn) {
 				$author$project$Ports$tupleToPosition(tuple));
 		});
 };
-var $author$project$Ports$newGameReceiver = _Platform_incomingPort('newGameReceiver', $elm$json$Json$Decode$string);
-var $elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (!maybe.$) {
-			var value = maybe.a;
-			return value;
-		} else {
-			return _default;
-		}
-	});
+var $author$project$Ports$newGameReceiver = _Platform_incomingPort(
+	'newGameReceiver',
+	A2(
+		$elm$json$Json$Decode$andThen,
+		function (_v0) {
+			return A2(
+				$elm$json$Json$Decode$andThen,
+				function (_v1) {
+					return $elm$json$Json$Decode$succeed(
+						_Utils_Tuple2(_v0, _v1));
+				},
+				A2($elm$json$Json$Decode$index, 1, $elm$json$Json$Decode$int));
+		},
+		A2($elm$json$Json$Decode$index, 0, $elm$json$Json$Decode$string)));
 var $author$project$Game$subscriptions = function (model) {
 	return $elm$core$Platform$Sub$batch(
 		_List_fromArray(
@@ -5381,12 +5385,10 @@ var $author$project$Game$subscriptions = function (model) {
 					return A3($author$project$LudoModel$UpdateRoom, room, order, maxPlayers);
 				}),
 				$author$project$Ports$newGameReceiver(
-				function (room) {
-					return A3(
-						$author$project$LudoModel$UpdateRoom,
-						room,
-						1,
-						A2($elm$core$Maybe$withDefault, 2, model.F));
+				function (_v1) {
+					var room = _v1.a;
+					var maxPlayers = _v1.b;
+					return A3($author$project$LudoModel$UpdateRoom, room, 1, maxPlayers);
 				})
 			]));
 };
@@ -6044,6 +6046,15 @@ var $author$project$Ludo$ludoGraph = $elm$core$Dict$fromList(
 			52,
 			A2($author$project$LudoModel$InCommonPathPosition, 1, $author$project$LudoModel$None))
 		]));
+var $elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (!maybe.$) {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
 var $author$project$Ludo$findNextPositionInCommonPath = function (n) {
 	return A2(
 		$elm$core$Maybe$withDefault,
@@ -6567,7 +6578,7 @@ var $author$project$LudoUpdate$update = F2(
 					_Utils_update(
 						model,
 						{
-							F: function () {
+							I: function () {
 								var maybeNum = $elm$core$String$toInt(string);
 								if (maybeNum.$ === 1) {
 									return $elm$core$Maybe$Nothing;
@@ -6586,7 +6597,7 @@ var $author$project$LudoUpdate$update = F2(
 				return _Utils_Tuple2(
 					model,
 					$author$project$Ports$createNewGame(
-						A2($elm$core$Maybe$withDefault, 2, model.F)));
+						A2($elm$core$Maybe$withDefault, 2, model.I)));
 			case 8:
 				var m = msg.a;
 				return _Utils_Tuple2(
@@ -6733,7 +6744,7 @@ var $author$project$Game$gameStartView = function (model) {
 						$elm$html$Html$Attributes$placeholder('Number of Players'),
 						$elm$html$Html$Attributes$value(
 						function () {
-							var _v0 = model.F;
+							var _v0 = model.I;
 							if (_v0.$ === 1) {
 								return '';
 							} else {
@@ -6748,7 +6759,7 @@ var $author$project$Game$gameStartView = function (model) {
 				_List_fromArray(
 					[
 						$elm$html$Html$Attributes$disabled(
-						_Utils_eq(model.F, $elm$core$Maybe$Nothing)),
+						_Utils_eq(model.I, $elm$core$Maybe$Nothing)),
 						$elm$html$Html$Events$onClick($author$project$LudoModel$OnStartGameClicked),
 						$elm$html$Html$Attributes$class('disabled:opacity-75 mx-10 my-3 mb-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline')
 					]),
