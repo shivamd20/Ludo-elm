@@ -6533,12 +6533,27 @@ var $author$project$LudoUpdate$update = F2(
 											return false;
 										}
 									},
-									list)) {
+									list) || function () {
+									var headOfTheList = $elm$core$List$head(list);
+									return A2(
+										$elm$core$List$all,
+										function (val) {
+											return _Utils_eq(
+												$elm$core$Maybe$Just(val),
+												headOfTheList);
+										},
+										list);
+								}()) {
 									var _v5 = $elm$core$List$head(list);
 									if (!_v5.$) {
 										var _v6 = _v5.a;
 										var pos = _v6.b;
-										return A2($author$project$Ludo$moveAllType, model, pos);
+										return A2(
+											$author$project$Ludo$moveAllType,
+											_Utils_update(
+												model,
+												{E: number}),
+											pos);
 									} else {
 										return model;
 									}

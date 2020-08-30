@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/Ludo-elm/precache-manifest.c8a9658020dd11448c009877aa5eb30e.js"
+  "/Ludo-elm/precache-manifest.4302809d8e8d4150583f0b4019c7a62b.js"
 );
 
 self.addEventListener('message', (event) => {
