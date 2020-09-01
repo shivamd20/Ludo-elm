@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6c114b9dda49266fc2e2526b328cbb23",
+    "revision": "041c1ba577794446064ef21e3aedf3c3",
     "url": "/Ludo-elm/index.html"
   },
   {
-    "revision": "29b5992caba89fc17d9b",
-    "url": "/Ludo-elm/static/css/main.92bb7c40.chunk.css"
+    "revision": "d2527d3a5b3db75d9ab1",
+    "url": "/Ludo-elm/static/css/main.36c7216d.chunk.css"
   },
   {
     "revision": "50fca714cdf772ec2c26",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Ludo-elm/static/js/2.a289e398.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "29b5992caba89fc17d9b",
-    "url": "/Ludo-elm/static/js/main.a9e233e5.chunk.js"
+    "revision": "d2527d3a5b3db75d9ab1",
+    "url": "/Ludo-elm/static/js/main.be015649.chunk.js"
   },
   {
     "revision": "438203c272438b82fd3b",
