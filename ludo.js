@@ -6384,7 +6384,7 @@ var $author$project$Ludo$moveInCommonPath = F2(
 		var updatedModel = _Utils_update(
 			model,
 			{G: 0, aI: updatedParticipants, aJ: updatedPos});
-		var updatedTurn = ((updatedModel.G === 6) || (A3($author$project$Ludo$killHappened, updatedModel.aT.ax, model.aJ, updatedPos) || A3($author$project$Ludo$goalPathReached, updatedModel.aT.ax, model.aJ, updatedPos))) ? updatedModel.aT : A2($author$project$Ludo$nextTurn, updatedModel, updatedModel.aT);
+		var updatedTurn = ((model.G === 6) || (A3($author$project$Ludo$killHappened, updatedModel.aT.ax, model.aJ, updatedPos) || A3($author$project$Ludo$goalPathReached, updatedModel.aT.ax, model.aJ, updatedPos))) ? updatedModel.aT : A2($author$project$Ludo$nextTurn, updatedModel, updatedModel.aT);
 		return _Utils_update(
 			updatedModel,
 			{aT: updatedTurn});
